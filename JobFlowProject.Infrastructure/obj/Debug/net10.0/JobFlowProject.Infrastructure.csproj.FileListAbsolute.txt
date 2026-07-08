@@ -1,0 +1,17 @@
+C:\Users\VenusA\RiderProjects\JobFlowProject\JobFlowProject.Infrastructure\bin\Debug\net10.0\JobFlowProject.Infrastructure.deps.json
+C:\Users\VenusA\RiderProjects\JobFlowProject\JobFlowProject.Infrastructure\bin\Debug\net10.0\JobFlowProject.Infrastructure.runtimeconfig.json
+C:\Users\VenusA\RiderProjects\JobFlowProject\JobFlowProject.Infrastructure\bin\Debug\net10.0\JobFlowProject.Infrastructure.dll
+C:\Users\VenusA\RiderProjects\JobFlowProject\JobFlowProject.Infrastructure\bin\Debug\net10.0\JobFlowProject.Infrastructure.pdb
+C:\Users\VenusA\RiderProjects\JobFlowProject\JobFlowProject.Infrastructure\bin\Debug\net10.0\JobFlowProject.Domain.dll
+C:\Users\VenusA\RiderProjects\JobFlowProject\JobFlowProject.Infrastructure\bin\Debug\net10.0\JobFlowProject.Domain.pdb
+C:\Users\VenusA\RiderProjects\JobFlowProject\JobFlowProject.Infrastructure\obj\Debug\net10.0\JobFlowProject.Infrastructure.csproj.AssemblyReference.cache
+C:\Users\VenusA\RiderProjects\JobFlowProject\JobFlowProject.Infrastructure\obj\Debug\net10.0\JobFlowProject.Infrastructure.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\VenusA\RiderProjects\JobFlowProject\JobFlowProject.Infrastructure\obj\Debug\net10.0\JobFlowProject.Infrastructure.AssemblyInfoInputs.cache
+C:\Users\VenusA\RiderProjects\JobFlowProject\JobFlowProject.Infrastructure\obj\Debug\net10.0\JobFlowProject.Infrastructure.AssemblyInfo.cs
+C:\Users\VenusA\RiderProjects\JobFlowProject\JobFlowProject.Infrastructure\obj\Debug\net10.0\JobFlowProject.Infrastructure.csproj.CoreCompileInputs.cache
+C:\Users\VenusA\RiderProjects\JobFlowProject\JobFlowProject.Infrastructure\obj\Debug\net10.0\JobFlowP.EF0E38CC.Up2Date
+C:\Users\VenusA\RiderProjects\JobFlowProject\JobFlowProject.Infrastructure\obj\Debug\net10.0\JobFlowProject.Infrastructure.dll
+C:\Users\VenusA\RiderProjects\JobFlowProject\JobFlowProject.Infrastructure\obj\Debug\net10.0\refint\JobFlowProject.Infrastructure.dll
+C:\Users\VenusA\RiderProjects\JobFlowProject\JobFlowProject.Infrastructure\obj\Debug\net10.0\JobFlowProject.Infrastructure.pdb
+C:\Users\VenusA\RiderProjects\JobFlowProject\JobFlowProject.Infrastructure\obj\Debug\net10.0\JobFlowProject.Infrastructure.genruntimeconfig.cache
+C:\Users\VenusA\RiderProjects\JobFlowProject\JobFlowProject.Infrastructure\obj\Debug\net10.0\ref\JobFlowProject.Infrastructure.dll
