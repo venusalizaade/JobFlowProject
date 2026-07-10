@@ -4,11 +4,11 @@ namespace JobFlowProject.Domain.Entites;
 
 public abstract class BaseEntity : IEntity
 {
-    public Guid Id { get; set; }
-    public DateTime CreatedAt { get; set; }=DateTime.UtcNow;
-    public DateTime DeletedAt { get; set; }
-    public DateTime UpdatedAt { get; set; }
-    public bool IsDeleted { get; set; }
+    public Guid Id { get;private set; }
+    public DateTime? CreatedAt { get; private set; }=DateTime.UtcNow;
+    public DateTime? DeletedAt { get; private set; }
+    public DateTime UpdatedAt { get; private set; }
+    public bool IsDeleted { get; private set; }
     
    
     public void SetAsDeleted()

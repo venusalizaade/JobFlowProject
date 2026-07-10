@@ -7,11 +7,18 @@ namespace JobFlowProject.Domain.Entites.User;
 /// </summary>
 public class SavedJob : BaseEntity
 {
-    public Guid AppUserId { get; set; }
-    public AppUser AppUser { get; set; }
+    private SavedJob() { }
 
-    public Guid JobPostId { get; set; }
-    public JobPost JobPost { get; set; }
+    public SavedJob(Guid appUserId, Guid jobPostId)
+    {
+        AppUserId = appUserId;
+        JobPostId = jobPostId;
+    }
+    public Guid AppUserId { get;private set; }
+    public AppUser AppUser { get; private set; }
+
+    public Guid JobPostId { get; private set; }
+    public JobPost JobPost { get; private set; }
 
     public override void Validation()
     {

@@ -8,35 +8,45 @@ public class Payment : BaseEntity
 
 
 {
+    private Payment() { }
+    public Payment(decimal amount, Guid companyId, Guid? featureId = null)
+    {
+        Amount = amount;
+        CompanyId = companyId;
+        FeatureId = featureId;
+        VerifiedAt = DateTime.UtcNow;
+        Status = PaymentStatusEnum.Pending;
+    }
+    
     /// <summary>
     /// آیدی تراکنش
     /// </summary>
-   public Guid TransactionId { get; set; }
+   public Guid TransactionId { get; private set; }
     /// <summary>
     /// مبلغ پرداخت‌شده به تومان
     /// </summary>
-    public decimal Amount { get; set; }
+    public decimal Amount { get; private set; }
 
     /// <summary>
     /// تاریخ و زمان انجام پرداخت
     /// </summary>
-    public DateTime? VerifiedAt { get; set; } 
+    public DateTime? VerifiedAt { get; private set; } 
     
 
     /// <summary>
     /// وضعیت پرداخت 
     /// </summary>
-    public PaymentStatusEnum Status { get; set; } = PaymentStatusEnum.Success;
+    public PaymentStatusEnum Status { get; private set; } 
 
     /// <summary>
     /// آیدی شرکت پرداخت‌کننده
     /// </summary>
-    public Guid CompanyId { get; set; }
+    public Guid CompanyId { get;  set; }
 
     /// <summary>
     /// شرکت پرداخت‌کننده
     /// </summary>
-    public Company Company { get; set; }
+    public Company Company { get; private set; }
 
     /// <summary>
     /// آیدی فیچر خریده شده 
@@ -46,7 +56,7 @@ public class Payment : BaseEntity
     /// <summary>
    ///فیچر خریداری شده
     /// </summary>
-    public Feature? Feature { get; set; }
+    public Feature? Feature { get; private set; }
     
 
     public override void Validation()

@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace JobFlowProject.Infrastructure.AppDbContext;
 
-public class JobFlowDbContext : IdentityDbContext<AppUser, IdentityRole<Guid>, Guid>
+public class JobFlowDbContext : IdentityDbContext<AppUser,Role, Guid>
 {
 
     public JobFlowDbContext(DbContextOptions<JobFlowDbContext> options) : base(options)

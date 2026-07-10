@@ -10,6 +10,9 @@ public abstract class BaseModelBuilderConfiguration<TEntity> : IEntityTypeConfig
     public void Configure(EntityTypeBuilder<TEntity> builder)
     {
         builder.HasKey(x => x.Id);
+        builder.Property(x => x.Id)
+            .ValueGeneratedOnAdd();
+             
         builder.HasIndex(x => x.CreatedAt);
         builder.HasQueryFilter(e => !e.IsDeleted);
         

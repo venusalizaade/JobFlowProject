@@ -16,72 +16,76 @@ public class AppUser : IdentityUser<Guid> , IEntity
     //// <summary>
     /// نام
     /// </summary>
-    public string FirstName { get; set; }
+    public string FirstName { get;  set; }
 
     /// <summary>
     /// نام خانوادگی
     /// </summary>
-    public string LastName { get; set; }
+    public string LastName { get;  set; }
     
-    public string Gender { get; set; }
+    public string Gender { get; private set; }
 
     /// <summary>
     ///توضیحات
     /// </summary>
-    public int? About{ get; set; }
+    public int? About{ get; private set; }
     
 
     /// <summary>
     /// تاریخ ایجاد
     /// </summary>
-    public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
+    public DateTime? CreatedAt { get; private set; } = DateTime.UtcNow;
 
     /// <summary>
     /// وضعیت حذف 
     /// </summary>
-    public bool IsDeleted { get; set; }
+    public bool IsDeleted { get; private set; }
 
     /// <summary>
     /// تاریخ حذف 
     /// </summary>
-    public DateTime DeletedAt { get; set; }
+    public DateTime? DeletedAt { get; private set; }
     
 
     /// <summary>
     /// تاریخ بروزرسانی
     /// </summary>
-    public DateTime UpdatedAt { get; set; }
+    public DateTime UpdatedAt { get; private set; }
+    /// <summary>
+    ///  تائید ثبت نام کاربر توسط ادمین
+    /// </summary>
+    public bool IsApprovedByAdmin { get; private set; } = false;
 
     /// <summary>
     /// آیدی شرکت (در صورت کارفرما بودن)
     /// </summary>
-    public Guid? CompanyId { get; set; }
+    public Guid? CompanyId { get; private set; }
 
     /// <summary>
     /// شرکت مرتبط
     /// </summary>
     
-    public Company? Company { get; set; }
+    public Company? Company { get; private set; }
 
     /// <summary>
     /// لیست رزومه‌های کاربر (در صورتی که کارجو باشد)
     /// </summary>
-    public ICollection<AttachmentFile> Attachments { get; set; } = new List<AttachmentFile>();
+    public ICollection<AttachmentFile> Attachments { get; private set; } = new List<AttachmentFile>();
     
 
     /// <summary>
     /// لیست درخواست‌های شغلی (در صورت کارجو بودن)
     /// </summary>
-    public ICollection<JobApplication> JobApplications { get; set; } = new List<JobApplication>();
+    public ICollection<JobApplication> JobApplications { get; private set; } = new List<JobApplication>();
 
     /// <summary>
     /// لیست آگهی‌های ذخیره شده
     /// </summary>
-    public ICollection<SavedJob> SavedJobs { get; set; } = new List<SavedJob>();
+    public ICollection<SavedJob> SavedJobs { get; private set; } = new List<SavedJob>();
 
     /// <summary>
     /// لیست نوتیفیکیشن‌های کاربر
     /// </summary>
-    public ICollection<NotificationLog> Notifications { get; set; } = new List<NotificationLog>();
+    public ICollection<NotificationLog> Notifications { get; private set; } = new List<NotificationLog>();
     
     }

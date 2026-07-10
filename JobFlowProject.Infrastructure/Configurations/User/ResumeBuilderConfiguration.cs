@@ -25,7 +25,7 @@ public class ResumeBuilderConfiguration : BaseModelBuilderConfiguration<ResumeBu
 
         builder.HasOne(x => x.AppUser)
             .WithMany()
-            .HasForeignKey(x => x.ProfileId);
+            .HasForeignKey(x => x.AppUserId);
 
 
 

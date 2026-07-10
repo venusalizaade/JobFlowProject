@@ -2,10 +2,10 @@
 
 public interface IEntity
 {
-    public DateTime CreatedAt { get; set; } 
-    public DateTime DeletedAt { get; set; }
-    public DateTime UpdatedAt { get; set; }
-    public bool IsDeleted { get; set; }
+    public DateTime? CreatedAt { get; } 
+    public DateTime? DeletedAt { get; }
+    public DateTime UpdatedAt { get;  }
+    public bool IsDeleted { get;  }
     
 
     

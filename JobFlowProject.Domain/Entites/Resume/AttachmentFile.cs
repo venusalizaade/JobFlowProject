@@ -5,35 +5,44 @@ namespace JobFlowProject.Domain.Entites.Resume;
 
 public class AttachmentFile : BaseEntity
 {
+    private AttachmentFile() { }
+    public AttachmentFile(string fileName, string filePath, string fileType,  Guid profileId, byte[]? fileData = null)
+    {
+        FileName = fileName;
+        FilePath = filePath;
+        FileType = fileType;
+        FileData = fileData;
+        ProfileId = profileId;
+    }
     /// <summary>
     /// نام فایل
     /// </summary>
-    public string FileName { get; set; }
+    public string FileName { get; private set; }
 
     /// <summary>
     /// مسیر ذخیره‌سازی فایل
     /// </summary>
-    public string FilePath { get; set; }
+    public string FilePath { get; private set; }
 
     /// <summary>
     /// داده‌ی فایل (در صورت ذخیره در دیتابیس)
     /// </summary>
-    public byte[]? FileData { get; set; }
+    public byte[]? FileData { get; private set; }
 
     /// <summary>
     /// نوع فایل (pdf, jpg, ...)
     /// </summary>
-    public string FileType { get; set; }
+    public string FileType { get; private set; }
     
     /// <summary>
     ///آیدی کاربر
     /// </summary>
-    public Guid ProfileId { get; set; }
+    public Guid ProfileId { get; private set; }
 
     /// <summary>
     /// کاربر
     /// </summary>
-    public AppUser AppUser { get; set; }
+    public AppUser AppUser { get; private set; }
 
     public override void Validation()
     {

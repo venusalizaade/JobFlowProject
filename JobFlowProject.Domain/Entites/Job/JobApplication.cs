@@ -7,40 +7,52 @@ namespace JobFlowProject.Domain.Entites.Job;
 
 public class JobApplication : BaseEntity
 {
+    private JobApplication() { }
+    
+    public JobApplication(Guid jobPostId, Guid jobSeekerId, Guid attachmentId)
+    {
+       
+        
+        JobPostId = jobPostId;
+        JobSeekerId = jobSeekerId;
+        AttachmentId = attachmentId;
+        Status = ApplicationStatusEnum.Pending;
+    }
+    
     /// <summary>
     /// وضعیت درخواست
     /// </summary>
-    public ApplicationStatusEnum Status { get; set; } = ApplicationStatusEnum.Pending;
+    public ApplicationStatusEnum Status { get;  private set; }
 
     /// <summary>
     ///آیدی آگهی
     /// </summary>
-    public Guid JobPostId { get; set; }
+    public Guid JobPostId { get;  private set; }
 
     /// <summary>
     /// آگهی
     /// </summary>
-    public JobPost JobPost { get; set; }
+    public JobPost JobPost { get;  private set; }
 
     /// <summary>
     /// آیدی کارجو
     /// </summary>
-    public Guid JobSeekerId { get; set; }
+    public Guid JobSeekerId { get;  private set; }
 
     /// <summary>
     /// کارجو
     /// </summary>
-    public AppUser JobSeeker { get; set; }
+    public AppUser JobSeeker { get;  private set; }
 
     /// <summary>
     ///آیدی فایل رزومه (Attachment)
     /// </summary>
-    public Guid AttachmentId { get; set; }
+    public Guid AttachmentId { get;  private set; }
 
     /// <summary>
     /// فایل رزومه
     /// </summary>
-    public AttachmentFile Attachment { get; set; }
+    public AttachmentFile Attachment { get;  private set; }
 
     public override void Validation()
     {
