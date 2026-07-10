@@ -7,15 +7,15 @@ namespace JobFlowProject.Domain.Entites.User;
 /// </summary>
 public class SavedJob : BaseEntity
 {
-    public Guid ProfileId { get; set; }
-    public Profile Profile { get; set; }
+    public Guid AppUserId { get; set; }
+    public AppUser AppUser { get; set; }
 
     public Guid JobPostId { get; set; }
     public JobPost JobPost { get; set; }
 
     public override void Validation()
     {
-        if (ProfileId == Guid.Empty)
+        if( AppUserId == Guid.Empty)
             throw new Exception("Profile is required");
 
         if (JobPostId == Guid.Empty)

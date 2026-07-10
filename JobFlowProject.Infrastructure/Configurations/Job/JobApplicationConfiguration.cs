@@ -19,7 +19,8 @@ public class JobApplicationConfiguration : BaseModelBuilderConfiguration<JobAppl
 
         builder.HasOne(x => x.Attachment)
             .WithMany()
-            .HasForeignKey(x => x.AttachmentId);
+            .HasForeignKey(x => x.AttachmentId)
+            .OnDelete(DeleteBehavior.Restrict);
            
 
       

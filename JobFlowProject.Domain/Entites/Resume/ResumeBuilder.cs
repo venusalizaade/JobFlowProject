@@ -13,7 +13,7 @@ public class ResumeBuilder : BaseEntity
     public string? About { get; set; }
    
     public Guid ProfileId { get; set; }
-    public Profile Profile { get; set; }
+    public AppUser AppUser { get; set; }
   
     public override void Validation()
     {

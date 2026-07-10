@@ -1,9 +1,8 @@
-﻿using System.Net.Mail;
-using JobFlowProject.Domain.Entites.Resume;
+﻿using JobFlowProject.Domain.Entites.Resume;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-namespace JobFlowProject.Infrastructure;
+namespace JobFlowProject.Infrastructure.Configurations.User;
 
 public class AttachmentFileConfiguration : BaseModelBuilderConfiguration<AttachmentFile>
 {
@@ -22,7 +21,7 @@ public class AttachmentFileConfiguration : BaseModelBuilderConfiguration<Attachm
             .HasMaxLength(50);
       
         
-        builder.HasOne(x => x.Profile)
+        builder.HasOne(x => x.AppUser)
             .WithMany(x => x.Attachments)
             .HasForeignKey(x => x.ProfileId)
             .OnDelete(DeleteBehavior.Cascade);

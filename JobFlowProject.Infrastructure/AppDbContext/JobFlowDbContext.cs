@@ -1,4 +1,6 @@
 ﻿using System.Reflection;
+using JobFlowProject.Domain.Entites.Componyes;
+using JobFlowProject.Domain.Entites.Componyes.ComponyFeatures;
 using JobFlowProject.Domain.Entites.Job;
 using JobFlowProject.Domain.Entites.Logs;
 using JobFlowProject.Domain.Entites.Resume;
@@ -9,7 +11,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace JobFlowProject.Infrastructure.AppDbContext;
 
-public class JobFlowDbContext : IdentityDbContext<Profile, IdentityRole<Guid>, Guid>
+public class JobFlowDbContext : IdentityDbContext<AppUser, IdentityRole<Guid>, Guid>
 {
 
     public JobFlowDbContext(DbContextOptions<JobFlowDbContext> options) : base(options)

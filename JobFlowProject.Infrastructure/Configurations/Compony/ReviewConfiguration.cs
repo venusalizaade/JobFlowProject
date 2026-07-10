@@ -2,7 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-namespace JobFlowProject.Infrastructure;
+namespace JobFlowProject.Infrastructure.Configurations.User;
 
 public class ReviewConfiguration : BaseModelBuilderConfiguration<Review>
 {
@@ -14,14 +14,12 @@ public class ReviewConfiguration : BaseModelBuilderConfiguration<Review>
       
         builder.Property(x => x.Rating)
             .IsRequired();
-
-        builder.HasOne(x => x.JobSeeker)
-            .WithMany(x => x.Reviews)
-            .HasForeignKey(x => x.JobSeekerId);
+        ;
 
         builder.HasOne(x => x.Company)
             .WithMany(x => x.Reviews)
-            .HasForeignKey(x => x.CompanyId);
+            .HasForeignKey(x => x.CompanyId)
+            .OnDelete(DeleteBehavior.Restrict);
 
      
     }

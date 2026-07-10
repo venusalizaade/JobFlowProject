@@ -1,6 +1,6 @@
-﻿using JobFlowProject.Domain.Entites.Job;
+﻿using JobFlowProject.Domain.Entites.User;
 
-namespace JobFlowProject.Domain.Entites.User;
+namespace JobFlowProject.Domain.Entites.Componyes.ComponyFeatures;
 
 
 public class CompanyFeature : BaseEntity

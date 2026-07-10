@@ -33,7 +33,7 @@ public class AttachmentFile : BaseEntity
     /// <summary>
     /// کاربر
     /// </summary>
-    public Profile Profile { get; set; }
+    public AppUser AppUser { get; set; }
 
     public override void Validation()
     {

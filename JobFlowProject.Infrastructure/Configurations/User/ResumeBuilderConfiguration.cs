@@ -1,8 +1,7 @@
 ﻿using JobFlowProject.Domain.Entites.Resume;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-namespace JobFlowProject.Infrastructure;
+namespace JobFlowProject.Infrastructure.Configurations.User;
 
 public class ResumeBuilderConfiguration : BaseModelBuilderConfiguration<ResumeBuilder>
 {
@@ -24,7 +23,7 @@ public class ResumeBuilderConfiguration : BaseModelBuilderConfiguration<ResumeBu
         builder.Property(x => x.About)
             .HasMaxLength(2000);
 
-        builder.HasOne(x => x.Profile)
+        builder.HasOne(x => x.AppUser)
             .WithMany()
             .HasForeignKey(x => x.ProfileId);
 

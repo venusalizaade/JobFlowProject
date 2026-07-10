@@ -21,12 +21,11 @@ public class JobPostConfiguration : BaseModelBuilderConfiguration<JobPost>
 
         builder.HasOne(x => x.Company)
             .WithMany(x => x.JobPosts)
-            .HasForeignKey(x => x.CompanyId);
+            .HasForeignKey(x => x.CompanyId)
+            .OnDelete(DeleteBehavior.Restrict);
 
 
-        builder.HasOne(x => x.Employer)
-            .WithMany(x => x.JobPosts)
-            .HasForeignKey(x => x.EmployerId);
+      
            
 
         builder.HasOne(x => x.Category)

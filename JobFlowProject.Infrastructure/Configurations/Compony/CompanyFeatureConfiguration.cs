@@ -1,4 +1,5 @@
-﻿using JobFlowProject.Domain.Entites.User;
+﻿using JobFlowProject.Domain.Entites.Componyes.ComponyFeatures;
+using JobFlowProject.Domain.Entites.User;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
@@ -18,6 +19,7 @@ public class CompanyFeatureConfiguration : BaseModelBuilderConfiguration<Company
             .HasForeignKey(x => x.FeatureId)
             .OnDelete(DeleteBehavior.Restrict);
 
-        
+
+
     }
 }

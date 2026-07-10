@@ -2,13 +2,13 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-namespace JobFlowProject.Infrastructure;
+namespace JobFlowProject.Infrastructure.Configurations.User;
 
-public class ProfileConfiguration : IEntityTypeConfiguration<Profile>
+public class ProfileConfiguration : IEntityTypeConfiguration<AppUser>
 {
      
 
-    public void Configure(EntityTypeBuilder<Profile> builder)
+    public void Configure(EntityTypeBuilder<AppUser> builder)
     {
         builder.HasKey(x => x.Id);
         builder.HasIndex(x => x.CreatedAt);
@@ -26,14 +26,7 @@ public class ProfileConfiguration : IEntityTypeConfiguration<Profile>
         builder.Property(x => x.About)
             .HasMaxLength(1000);
         
-
-        builder.HasOne(x => x.Company)
-            .WithMany(x => x.Profiles)
-            .HasForeignKey(x => x.CompanyId)
-            .OnDelete(DeleteBehavior.SetNull);
-
-        builder.HasIndex(x => x.FirstName);
-        builder.HasIndex(x => x.LastName);
+        
     }
         
     }

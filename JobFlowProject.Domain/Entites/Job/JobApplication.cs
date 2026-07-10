@@ -30,7 +30,7 @@ public class JobApplication : BaseEntity
     /// <summary>
     /// کارجو
     /// </summary>
-    public Profile JobSeeker { get; set; }
+    public AppUser JobSeeker { get; set; }
 
     /// <summary>
     ///آیدی فایل رزومه (Attachment)

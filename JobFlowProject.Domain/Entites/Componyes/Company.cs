@@ -1,10 +1,13 @@
-﻿using JobFlowProject.Domain.Entites.User;
+﻿using JobFlowProject.Domain.Entites.Componyes.ComponyFeatures;
+using JobFlowProject.Domain.Entites.Job;
+using JobFlowProject.Domain.Entites.User;
 
-namespace JobFlowProject.Domain.Entites.Job;
+namespace JobFlowProject.Domain.Entites.Componyes;
 
 
 public class Company : BaseEntity
-{
+{ 
+    
     /// <summary>
     /// نام شرکت
     /// </summary>
@@ -14,6 +17,10 @@ public class Company : BaseEntity
     /// شناسه ملی
     /// </summary>
     public string NationalId { get; set; }
+    
+    public string City { get; set; }
+    
+    public string Province { get; set; }
 
     /// <summary>
     /// آدرس
@@ -38,7 +45,7 @@ public class Company : BaseEntity
     /// <summary>
     /// لیست کاربران مرتبط با شرکت
     /// </summary>
-    public ICollection<Profile> Profiles { get; set; } = new List<Profile>();
+    public AppUser AppUser { get; set; } 
 
     /// <summary>
     /// لیست آگهی‌های شرکت
@@ -48,7 +55,7 @@ public class Company : BaseEntity
     /// <summary>
     /// لیست پرداخت‌های شرکت
     /// </summary>
-    public ICollection<Payment> Payments { get; set; } = new List<Payment>();
+    public ICollection<Payment> Payments { get; set; } = new List<Payment>();//باید در کلاس جاب پست باشد
     
     /// <summary>
     /// لیست نظراتی که برای این شرکت نوشته شده

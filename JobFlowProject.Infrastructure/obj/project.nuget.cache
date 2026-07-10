@@ -72,5 +72,24 @@
     "C:\\Users\\VenusA\\.nuget\\packages\\system.security.cryptography.pkcs\\9.0.4\\system.security.cryptography.pkcs.9.0.4.nupkg.sha512",
     "C:\\Users\\VenusA\\.nuget\\packages\\system.security.cryptography.protecteddata\\9.0.4\\system.security.cryptography.protecteddata.9.0.4.nupkg.sha512"
   ],
-  "logs": []
+  "logs": [
+    {
+      "code": "NU1900",
+      "level": "Warning",
+      "message": "Error occurred while getting package vulnerability data: A connection attempt failed because the connected party did not properly respond after a period of time, or established connection failed because connected host has failed to respond. (api.nuget.org:443)",
+      "projectPath": "C:\\Users\\VenusA\\RiderProjects\\JobFlowProject\\JobFlowProject.Infrastructure\\JobFlowProject.Infrastructure.csproj",
+      "warningLevel": 1,
+      "filePath": "C:\\Users\\VenusA\\RiderProjects\\JobFlowProject\\JobFlowProject.Infrastructure\\JobFlowProject.Infrastructure.csproj",
+      "targetGraphs": []
+    },
+    {
+      "code": "NU1900",
+      "level": "Warning",
+      "message": "Error occurred while getting package vulnerability data: A connection attempt failed because the connected party did not properly respond after a period of time, or established connection failed because connected host has failed to respond. (api.nuget.org:443)",
+      "projectPath": "C:\\Users\\VenusA\\RiderProjects\\JobFlowProject\\JobFlowProject.Infrastructure\\JobFlowProject.Infrastructure.csproj",
+      "warningLevel": 1,
+      "filePath": "C:\\Users\\VenusA\\RiderProjects\\JobFlowProject\\JobFlowProject.Infrastructure\\JobFlowProject.Infrastructure.csproj",
+      "targetGraphs": []
+    }
+  ]
 }

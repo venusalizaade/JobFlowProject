@@ -1,10 +1,12 @@
-﻿using JobFlowProject.Domain.Entites.User;
+﻿using JobFlowProject.Domain.Entites.Componyes;
+using JobFlowProject.Domain.Entites.User;
 using JobFlowProject.Domain.Enums;
 
 namespace JobFlowProject.Domain.Entites.Job;
 
 public class JobPost : BaseEntity
 {
+   
     /// <summary>
     /// عنوان شغل
     /// </summary>
@@ -14,6 +16,8 @@ public class JobPost : BaseEntity
     /// توضیحات کامل شغل
     /// </summary>
     public string AboutJob { get; set; }
+    public string City { get; set; }
+    public string Province { get; set; }
 
     /// <summary>
     /// حقوق (اختیاری)
@@ -45,15 +49,6 @@ public class JobPost : BaseEntity
     /// </summary>
     public Company Company { get; set; }
 
-    /// <summary>
-    /// آیدی کارفرما (منتشرکننده)
-    /// </summary>
-    public Guid EmployerId { get; set; }
-
-    /// <summary>
-    /// کارفرما
-    /// </summary>
-    public Profile Employer { get; set; }
 
     /// <summary>
     /// آیدی دسته‌بندی
@@ -70,10 +65,6 @@ public class JobPost : BaseEntity
     /// </summary>
     public ICollection<JobApplication> JobApplications { get; set; } = new List<JobApplication>();
 
-    /// <summary>
-    /// لیست کاربرانی که آگهی را ذخیره کرده‌اند
-    /// </summary>
-    public ICollection<SavedJob> SavedJobs { get; set; } = new List<SavedJob>();
 
     public override void Validation()
     {

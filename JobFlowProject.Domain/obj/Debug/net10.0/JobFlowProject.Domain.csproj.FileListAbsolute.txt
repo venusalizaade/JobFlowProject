@@ -10,3 +10,4 @@ C:\Users\VenusA\RiderProjects\JobFlowProject\JobFlowProject.Domain\obj\Debug\net
 C:\Users\VenusA\RiderProjects\JobFlowProject\JobFlowProject.Domain\obj\Debug\net10.0\refint\JobFlowProject.Domain.dll
 C:\Users\VenusA\RiderProjects\JobFlowProject\JobFlowProject.Domain\obj\Debug\net10.0\JobFlowProject.Domain.pdb
 C:\Users\VenusA\RiderProjects\JobFlowProject\JobFlowProject.Domain\obj\Debug\net10.0\ref\JobFlowProject.Domain.dll
+C:\Users\VenusA\RiderProjects\JobFlowProject\JobFlowProject.Domain\obj\Debug\net10.0\JobFlowProject.Domain.sourcelink.json

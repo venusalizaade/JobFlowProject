@@ -1,5 +1,7 @@
+using JobFlowProject.Domain.Entites.User;
 using JobFlowProject.Infrastructure;
 using JobFlowProject.Infrastructure.AppDbContext;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -10,6 +12,11 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddDbContext<JobFlowDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+
+
+builder.Services.AddIdentity<AppUser, IdentityRole<Guid>>()
+    .AddEntityFrameworkStores<JobFlowDbContext>()
+    .AddDefaultTokenProviders();
 
 var app = builder.Build();
 

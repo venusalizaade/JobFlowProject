@@ -1,11 +1,17 @@
 ﻿using JobFlowProject.Domain.Entites.User;
 using JobFlowProject.Domain.Enums;
 
-namespace JobFlowProject.Domain.Entites.Job;
+namespace JobFlowProject.Domain.Entites.Componyes.ComponyFeatures;
 
 
 public class Payment : BaseEntity
+
+
 {
+    /// <summary>
+    /// آیدی تراکنش
+    /// </summary>
+   public Guid TransactionId { get; set; }
     /// <summary>
     /// مبلغ پرداخت‌شده به تومان
     /// </summary>
@@ -14,7 +20,7 @@ public class Payment : BaseEntity
     /// <summary>
     /// تاریخ و زمان انجام پرداخت
     /// </summary>
-    public DateTime PaidAt { get; set; } = DateTime.UtcNow;
+    public DateTime? VerifiedAt { get; set; } 
     
 
     /// <summary>

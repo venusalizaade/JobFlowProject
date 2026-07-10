@@ -1,4 +1,5 @@
-﻿using JobFlowProject.Domain.Entites.Job;
+﻿using JobFlowProject.Domain.Entites.Componyes;
+using JobFlowProject.Domain.Entites.Job;
 using JobFlowProject.Domain.Entites.User;
 using JobFlowProject.Domain.Enums;
 
@@ -35,7 +36,7 @@ public class NotificationLog : BaseEntity
     /// <summary>
     /// کاربر
     /// </summary>
-    public Profile? Profile { get; set; }
+    public AppUser? AppUser { get; set; }
 
     /// <summary>
     ///آیدی شرکت (در صورت وجود)

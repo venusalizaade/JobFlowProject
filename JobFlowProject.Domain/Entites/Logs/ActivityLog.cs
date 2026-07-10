@@ -18,12 +18,12 @@ public class ActivityLog : BaseEntity
     /// <summary>
     /// آیدی کاربر انجام‌دهنده
     /// </summary>
-    public Guid? ProfileId { get; set; }
+    public Guid ProfileId { get; set; }
 
     /// <summary>
     /// کاربر
     /// </summary>
-    public Profile? Profile { get; set; }
+    public AppUser Profile { get; set; }
 
     /// <summary>
     ///آیدی موجودیت مرتبط

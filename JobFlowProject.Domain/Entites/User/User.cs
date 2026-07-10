@@ -1,5 +1,6 @@
 ﻿
 
+using JobFlowProject.Domain.Entites.Componyes;
 using JobFlowProject.Domain.Entites.Job;
 using JobFlowProject.Domain.Entites.Logs;
 using JobFlowProject.Domain.Entites.Resume;
@@ -9,9 +10,10 @@ using Microsoft.AspNetCore.Identity;
 namespace JobFlowProject.Domain.Entites.User;
 
 
-public class Profile : IdentityUser<Guid> , IEntity
+public class AppUser : IdentityUser<Guid> , IEntity
 {
-    /// <summary>
+    //tTodo اسم کلاس عوض شود
+    //// <summary>
     /// نام
     /// </summary>
     public string FirstName { get; set; }
@@ -20,6 +22,8 @@ public class Profile : IdentityUser<Guid> , IEntity
     /// نام خانوادگی
     /// </summary>
     public string LastName { get; set; }
+    
+    public string Gender { get; set; }
 
     /// <summary>
     ///توضیحات
@@ -63,10 +67,7 @@ public class Profile : IdentityUser<Guid> , IEntity
     /// لیست رزومه‌های کاربر (در صورتی که کارجو باشد)
     /// </summary>
     public ICollection<AttachmentFile> Attachments { get; set; } = new List<AttachmentFile>();
-    /// <summary>
-    /// لیست آگهی‌های منتشر شده (در صورت کارفرما بودن)
-    /// </summary>
-    public ICollection<JobPost> JobPosts { get; set; } = new List<JobPost>();
+    
 
     /// <summary>
     /// لیست درخواست‌های شغلی (در صورت کارجو بودن)
@@ -83,8 +84,4 @@ public class Profile : IdentityUser<Guid> , IEntity
     /// </summary>
     public ICollection<NotificationLog> Notifications { get; set; } = new List<NotificationLog>();
     
-    /// <summary>
-    /// لیست نظراتی که کاربر نوشته
-    /// </summary>
-    public ICollection<Review> Reviews { get; set; } = new List<Review>();
-}
+    }

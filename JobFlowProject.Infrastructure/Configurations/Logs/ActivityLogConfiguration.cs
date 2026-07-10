@@ -20,7 +20,8 @@ public class ActivityLogConfiguration : BaseModelBuilderConfiguration<ActivityLo
 
         builder.HasOne(x => x.Profile)
             .WithMany()
-            .HasForeignKey(x => x.ProfileId);
+            .HasForeignKey(x => x.ProfileId)
+            .OnDelete(DeleteBehavior.Restrict);
 
       
     }

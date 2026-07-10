@@ -1,22 +1,18 @@
 ﻿using JobFlowProject.Domain.Entites.User;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-namespace JobFlowProject.Infrastructure;
+namespace JobFlowProject.Infrastructure.Configurations.User;
 
 public class SavedJobConfiguration : BaseModelBuilderConfiguration<SavedJob>
 {
     protected override void ApplyEntityConfiguration(EntityTypeBuilder<SavedJob> builder)
     {
-        builder.HasOne(x => x.Profile)
+        builder.HasOne(x => x.AppUser)
             .WithMany(x => x.SavedJobs)
-            .HasForeignKey(x => x.ProfileId);
-
-        builder.HasOne(x => x.JobPost)
-            .WithMany(x => x.SavedJobs)
-            .HasForeignKey(x => x.JobPostId);
+            .HasForeignKey(x => x.AppUserId);
+        
             
-        builder.HasIndex(x => new { x.ProfileId, x.JobPostId })
+        builder.HasIndex(x => new { x.AppUserId, x.JobPostId })
             .IsUnique();
     }
 }

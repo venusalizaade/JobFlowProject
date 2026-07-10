@@ -1,4 +1,5 @@
-﻿using JobFlowProject.Domain.Entites.Job;
+﻿using JobFlowProject.Domain.Entites.Componyes;
+using JobFlowProject.Domain.Entites.Job;
 
 namespace JobFlowProject.Domain.Entites.User;
 
@@ -13,7 +14,7 @@ public class Review : BaseEntity
     /// <summary>
     /// کارجو
     /// </summary>
-    public Profile JobSeeker { get; set; }
+    public AppUser JobSeeker { get; set; }
 
     /// <summary>
     /// آیدی شرکت

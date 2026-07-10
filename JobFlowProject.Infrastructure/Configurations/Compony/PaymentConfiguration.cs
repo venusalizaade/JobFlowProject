@@ -1,4 +1,5 @@
-﻿using JobFlowProject.Domain.Entites.Job;
+﻿using JobFlowProject.Domain.Entites.Componyes.ComponyFeatures;
+using JobFlowProject.Domain.Entites.Job;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
@@ -21,8 +22,8 @@ public class PaymentConfiguration : BaseModelBuilderConfiguration<Payment>
         builder.HasOne(x => x.Feature)
             .WithMany()
             .HasForeignKey(x => x.FeatureId)
-            .OnDelete(DeleteBehavior.SetNull);
-        
-        
+            .OnDelete(DeleteBehavior.Restrict) ;
+
+
     }
 }

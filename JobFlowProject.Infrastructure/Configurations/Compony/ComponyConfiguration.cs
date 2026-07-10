@@ -1,4 +1,5 @@
-﻿using JobFlowProject.Domain.Entites.Job;
+﻿using JobFlowProject.Domain.Entites.Componyes;
+using JobFlowProject.Domain.Entites.Job;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace JobFlowProject.Infrastructure;
@@ -13,7 +14,7 @@ public class CompanyConfiguration : BaseModelBuilderConfiguration<Company>
       
         builder.Property(x => x.NationalId)
             .IsRequired()
-            .HasMaxLength(20);
+            .HasMaxLength(15);
       
         builder.Property(x => x.Address)
             .IsRequired().HasMaxLength(500);

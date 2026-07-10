@@ -19,13 +19,14 @@ public class NotificationLogConfiguration : BaseModelBuilderConfiguration<Notifi
         builder.Property(x => x.SentAt)
             .IsRequired();
 
-        builder.HasOne(x => x.Profile)
+        builder.HasOne(x => x.AppUser)
             .WithMany(x => x.Notifications)
             .HasForeignKey(x => x.ProfileId);
 
         builder.HasOne(x => x.Company)
             .WithMany()
-            .HasForeignKey(x => x.CompanyId);
+            .HasForeignKey(x => x.CompanyId)
+            .OnDelete(DeleteBehavior.Restrict);
 
        
     }
