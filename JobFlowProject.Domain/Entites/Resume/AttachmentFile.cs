@@ -52,8 +52,7 @@ public class AttachmentFile : BaseEntity
         if (string.IsNullOrWhiteSpace(FilePath) && FileData == null)
             throw new Exception("Either FilePath or FileData is required");
 
-        if (ProfileId == Guid.Empty)
-            throw new Exception("Profile is required");
+       
     }
 
     

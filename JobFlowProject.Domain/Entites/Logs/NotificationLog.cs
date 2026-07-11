@@ -51,9 +51,12 @@ public class NotificationLog : BaseEntity
     public override void Validation()
     {
         if (string.IsNullOrWhiteSpace(Title))
-            throw new Exception("Title is required");
+            throw new Exception("Title cannot be empty");
 
         if (string.IsNullOrWhiteSpace(Message))
-            throw new Exception("Message is required");
+            throw new Exception("Message cannot be empty");
+
+        if (Message.Length > 2000)
+            throw new Exception("Message cannot exceed 2000 characters");
     }
 }

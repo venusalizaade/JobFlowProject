@@ -36,5 +36,12 @@ public class CompanyFeature : BaseEntity
     {
         if (EndDate <= StartDate)
             throw new Exception("EndDate must be after StartDate");
+        
+        if (StartDate < DateTime.UtcNow.Date)
+            throw new Exception("StartDate cannot be in the past");
+        
+        if (EndDate < DateTime.UtcNow.Date)
+            throw new Exception("EndDate cannot be in the past");
+
     }
 }

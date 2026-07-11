@@ -52,10 +52,7 @@ public class Company : BaseEntity
     /// </summary>
     public ICollection<JobPost> JobPosts { get; set; } = new List<JobPost>();
 
-    /// <summary>
-    /// لیست پرداخت‌های شرکت
-    /// </summary>
-    public ICollection<Payment> Payments { get; set; } = new List<Payment>();//باید در کلاس جاب پست باشد
+   
     
     /// <summary>
     /// لیست نظراتی که برای این شرکت نوشته شده
@@ -65,6 +62,21 @@ public class Company : BaseEntity
     public override void Validation()
     {
         if (string.IsNullOrWhiteSpace(Name))
-            throw new Exception("Company name is required");
+            throw new Exception("Name cannot be empty");
+
+        if (Name.Length < 2)
+            throw new Exception("Name must be at least 2 characters");
+
+        if (Name.Length > 200)
+            throw new Exception("Name cannot exceed 200 characters");
+
+        if (string.IsNullOrWhiteSpace(NationalId))
+            throw new Exception("NationalId cannot be empty");
+
+        if (NationalId.Length != 10 && NationalId.Length != 11)
+            throw new Exception("NationalId must be 10 or 11 digits");
+
+        if (string.IsNullOrWhiteSpace(Address))
+            throw new Exception("Address cannot be empty");
     }
 }

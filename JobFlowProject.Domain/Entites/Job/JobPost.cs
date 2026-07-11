@@ -1,4 +1,5 @@
 ﻿using JobFlowProject.Domain.Entites.Componyes;
+using JobFlowProject.Domain.Entites.Componyes.ComponyFeatures;
 using JobFlowProject.Domain.Entites.User;
 using JobFlowProject.Domain.Enums;
 
@@ -78,15 +79,29 @@ public class JobPost : BaseEntity
     /// لیست درخواست‌های ارسال‌شده
     /// </summary>
     public ICollection<JobApplication> JobApplications { get;  private set; } = new List<JobApplication>();
+    
+    /// <summary>
+    /// لیست پرداخت‌های شرکت
+    /// </summary>
+    public ICollection<Payment> Payments { get; set; } = new List<Payment>();
 
 
     public override void Validation()
     {
         if (string.IsNullOrWhiteSpace(Title))
-            throw new Exception("Title is required");
+            throw new Exception("Title cannot be empty");
+
+        if (Title.Length < 3)
+            throw new Exception("Title must be at least 3 characters");
+
+        if (Title.Length > 200)
+            throw new Exception("Title cannot exceed 200 characters");
 
         if (string.IsNullOrWhiteSpace(AboutJob))
-            throw new Exception("AboutJob is required");
+            throw new Exception("AboutJob cannot be empty");
+
+        if (AboutJob.Length < 10)
+            throw new Exception("AboutJob must be at least 10 characters");
 
         if (ExpiresAt <= CreatedAt)
             throw new Exception("ExpiresAt must be after CreatedAt");

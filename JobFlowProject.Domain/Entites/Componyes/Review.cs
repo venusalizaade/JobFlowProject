@@ -57,6 +57,15 @@ public class Review : BaseEntity
             throw new Exception("Rating must be between 1 and 5");
 
         if (string.IsNullOrWhiteSpace(Comment))
-            throw new Exception("Comment is required");
+            throw new Exception("Comment cannot be empty");
+
+        if (Comment.Length > 2000)
+            throw new Exception("Comment cannot exceed 2000 characters");
+
+        if (JobSeekerId == Guid.Empty)
+            throw new Exception("JobSeekerId is required");
+
+        if (CompanyId == Guid.Empty)
+            throw new Exception("CompanyId is required");
     }
 }

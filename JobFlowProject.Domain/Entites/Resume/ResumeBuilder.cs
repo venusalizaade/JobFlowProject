@@ -26,10 +26,10 @@ public class ResumeBuilder : BaseEntity
    
     public Guid AppUserId { get; private set; }
     public AppUser AppUser { get; private set; }
-  
+
+
     public override void Validation()
     {
-       
-    
+        throw new NotImplementedException();
     }
 }

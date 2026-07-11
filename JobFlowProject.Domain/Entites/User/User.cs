@@ -54,7 +54,7 @@ public class AppUser : IdentityUser<Guid> , IEntity
     /// <summary>
     ///  تائید ثبت نام کاربر توسط ادمین
     /// </summary>
-    public bool IsApprovedByAdmin { get; private set; } = false;
+    public bool IsApproved { get; private set; } = false;
 
     /// <summary>
     /// آیدی شرکت (در صورت کارفرما بودن)
@@ -88,4 +88,28 @@ public class AppUser : IdentityUser<Guid> , IEntity
     /// </summary>
     public ICollection<NotificationLog> Notifications { get; private set; } = new List<NotificationLog>();
     
+    private void Validation()
+    {
+        if (string.IsNullOrWhiteSpace(FirstName))
+            throw new Exception("FirstName cannot be empty");
+
+        if (FirstName.Length < 2 || FirstName.Length > 100)
+            throw new Exception("FirstName must be between 2 and 100 characters");
+
+        if (string.IsNullOrWhiteSpace(LastName))
+            throw new Exception("LastName cannot be empty");
+
+        if (LastName.Length < 2 || LastName.Length > 100)
+            throw new Exception("LastName must be between 2 and 100 characters");
+
+        if (string.IsNullOrWhiteSpace(Email))
+            throw new Exception("Email cannot be empty");
+
+        if (!Email.Contains("@") || !Email.Contains("."))
+            throw new Exception("Email is not valid");
+
+        if (!string.IsNullOrWhiteSpace(PhoneNumber) && PhoneNumber.Length != 11)
+            throw new Exception("PhoneNumber must be exactly 11 digits");
     }
+    }
+    

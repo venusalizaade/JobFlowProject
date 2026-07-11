@@ -1,4 +1,5 @@
-﻿using JobFlowProject.Domain.Entites.User;
+﻿using JobFlowProject.Domain.Entites.Job;
+using JobFlowProject.Domain.Entites.User;
 using JobFlowProject.Domain.Enums;
 
 namespace JobFlowProject.Domain.Entites.Componyes.ComponyFeatures;
@@ -9,10 +10,10 @@ public class Payment : BaseEntity
 
 {
     private Payment() { }
-    public Payment(decimal amount, Guid companyId, Guid? featureId = null)
+    public Payment(decimal amount, Guid jobPostId, Guid featureId )
     {
         Amount = amount;
-        CompanyId = companyId;
+        JobPostId = jobPostId;
         FeatureId = featureId;
         VerifiedAt = DateTime.UtcNow;
         Status = PaymentStatusEnum.Pending;
@@ -41,28 +42,33 @@ public class Payment : BaseEntity
     /// <summary>
     /// آیدی شرکت پرداخت‌کننده
     /// </summary>
-    public Guid CompanyId { get;  set; }
+    public Guid JobPostId { get;  set; }
 
     /// <summary>
     /// شرکت پرداخت‌کننده
     /// </summary>
-    public Company Company { get; private set; }
+    public JobPost JobPost { get; private set; }
 
     /// <summary>
     /// آیدی فیچر خریده شده 
     /// </summary>
-    public Guid? FeatureId { get; set; }
+    public Guid FeatureId { get; set; }
 
     /// <summary>
    ///فیچر خریداری شده
     /// </summary>
-    public Feature? Feature { get; private set; }
+    public Feature Feature { get; private set; }
     
 
     public override void Validation()
     {
         if (Amount <= 0)
             throw new Exception("Amount must be greater than zero");
+
+     
+
+        if (VerifiedAt < DateTime.UtcNow.Date)
+            throw new Exception("PaidAt cannot be in the past");
         
     }
 }

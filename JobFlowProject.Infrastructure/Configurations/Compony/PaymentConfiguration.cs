@@ -12,13 +12,14 @@ public class PaymentConfiguration : BaseModelBuilderConfiguration<Payment>
         builder.Property(x => x.Amount)
             .IsRequired()
             .HasColumnType("decimal(18,2)");
-       
-
-        builder.HasOne(x => x.Company)
+        
+        
+        builder.HasOne(x => x.JobPost)
             .WithMany(x => x.Payments)
-            .HasForeignKey(x => x.CompanyId)
+            .HasForeignKey(x => x.JobPostId)
             .OnDelete(DeleteBehavior.Restrict);
-
+        
+        
         builder.HasOne(x => x.Feature)
             .WithMany()
             .HasForeignKey(x => x.FeatureId)

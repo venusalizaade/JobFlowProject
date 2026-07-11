@@ -38,6 +38,9 @@ public class ActivityLog : BaseEntity
     public override void Validation()
     {
         if (string.IsNullOrWhiteSpace(Action))
-            throw new Exception("Action is required");
+            throw new Exception("Action cannot be empty");
+
+        if (Action.Length > 200)
+            throw new Exception("Action cannot exceed 200 characters");
     }
 }

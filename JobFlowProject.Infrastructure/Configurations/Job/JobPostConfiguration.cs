@@ -18,6 +18,8 @@ public class JobPostConfiguration : BaseModelBuilderConfiguration<JobPost>
         
         builder.Property(x => x.Salary)
             .HasMaxLength(100);
+        
+       
 
         builder.HasOne(x => x.Company)
             .WithMany(x => x.JobPosts)
