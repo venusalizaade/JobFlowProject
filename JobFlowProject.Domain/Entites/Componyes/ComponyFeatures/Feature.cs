@@ -26,7 +26,7 @@ public class Feature : BaseEntity
     /// </summary>
     public FeatureTypeEnum FeatureType { get; set; }
 
-    public override void Validation()
+    public override void Validate()
     {
         if (string.IsNullOrWhiteSpace(Name))
             throw new Exception("Name cannot be empty or whitespace");

@@ -51,7 +51,7 @@ public class Review : BaseEntity
     /// </summary>
     public bool IsPublic { get; private set; } = true;
 
-    public override void Validation()
+    public override void Validate()
     {
         if (Rating < 1 || Rating > 5)
             throw new Exception("Rating must be between 1 and 5");

@@ -35,7 +35,7 @@ public class ActivityLog : BaseEntity
     /// </summary>
     public string? EntityType { get; set; }
 
-    public override void Validation()
+    public override void Validate()
     {
         if (string.IsNullOrWhiteSpace(Action))
             throw new Exception("Action cannot be empty");

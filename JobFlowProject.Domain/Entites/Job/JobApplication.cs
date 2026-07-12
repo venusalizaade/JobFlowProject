@@ -54,7 +54,7 @@ public class JobApplication : BaseEntity
     /// </summary>
     public AttachmentFile Attachment { get;  private set; }
 
-    public override void Validation()
+    public override void Validate()
     {
         if (JobPostId == Guid.Empty)
             throw new Exception("JobPost is required");

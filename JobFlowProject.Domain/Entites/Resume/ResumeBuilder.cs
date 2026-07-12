@@ -28,7 +28,7 @@ public class ResumeBuilder : BaseEntity
     public AppUser AppUser { get; private set; }
 
 
-    public override void Validation()
+    public override void Validate()
     {
         throw new NotImplementedException();
     }

@@ -60,7 +60,7 @@ public class Payment : BaseEntity
     public Feature Feature { get; private set; }
     
 
-    public override void Validation()
+    public override void Validate()
     {
         if (Amount <= 0)
             throw new Exception("Amount must be greater than zero");

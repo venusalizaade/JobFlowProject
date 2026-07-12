@@ -86,7 +86,7 @@ public class JobPost : BaseEntity
     public ICollection<Payment> Payments { get; set; } = new List<Payment>();
 
 
-    public override void Validation()
+    public override void Validate()
     {
         if (string.IsNullOrWhiteSpace(Title))
             throw new Exception("Title cannot be empty");

@@ -32,7 +32,7 @@ public class CompanyFeature : BaseEntity
     /// </summary>
     public bool IsActive => DateTime.UtcNow <= EndDate;
 
-    public override void Validation()
+    public override void Validate()
     {
         if (EndDate <= StartDate)
             throw new Exception("EndDate must be after StartDate");

@@ -1,9 +1,8 @@
 ﻿using JobFlowProject.Domain.Entites.Componyes.ComponyFeatures;
-using JobFlowProject.Domain.Entites.User;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-namespace JobFlowProject.Infrastructure;
+namespace JobFlowProject.Infrastructure.Configurations.Compony;
 
 public class FeatureConfiguration : BaseModelBuilderConfiguration<Feature>
 {
@@ -16,6 +15,9 @@ public class FeatureConfiguration : BaseModelBuilderConfiguration<Feature>
         builder.Property(x => x.Price)
             .IsRequired()
             .HasColumnType("decimal(18,2)");
+
+        builder.Property(x => x.DurationDays)
+            .IsRequired();
       
 
         builder.HasIndex(x => x.Name)

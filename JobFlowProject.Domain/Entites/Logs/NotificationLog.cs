@@ -48,7 +48,7 @@ public class NotificationLog : BaseEntity
     /// </summary>
     public Company? Company { get; set; }
 
-    public override void Validation()
+    public override void Validate()
     {
         if (string.IsNullOrWhiteSpace(Title))
             throw new Exception("Title cannot be empty");

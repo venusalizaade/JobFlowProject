@@ -18,7 +18,7 @@ public class Category : BaseEntity
     /// </summary>
     public ICollection<JobPost> JobPosts { get; set; } = new List<JobPost>();
 
-    public override void Validation()
+    public override void Validate()
     {
         if (string.IsNullOrWhiteSpace(Name))
             throw new Exception("Category name is required");

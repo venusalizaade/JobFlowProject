@@ -44,7 +44,7 @@ public class AttachmentFile : BaseEntity
     /// </summary>
     public AppUser AppUser { get; private set; }
 
-    public override void Validation()
+    public override void Validate()
     {
         if (string.IsNullOrWhiteSpace(FileName))
             throw new Exception("FileName is required");

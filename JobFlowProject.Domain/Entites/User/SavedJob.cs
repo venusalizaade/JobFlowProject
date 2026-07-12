@@ -14,13 +14,15 @@ public class SavedJob : BaseEntity
         AppUserId = appUserId;
         JobPostId = jobPostId;
     }
+    
+    
     public Guid AppUserId { get;private set; }
     public AppUser AppUser { get; private set; }
 
     public Guid JobPostId { get; private set; }
     public JobPost JobPost { get; private set; }
 
-    public override void Validation()
+    public override void Validate()
     {
         if( AppUserId == Guid.Empty)
             throw new Exception("Profile is required");
@@ -28,4 +30,6 @@ public class SavedJob : BaseEntity
         if (JobPostId == Guid.Empty)
             throw new Exception("JobPost is required");
     }
+
+   
 }

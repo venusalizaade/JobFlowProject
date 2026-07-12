@@ -30,31 +30,36 @@ public class AppUser : IdentityUser<Guid> , IEntity
     /// </summary>
     public int? About{ get; private set; }
     
-
-    /// <summary>
-    /// تاریخ ایجاد
-    /// </summary>
-    public DateTime? CreatedAt { get; private set; } = DateTime.UtcNow;
-
-    /// <summary>
-    /// وضعیت حذف 
-    /// </summary>
-    public bool IsDeleted { get; private set; }
-
-    /// <summary>
-    /// تاریخ حذف 
-    /// </summary>
-    public DateTime? DeletedAt { get; private set; }
     
-
-    /// <summary>
-    /// تاریخ بروزرسانی
-    /// </summary>
-    public DateTime UpdatedAt { get; private set; }
     /// <summary>
     ///  تائید ثبت نام کاربر توسط ادمین
     /// </summary>
     public bool IsApproved { get; private set; } = false;
+    
+    public DateTime CreatedAt { get; init; } = DateTime.UtcNow;
+    public Guid? CreatedById { get; protected set; }
+    public AppUser? Creator { get; protected set; }
+    public DateTime? ModifiedAt { get; private set; }
+    public Guid? ModifiedById { get; private set; }
+    public AppUser? Modifier { get; private set; }
+    public DateTime? DeletedAt { get; private set; }
+    public Guid? DeletedById { get; set; }
+    public AppUser? Deleter { get; set; }
+    public bool IsDeleted { get; private set; }
+   
+    public void SetAsDeleted(Guid requesterId)
+    {
+        DeletedAt = DateTime.UtcNow;
+        IsDeleted = true;
+        DeletedById = requesterId;
+    }
+
+    public void SetModificationInfo(Guid requesterId)
+    {
+        ModifiedAt = DateTime.UtcNow;
+        ModifiedById = requesterId;
+    }
+
 
     /// <summary>
     /// آیدی شرکت (در صورت کارفرما بودن)

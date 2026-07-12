@@ -36,14 +36,11 @@ public class Company : BaseEntity
     /// تعداد آگهی رایگان مجاز
     /// </summary>
     public int FreeJobPostLimit { get; set; } 
+    
+   
 
     /// <summary>
-    /// مدت زمان پیش‌فرض هر آگهی (روز)
-    /// </summary>
-    public int DefaultJobPostDurationDays { get; set; } 
-
-    /// <summary>
-    /// لیست کاربران مرتبط با شرکت
+    /// کاربران مرتبط با شرکت
     /// </summary>
     public AppUser AppUser { get; set; } 
 
@@ -59,7 +56,7 @@ public class Company : BaseEntity
     /// </summary>
     public ICollection<Review> Reviews { get; set; } = new List<Review>();
 
-    public override void Validation()
+    public override void Validate()
     {
         if (string.IsNullOrWhiteSpace(Name))
             throw new Exception("Name cannot be empty");

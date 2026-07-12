@@ -800,6 +800,9 @@
         }
       },
       "JobFlowProject.Business/1.0.0": {
+        "dependencies": {
+          "JobFlowProject.Domain": "1.0.0"
+        },
         "runtime": {
           "JobFlowProject.Business.dll": {
             "assemblyVersion": "1.0.0.0",
