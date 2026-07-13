@@ -40,8 +40,9 @@ public class Company : BaseEntity
    
 
     /// <summary>
-    /// کاربران مرتبط با شرکت
+    /// کاربر مرتبط با شرکت
     /// </summary>
+    
     public AppUser AppUser { get; set; } 
 
     /// <summary>

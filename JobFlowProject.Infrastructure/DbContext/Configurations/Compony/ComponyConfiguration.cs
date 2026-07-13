@@ -1,5 +1,7 @@
 ﻿using JobFlowProject.Domain.Entites.Componyes;
 using JobFlowProject.Domain.Entites.Job;
+using JobFlowProject.Infrastructure.DbContext.AppDbContext;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace JobFlowProject.Infrastructure;
@@ -24,6 +26,7 @@ public class CompanyConfiguration : BaseModelBuilderConfiguration<Company>
 
         builder.HasIndex(x => x.NationalId)
             .IsUnique();
+        
        
     }
 }

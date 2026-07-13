@@ -12,6 +12,19 @@ namespace JobFlowProject.Domain.Entites.User;
 
 public class AppUser : IdentityUser<Guid> , IEntity
 {
+    
+    private AppUser()
+    {
+    }
+    public AppUser(string firstName, string lastName, string nationalId, Guid? requesterId = null)
+    {
+        FirstName = firstName;
+        LastName = lastName;
+        UserName = nationalId;
+        CreatedById = requesterId ?? Id;
+        Validate();
+    }
+    
     //tTodo اسم کلاس عوض شود
     //// <summary>
     /// نام
@@ -59,18 +72,14 @@ public class AppUser : IdentityUser<Guid> , IEntity
         ModifiedAt = DateTime.UtcNow;
         ModifiedById = requesterId;
     }
-
-
-    /// <summary>
-    /// آیدی شرکت (در صورت کارفرما بودن)
-    /// </summary>
-    public Guid? CompanyId { get; private set; }
+    
 
     /// <summary>
     /// شرکت مرتبط
     /// </summary>
     
     public Company? Company { get; private set; }
+    public Guid? CompanyId { get; private set; }
 
     /// <summary>
     /// لیست رزومه‌های کاربر (در صورتی که کارجو باشد)
@@ -93,7 +102,7 @@ public class AppUser : IdentityUser<Guid> , IEntity
     /// </summary>
     public ICollection<NotificationLog> Notifications { get; private set; } = new List<NotificationLog>();
     
-    private void Validation()
+    private void Validate()
     {
         if (string.IsNullOrWhiteSpace(FirstName))
             throw new Exception("FirstName cannot be empty");

@@ -1,4 +1,5 @@
 ﻿using JobFlowProject.Domain.Entites.Logs;
+using JobFlowProject.Infrastructure.DbContext.AppDbContext;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 

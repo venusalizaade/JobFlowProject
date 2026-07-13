@@ -1,4 +1,5 @@
 ﻿using JobFlowProject.Domain.Entites.Job;
+using JobFlowProject.Infrastructure.DbContext.AppDbContext;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace JobFlowProject.Infrastructure;

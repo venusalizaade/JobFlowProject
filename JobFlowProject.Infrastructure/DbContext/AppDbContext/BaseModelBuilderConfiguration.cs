@@ -1,16 +1,13 @@
 ﻿using JobFlowProject.Domain.Entites;
-using JobFlowProject.Domain.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-namespace JobFlowProject.Infrastructure;
+namespace JobFlowProject.Infrastructure.DbContext.AppDbContext;
 
-public abstract class BaseModelBuilderConfiguration<TEntity> : IEntityTypeConfiguration<TEntity> where TEntity : BaseEntity , IEntity
+public abstract class BaseModelBuilderConfiguration<TEntity> : IEntityTypeConfiguration<TEntity> where TEntity : BaseEntity 
 {
     public void Configure(EntityTypeBuilder<TEntity> builder)
     {
-        builder.Property(x => x.Id)
-            .ValueGeneratedOnAdd();
              
         builder.HasKey(x => x.Id);
         builder.HasIndex(x => x.CreatedAt);

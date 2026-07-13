@@ -8,8 +8,6 @@ public class RoleConfiguration : IEntityTypeConfiguration<Role>
 {
     public void Configure(EntityTypeBuilder<Role> builder)
     {
-       
-        builder.HasKey(x => x.Id);
         builder.HasIndex(x => x.CreatedAt);
         builder.HasQueryFilter(e => !e.IsDeleted);
 
@@ -27,6 +25,5 @@ public class RoleConfiguration : IEntityTypeConfiguration<Role>
             .WithMany()
             .HasForeignKey(u => u.ModifiedById)
             .OnDelete(DeleteBehavior.NoAction);
-        
     }
 }
