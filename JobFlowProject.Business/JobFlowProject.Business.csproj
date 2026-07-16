@@ -8,6 +8,21 @@
 
     <ItemGroup>
       <ProjectReference Include="..\JobFlowProject.Domain\JobFlowProject.Domain.csproj" />
+      <ProjectReference Include="..\JobFlowProject.Infrastructure\JobFlowProject.Infrastructure.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Folder Include="Interfaces\Resume\" />
+      <Folder Include="Services\job\" />
+      <Folder Include="Services\Resume\" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="10.0.10" />
+      <PackageReference Include="Microsoft.Extensions.Configuration.Abstractions" Version="10.0.10" />
+      <PackageReference Include="Microsoft.Extensions.Configuration.Binder" Version="10.0.10" />
+      <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="10.0.10" />
+      <PackageReference Include="Microsoft.Extensions.Options" Version="10.0.10" />
     </ItemGroup>
 
 </Project>

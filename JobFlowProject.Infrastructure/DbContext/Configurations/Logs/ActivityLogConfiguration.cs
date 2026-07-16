@@ -19,9 +19,9 @@ public class ActivityLogConfiguration : BaseModelBuilderConfiguration<ActivityLo
         builder.Property(x => x.EntityType)
             .HasMaxLength(100);
 
-        builder.HasOne(x => x.Profile)
+        builder.HasOne(x => x.AppUser)
             .WithMany()
-            .HasForeignKey(x => x.ProfileId)
+            .HasForeignKey(x => x.AppUserId)
             .OnDelete(DeleteBehavior.Restrict);
 
       

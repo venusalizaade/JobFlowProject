@@ -1,4 +1,5 @@
 ﻿using JobFlowProject.Domain.Entites.User;
+using JobFlowProject.Domain.Entities.User;
 
 namespace JobFlowProject.Domain.Interfaces;
 

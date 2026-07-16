@@ -1,10 +1,13 @@
 ﻿using JobFlowProject.Domain.Entites;
+using JobFlowProject.Domain.Entities;
+using JobFlowProject.Domain.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace JobFlowProject.Infrastructure.DbContext.AppDbContext;
 
-public abstract class BaseModelBuilderConfiguration<TEntity> : IEntityTypeConfiguration<TEntity> where TEntity : BaseEntity 
+public abstract class BaseModelBuilderConfiguration<TEntity> : IEntityTypeConfiguration<TEntity>
+    where TEntity : BaseEntity 
 {
     public void Configure(EntityTypeBuilder<TEntity> builder)
     {

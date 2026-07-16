@@ -1,5 +1,6 @@
-﻿using JobFlowProject.Domain.Entites.Componyes;
+﻿
 using JobFlowProject.Domain.Entites.User;
+using JobFlowProject.Domain.Entities.Componies;
 using JobFlowProject.Infrastructure.DbContext.AppDbContext;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;

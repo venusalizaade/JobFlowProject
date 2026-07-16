@@ -18,10 +18,6 @@
     </ItemGroup>
 
     <ItemGroup>
-      <Folder Include="Controllers\" />
-    </ItemGroup>
-
-    <ItemGroup>
       <ProjectReference Include="..\JobFlowProject.Business\JobFlowProject.Business.csproj" />
       <ProjectReference Include="..\JobFlowProject.Domain\JobFlowProject.Domain.csproj" />
       <ProjectReference Include="..\JobFlowProject.Infrastructure\JobFlowProject.Infrastructure.csproj" />

@@ -14,3 +14,5 @@ C:\Users\VenusA\RiderProjects\JobFlowProject\JobFlowProject.Business\bin\Debug\n
 C:\Users\VenusA\RiderProjects\JobFlowProject\JobFlowProject.Business\bin\Debug\net10.0\JobFlowProject.Domain.pdb
 C:\Users\VenusA\RiderProjects\JobFlowProject\JobFlowProject.Business\obj\Debug\net10.0\JobFlowProject.Business.csproj.AssemblyReference.cache
 C:\Users\VenusA\RiderProjects\JobFlowProject\JobFlowProject.Business\obj\Debug\net10.0\JobFlowP.D4CDA728.Up2Date
+C:\Users\VenusA\RiderProjects\JobFlowProject\JobFlowProject.Business\bin\Debug\net10.0\JobFlowProject.Infrastructure.dll
+C:\Users\VenusA\RiderProjects\JobFlowProject\JobFlowProject.Business\bin\Debug\net10.0\JobFlowProject.Infrastructure.pdb

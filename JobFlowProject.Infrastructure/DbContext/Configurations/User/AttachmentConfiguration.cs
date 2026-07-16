@@ -24,7 +24,7 @@ public class AttachmentFileConfiguration : BaseModelBuilderConfiguration<Attachm
         
         builder.HasOne(x => x.AppUser)
             .WithMany(x => x.Attachments)
-            .HasForeignKey(x => x.ProfileId)
+            .HasForeignKey(x => x.AppUserId)
             .OnDelete(DeleteBehavior.Cascade);
     }
 }

@@ -22,7 +22,7 @@ public class NotificationLogConfiguration : BaseModelBuilderConfiguration<Notifi
 
         builder.HasOne(x => x.AppUser)
             .WithMany(x => x.Notifications)
-            .HasForeignKey(x => x.ProfileId);
+            .HasForeignKey(x => x.AppUserId);
 
         builder.HasOne(x => x.Company)
             .WithMany()

@@ -1,15 +1,15 @@
 ﻿using System.Reflection;
-using JobFlowProject.Domain.Entites.Componyes;
-using JobFlowProject.Domain.Entites.Componyes.ComponyFeatures;
-using JobFlowProject.Domain.Entites.Job;
 using JobFlowProject.Domain.Entites.Logs;
 using JobFlowProject.Domain.Entites.Resume;
 using JobFlowProject.Domain.Entites.User;
-using Microsoft.AspNetCore.Identity;
+using JobFlowProject.Domain.Entities.Componies;
+using JobFlowProject.Domain.Entities.Componies.ComponyFeatures;
+using JobFlowProject.Domain.Entities.Job;
+using JobFlowProject.Domain.Entities.User;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
-namespace JobFlowProject.Infrastructure.AppDbContext;
+namespace JobFlowProject.Infrastructure.DbContext.AppDbContext;
 
 public class JobFlowDbContext : IdentityDbContext<AppUser,Role, Guid>
 {

@@ -7,5 +7,6 @@ public enum NotificationTypeEnum
     ApplicationConfirmed = 3,
     JobPostExpired = 4,
     PaymentRequired = 5,
-    PaymentConfirmed = 6
+    PaymentConfirmed = 6,
+    EmployerVerificationRequired=7
 }

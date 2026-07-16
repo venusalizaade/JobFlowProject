@@ -1,4 +1,5 @@
 ﻿using JobFlowProject.Domain.Entites.User;
+using JobFlowProject.Domain.Entities.User;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
@@ -10,7 +11,14 @@ public class AppUserConfiguration : IEntityTypeConfiguration<AppUser>
     {
         
          builder.HasIndex(x => x.CreatedAt);
-        builder.HasQueryFilter(e => !e.IsDeleted); 
+        builder.HasQueryFilter(e => !e.IsDeleted);
+
+        builder.Property(x => x.NationalId)
+            .IsRequired()
+            .HasMaxLength(10);
+        
+        builder.HasIndex(x => x.NationalId)
+            .IsUnique();
        
 
         builder.Property(x => x.FirstName)
@@ -33,6 +41,11 @@ public class AppUserConfiguration : IEntityTypeConfiguration<AppUser>
         builder.HasOne(x => x.Modifier)
             .WithMany()
             .HasForeignKey(u => u.ModifiedById)
+            .OnDelete(DeleteBehavior.NoAction);
+        
+        builder.HasOne(x => x.Company)
+            .WithOne(x => x.AppUser)
+            .HasForeignKey<AppUser>(x => x.CompanyId)
             .OnDelete(DeleteBehavior.NoAction);
        
     }
