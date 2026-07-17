@@ -1,3 +1,8 @@
 ﻿namespace JobFlowProject.Business.Dto.CompanyDto;
 
-public record CompanyResponseDto(string name, string nationalId, string city, string province, string about);
+public record CompanyResponseDto
+(   string Name,
+    string NationalId, 
+    Guid CityId,
+    Guid ProvinceId,
+    string? About);

@@ -5,5 +5,7 @@ namespace JobFlowProject.Domain.Interfaces.Repository;
 public interface ICompanyRepository
 {
 
-    Task<Company?> GetByIdAsync(Guid companyId);
+    Task<Company?> GetByCompanyIdAsync(Guid companyId);
+
+    Task<Company?> GetByAppUserIdAsync(Guid appUserId);
 }

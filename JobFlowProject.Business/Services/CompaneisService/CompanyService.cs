@@ -7,64 +7,79 @@ using JobFlowProject.Business.Interfaces.EmployerInterfaces;
 using JobFlowProject.Domain.Entities.Componies;
 using JobFlowProject.Domain.Entities.User;
 using JobFlowProject.Domain.Interfaces.Repository;
+using Microsoft.AspNetCore.Identity;
 
 namespace JobFlowProject.Business.Services.CompaneisService
 {
     public class CompanyService : ICompanyService
     {
         private readonly ICompanyRepository _companyRepository;
+        private readonly UserManager<AppUser> _userManager;
         private readonly IGenericRepository<Company> _repository;
 
         public CompanyService(
             ICompanyRepository companyRepository,
+            UserManager<AppUser> userManager,
             IGenericRepository<Company> repository)
         {
             _companyRepository = companyRepository;
+            _userManager = userManager;
             _repository = repository;
         }
+
 
         public async Task<CompanyResponseDto> GetCompanyInfoAsync(
             Guid companyId,
             Guid requesterId)
+
         {
-            var company = await _companyRepository.GetByIdAsync(companyId);
+            await EnsureUserIsApproved(requesterId);
+            var company = await _companyRepository.GetByCompanyIdAsync(companyId);
 
             if (company is null)
+
                 throw new ItemNotFoundException("Company not found.");
 
             if (company.AppUserId != requesterId)
+
                 throw new PermissionDeniedException();
+
 
             return new CompanyResponseDto(
                 company.Name,
                 company.NationalId,
-                company.City,
-                company.Province,
+                company.CityId,
+                company.ProvinceId,
                 company.About
             );
         }
+
 
         public async Task UpdateByEmployerAsync(
             Guid companyId,
             Guid requesterId,
             UpdateCompanyRequestDto dto)
+
         {
+            await EnsureUserIsApproved(requesterId);
             var company = await _repository.GetByIdAsync(companyId);
 
+
             if (company is null)
+
                 throw new ItemNotFoundException("Company not found.");
 
+
             if (company.AppUserId != requesterId)
+
                 throw new PermissionDeniedException();
+        }
 
-            company.Name = dto.Name;
-            company.City = dto.City;
-            company.Province = dto.Province;
-            company.About = dto.About;
-            company.Address = dto.Address;
-
-            await _repository.UpdateAsync(company);
+        private async Task EnsureUserIsApproved(Guid userId)
+        {
+            var user = await _userManager.FindByIdAsync(userId.ToString());
+            if (user is null || !user.IsApproved)
+                throw new PermissionDeniedException("Account is not approved yet.");
         }
     }
-    
 }

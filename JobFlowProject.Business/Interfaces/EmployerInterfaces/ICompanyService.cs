@@ -1,5 +1,4 @@
 ﻿using JobFlowProject.Business.Dto.CompanyDto;
-using JobFlowProject.Business.Dto.ComponyDto;
 using JobFlowProject.Business.Dto.User;
 using JobFlowProject.Domain.Entities.Componies;
 
@@ -10,6 +9,7 @@ public interface ICompanyService
     Task<CompanyResponseDto> GetCompanyInfoAsync(
         Guid companyId,
         Guid requesterId);
+
 
     Task UpdateByEmployerAsync(
         Guid companyId,

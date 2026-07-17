@@ -2,6 +2,7 @@
 using JobFlowProject.Domain.Entites.Logs;
 using JobFlowProject.Domain.Entites.Resume;
 using JobFlowProject.Domain.Entites.User;
+using JobFlowProject.Domain.Entities;
 using JobFlowProject.Domain.Entities.Componies;
 using JobFlowProject.Domain.Entities.Componies.ComponyFeatures;
 using JobFlowProject.Domain.Entities.Job;
@@ -31,6 +32,8 @@ public class JobFlowDbContext : IdentityDbContext<AppUser,Role, Guid>
     public DbSet<CompanyFeature> CompanyFeatures { get; set; }
     public DbSet<NotificationLog> NotificationLogs { get; set; }
     public DbSet<ActivityLog> ActivityLogs { get; set; }
+    public DbSet<Province> provinces { get; set; }
+    public  DbSet<City> Cities { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {

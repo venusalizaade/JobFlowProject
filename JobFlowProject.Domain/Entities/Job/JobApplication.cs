@@ -9,7 +9,7 @@ namespace JobFlowProject.Domain.Entities.Job;
 
 public class JobApplication : BaseEntity
 {
-    private JobApplication() { }
+    public JobApplication() { }
     
     public JobApplication(Guid jobPostId, Guid jobSeekerId, Guid attachmentId)
     {
@@ -20,16 +20,29 @@ public class JobApplication : BaseEntity
         AttachmentId = attachmentId;
         Status = ApplicationStatusEnum.Pending;
     }
+
+    public JobApplication(
+        Guid jobPostId,
+        Guid applicantId)
+    {
+        JobPostId = jobPostId;
+        JobSeekerId = applicantId;
+
+        Status = ApplicationStatusEnum.Pending;
+    }
+
     
+
+
     /// <summary>
     /// وضعیت درخواست
     /// </summary>
-    public ApplicationStatusEnum Status { get;  private set; }
+    public ApplicationStatusEnum Status { get; set; }
 
     /// <summary>
     ///آیدی آگهی
     /// </summary>
-    public Guid JobPostId { get;  private set; }
+    public Guid JobPostId { get; set; }
 
     /// <summary>
     /// آگهی
@@ -66,5 +79,13 @@ public class JobApplication : BaseEntity
 
         if (AttachmentId == Guid.Empty)
             throw new Exception("Attachment is required");
+    }
+    
+    public void ChangeStatus(ApplicationStatusEnum status)
+    {
+        if (status == ApplicationStatusEnum.Pending)
+            throw new Exception("Cannot change status back to Pending.");
+
+        Status = status;
     }
 }

@@ -6,7 +6,7 @@ namespace JobFlowProject.Domain.Entities;
 
 public abstract class BaseEntity : IEntity
 {
-    public Guid Id { get; private set; }
+    public Guid Id { get; set; }
     public abstract void Validate();
     public DateTime CreatedAt { get; init; } = DateTime.UtcNow;
     public Guid? CreatedById { get; protected set; }

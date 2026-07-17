@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "or7oHAMBTcg=",
+  "dgSpecHash": "5NZlnysjt7w=",
   "success": true,
   "projectFilePath": "C:\\Users\\VenusA\\RiderProjects\\JobFlowProject\\JobFlowProject.Domain\\JobFlowProject.Domain.csproj",
   "expectedPackageFiles": [
@@ -22,15 +22,5 @@
     "C:\\Users\\VenusA\\.nuget\\packages\\microsoft.extensions.options.configurationextensions\\10.0.9\\microsoft.extensions.options.configurationextensions.10.0.9.nupkg.sha512",
     "C:\\Users\\VenusA\\.nuget\\packages\\microsoft.extensions.primitives\\10.0.9\\microsoft.extensions.primitives.10.0.9.nupkg.sha512"
   ],
-  "logs": [
-    {
-      "code": "NU1900",
-      "level": "Warning",
-      "message": "Error occurred while getting package vulnerability data: Unable to load the service index for source https://package-mirror.liara.ir/repository/nuget/index.json.",
-      "projectPath": "C:\\Users\\VenusA\\RiderProjects\\JobFlowProject\\JobFlowProject.Domain\\JobFlowProject.Domain.csproj",
-      "warningLevel": 1,
-      "filePath": "C:\\Users\\VenusA\\RiderProjects\\JobFlowProject\\JobFlowProject.Domain\\JobFlowProject.Domain.csproj",
-      "targetGraphs": []
-    }
-  ]
+  "logs": []
 }

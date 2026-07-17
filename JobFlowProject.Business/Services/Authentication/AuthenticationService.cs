@@ -30,13 +30,14 @@ public class AuthenticationService : IAuthenticationService
     private readonly RoleManager<Role> _roleManager;
     private readonly JwtSettings _jwtSettings;
     private readonly INotificationService _notificationService;
+    
 
     public AuthenticationService(
         UserManager<AppUser> userManager,
         SignInManager<AppUser> signInManager,
         RoleManager<Role> roleManager,
         IOptions<JwtSettings> options, IGenericRepository<Company> companyRepository,
-    INotificationService notificationService)
+      INotificationService notificationService)
     {
         _userManager = userManager;
         _signInManager = signInManager;
@@ -50,8 +51,10 @@ public class AuthenticationService : IAuthenticationService
     {
         var result = await _signInManager.PasswordSignInAsync
             (loginCommand.Username, loginCommand.Password, false, false);
+       
         if (result.IsLockedOut)
             throw new AuthenticationException("User is locked out. Please try again 15 minutes later.");
+       
         if (result.IsNotAllowed)
             throw new PermissionDeniedException();
         
@@ -157,58 +160,69 @@ private async Task<TokenLoginResult> GenerateTokenAsync(AppUser user)
 
     public async Task<EmployerRegisterResult> EmployerRegisterAsync(RegisterEmployerCommand command)
     {
-        var duplicateUser = await _userManager.FindByNameAsync(command.NationalId);
-
-        if (duplicateUser != null)
+       
+        if (await _userManager.FindByNameAsync(command.NationalId) != null)
             throw new DuplicateNationalIdException();
 
-        var duplicateEmail = await _userManager.FindByEmailAsync(command.Email);
-
-        if (duplicateEmail != null)
+        if (await _userManager.FindByEmailAsync(command.Email) != null)
             throw new DuplicateEmailException();
 
-        var user = new AppUser(
-            command.FirstName,
-            command.LastName,
-            command.NationalId,
-            command.Email,
-            command.PhoneNumber,
-            command.Gender);
+       
+        using var transaction =
+            new System.Transactions.TransactionScope(System.Transactions.TransactionScopeAsyncFlowOption.Enabled);
 
-        var result = await _userManager.CreateAsync(user, command.Password);
-
-        if (!result.Succeeded)
+        try
         {
-            throw new UserRegistrationException(
-                result.Errors.FirstOrDefault()?.Description ??
-                "Registration failed.");
-        }
+           
+            var user = new AppUser(
+                command.FirstName,
+                command.LastName,
+                command.NationalId,
+                command.Email,
+                command.PhoneNumber,
+                command.Gender);
 
-        var company = new Company(
-            command.CompanyName,
-            command.CompanyNationalId,
-            user.Id,
-            command.City,
-            command.Province,
-            command.Address);
+            var userResult = await _userManager.CreateAsync(user, command.Password);
+           
+            if (!userResult.Succeeded)
+                throw new UserRegistrationException(userResult.Errors.FirstOrDefault()?.Description ??
+                                                    "Registration failed.");
 
-         await _companyRepository.AddAsync(company);
-         await _notificationService.NotifyAdminForEmployerVerificationAsync(
-             user,
-             company);
+          
+            var company = new Company(
+                command.CompanyName,
+                command.CompanyNationalId,
+                user.Id, 
+                command.CityId,
+                command.ProvinceId,
+                command.Address);
+
+            await _companyRepository.AddAsync(company);
+
+           
+            user.SetCompany(company.Id);
+            await _userManager.UpdateAsync(user);
+
+           
+            var roleResult = await _userManager.AddToRoleAsync(user, RoleConstants.EmployerRoleName);
+            if (!roleResult.Succeeded)
+                throw new RoleAssignmentException(roleResult.Errors.FirstOrDefault()?.Description ??
+                                                  "Failed to assign role.");
+
+            
+            await _notificationService.NotifyAdminForEmployerVerificationAsync(company);
+
          
-         user.SetCompany(company.Id);
-         await _userManager.UpdateAsync(user);
+            transaction.Complete();
 
-        var roleResult = await _userManager.AddToRoleAsync(user, RoleConstants.EmployerRoleName);
-
-        if (!roleResult.Succeeded)
-        {
-            throw new RoleAssignmentException(
-                roleResult.Errors.FirstOrDefault()?.Description ??
-                "Failed to assign role.");
+            return new EmployerRegisterResult(user.Id, company.Id);
         }
-
-        return new EmployerRegisterResult(user.Id, company.Id);
-    }
+        
+        catch (Exception)
+        {
+           
+            throw;
+        }
+    
+}
 }

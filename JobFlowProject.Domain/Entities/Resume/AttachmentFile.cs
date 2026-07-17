@@ -1,4 +1,4 @@
-﻿using JobFlowProject.Domain.Entites.Job;
+﻿
 using JobFlowProject.Domain.Entites.User;
 using JobFlowProject.Domain.Entities;
 using JobFlowProject.Domain.Entities.User;

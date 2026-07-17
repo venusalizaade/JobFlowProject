@@ -1,4 +1,4 @@
-﻿using JobFlowProject.Domain.Entites.Job;
+﻿
 using JobFlowProject.Domain.Entities.Job;
 using JobFlowProject.Infrastructure.DbContext.AppDbContext;
 using Microsoft.EntityFrameworkCore;
@@ -29,12 +29,19 @@ public class JobPostConfiguration : BaseModelBuilderConfiguration<JobPost>
             .OnDelete(DeleteBehavior.Restrict);
 
 
-      
-           
-
         builder.HasOne(x => x.Category)
             .WithMany(x => x.JobPosts)
             .HasForeignKey(x => x.CategoryId)
+            .OnDelete(DeleteBehavior.Restrict);
+        
+        builder.HasOne(x => x.Province)
+            .WithMany()
+            .HasForeignKey(x => x.ProvinceId)
+            .OnDelete(DeleteBehavior.Restrict);
+
+        builder.HasOne(x => x.City)
+            .WithMany()
+            .HasForeignKey(x => x.CityId)
             .OnDelete(DeleteBehavior.Restrict);
         
     }

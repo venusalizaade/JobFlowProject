@@ -1,5 +1,5 @@
 ﻿
-using JobFlowProject.Domain.Entites.Job;
+
 using JobFlowProject.Domain.Entities.Componies;
 using JobFlowProject.Infrastructure.DbContext.AppDbContext;
 using Microsoft.EntityFrameworkCore;
@@ -27,6 +27,16 @@ public class CompanyConfiguration : BaseModelBuilderConfiguration<Company>
 
         builder.HasIndex(x => x.NationalId)
             .IsUnique();
+        
+        builder.HasOne(x => x.Province)
+            .WithMany()
+            .HasForeignKey(x => x.ProvinceId)
+            .OnDelete(DeleteBehavior.Restrict);
+
+        builder.HasOne(x => x.City)
+            .WithMany()
+            .HasForeignKey(x => x.CityId)
+            .OnDelete(DeleteBehavior.Restrict);
         
        
     }

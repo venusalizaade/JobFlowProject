@@ -12,8 +12,8 @@ public record RegisterEmployerCommand(
     string? Gender,
     string CompanyName,
     string CompanyNationalId,
-    string City,
-    string Province,
+    Guid CityId,
+    Guid ProvinceId,
     string Address
  
 );

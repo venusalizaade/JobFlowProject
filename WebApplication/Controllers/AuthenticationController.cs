@@ -18,32 +18,24 @@ public class AuthenticationController : ControllerBase
     }
 
     [HttpPost("jobseeker/register")]
-    public async Task<IActionResult> RegisterJobSeeker(
-        [FromBody] RegisterJobSeekerRequestDto request)
+    public async Task<IActionResult> RegisterJobSeeker([FromBody] RegisterJobSeekerRequestDto request)
     {
-        var result = await _authenticationService
-            .JobSeekerRegisterAsync(request.ToCommand());
-
-        return Ok(result);
+        await _authenticationService.JobSeekerRegisterAsync(request.ToCommand());
+        return StatusCode(200, new { message = "JobSeeker registered successfully." });
     }
 
     [HttpPost("employer/register")]
-    public async Task<IActionResult> RegisterEmployer(
-        [FromBody] RegisterEmployerRequestDto request)
+    public async Task<IActionResult> RegisterEmployer([FromBody] RegisterEmployerRequestDto request)
     {
-        var result = await _authenticationService
-            .EmployerRegisterAsync(request.ToCommand());
-
-        return Ok(result);
+        await _authenticationService.EmployerRegisterAsync(request.ToCommand());
+        return StatusCode(200, new { message = "Employer registered successfully." });
     }
 
     [HttpPost("login")]
-    public async Task<IActionResult> Login(
-        [FromBody] LoginRequestDto request)
+    public async Task<IActionResult> Login([FromBody] LoginRequestDto request)
     {
-        var result = await _authenticationService
-            .LoginAsync(request.ToCommand());
-
-        return Ok(result);
+       
+        var token = await _authenticationService.LoginAsync(request.ToCommand());
+        return Ok(token);
     }
 }

@@ -1,4 +1,4 @@
-﻿using JobFlowProject.Domain.Entites.Job;
+﻿
 using JobFlowProject.Domain.Entities.Componies.ComponyFeatures;
 using JobFlowProject.Infrastructure.DbContext.AppDbContext;
 using Microsoft.EntityFrameworkCore;

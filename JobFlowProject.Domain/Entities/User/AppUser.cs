@@ -1,6 +1,6 @@
 ﻿
 
-using JobFlowProject.Domain.Entites.Job;
+
 using JobFlowProject.Domain.Entites.Logs;
 using JobFlowProject.Domain.Entites.Resume;
 using JobFlowProject.Domain.Entites.User;
@@ -15,7 +15,7 @@ namespace JobFlowProject.Domain.Entities.User;
 public class AppUser : IdentityUser<Guid> , IEntity
 {
     
-    private AppUser()
+    public AppUser()
     {
     }
     public AppUser(string firstName, string lastName, string nationalId,string email,string phoneNumber , string gender, Guid? requesterId = null)
@@ -29,7 +29,11 @@ public class AppUser : IdentityUser<Guid> , IEntity
         CreatedById = requesterId ?? Id;
         Validate();
     }
-    
+
+   
+
+  
+
 
     //tTodo اسم کلاس عوض شود
     //// <summary>
@@ -53,7 +57,7 @@ public class AppUser : IdentityUser<Guid> , IEntity
     /// <summary>
     ///توضیحات
     /// </summary>
-    public int? About{ get; private set; }
+    public String? About{ get; private set; }
     
     
     

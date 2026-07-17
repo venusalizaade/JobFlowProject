@@ -72,4 +72,6 @@ public class GenericRepository<TEntity> : IGenericRepository<TEntity> where TEnt
         entity.SetAsDeleted(requesterId);
         await DbContext.SaveChangesAsync();
     }
+    
+    
 }

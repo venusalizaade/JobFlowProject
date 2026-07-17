@@ -5,5 +5,5 @@ namespace JobFlowProject.Business.Interfaces.Log;
 
 public interface INotificationService
 {
-    Task NotifyAdminForEmployerVerificationAsync(AppUser user, Company company);
+    Task NotifyAdminForEmployerVerificationAsync(Company company);
 }

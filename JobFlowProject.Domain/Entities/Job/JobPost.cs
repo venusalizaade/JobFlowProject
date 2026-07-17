@@ -1,5 +1,4 @@
 ﻿using JobFlowProject.Domain.Entites; 
-using JobFlowProject.Domain.Entites.Job;
 using JobFlowProject.Domain.Entites.User;
 using JobFlowProject.Domain.Entities;
 using JobFlowProject.Domain.Entities.Componies;
@@ -10,32 +9,47 @@ namespace JobFlowProject.Domain.Entities.Job;
 
 public class JobPost : BaseEntity
 {
-    private JobPost() { }
+    public JobPost() { }
 
-    public JobPost(string title, string aboutJob,string city,string province, EmploymentTypeEnum employmentType,
-        Guid companyId, Guid employerId, Guid categoryId)
+    public JobPost(
+        string title,
+        string aboutJob,
+        Guid provinceId,
+        Guid cityId,
+        EmploymentTypeEnum employmentType,
+        Guid companyId,
+        Guid categoryId)
     {
         Title = title;
         AboutJob = aboutJob;
-        City = city;
-        Province = province;
+
+        ProvinceId = provinceId;
+        CityId = cityId;
+
         EmploymentType = employmentType;
         CompanyId = companyId;
         CategoryId = categoryId;
+
         IsActive = true;
+        ExpiresAt = DateTime.UtcNow.AddDays(30);
     }
-   
+
+    
+
     /// <summary>
     /// عنوان شغل
     /// </summary>
-    public string Title { get;  private set; }
+    public string Title { get; set; }
 
     /// <summary>
     /// توضیحات کامل شغل
     /// </summary>
-    public string AboutJob { get;  private set; }
-    public string City { get;  private set; }
-    public string Province { get;  private set; }
+    public string AboutJob { get; set; }
+    public Guid CityId { get; set; }
+    public City City { get; private set; }
+
+    public Guid ProvinceId { get; set; }
+    public Province Province { get; private set; }
 
     /// <summary>
     /// حقوق (اختیاری)
@@ -45,7 +59,7 @@ public class JobPost : BaseEntity
     /// <summary>
     /// نوع همکاری
     /// </summary>
-    public EmploymentTypeEnum EmploymentType { get;  private set; }
+    public EmploymentTypeEnum EmploymentType { get; set; }
 
     /// <summary>
     /// وضعیت فعال بودن آگهی
@@ -60,7 +74,7 @@ public class JobPost : BaseEntity
     /// <summary>
     /// آیدی شرکت
     /// </summary>
-    public Guid CompanyId { get;  private set; }
+    public Guid CompanyId { get; set; }
 
     /// <summary>
     /// شرکت
@@ -71,7 +85,7 @@ public class JobPost : BaseEntity
     /// <summary>
     /// آیدی دسته‌بندی
     /// </summary>
-    public Guid CategoryId { get;  private set; }
+    public Guid CategoryId { get; set; }
 
     /// <summary>
     /// دسته‌بندی
@@ -108,5 +122,10 @@ public class JobPost : BaseEntity
 
         if (ExpiresAt <= CreatedAt)
             throw new Exception("ExpiresAt must be after CreatedAt");
+    }
+
+    public void Deactivate()
+    {
+        IsActive = false;
     }
 }

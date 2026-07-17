@@ -1,4 +1,5 @@
-﻿using JobFlowProject.Business.Exceptions.BaseExeption;
+﻿using JobFlowProject.Business.Exceptions.Authentication_Exceptions;
+using JobFlowProject.Business.Exceptions.BaseExeption;
 using JobFlowProject.Business.Interfaces.User;
 using JobFlowProject.Domain.Entities.User;
 using Microsoft.AspNetCore.Identity;
@@ -19,10 +20,13 @@ public class AdminService : IAdminService
         var employer = await _userManager.FindByIdAsync(employerId.ToString());
 
         if (employer is null)
-            throw new ItemNotFoundException("Employer not found");
+            throw new UserNotFoundException();
 
         employer.IsApproved = true;
 
-        await _userManager.UpdateAsync(employer);
+        var result = await _userManager.UpdateAsync(employer);
+
+        if (!result.Succeeded)
+            throw new Exception(result.Errors.FirstOrDefault()?.Description);
     }
 }

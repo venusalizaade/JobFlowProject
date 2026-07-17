@@ -1,6 +1,5 @@
 ﻿using JobFlowProject.Domain.Entites;
 using JobFlowProject.Domain.Entities.Componies;
-using JobFlowProject.Domain.Entites.Job;
 using JobFlowProject.Domain.Entites.User;
 using JobFlowProject.Domain.Entities.Job;
 using JobFlowProject.Domain.Entities.User;
@@ -16,16 +15,23 @@ public class Company : BaseEntity
         
     }
 
-    public Company(string  name, string nationalId, Guid appUserId, string province, string address, string city)
+    public Company(
+        string name,
+        string nationalId,
+        Guid appUserId,
+        Guid provinceId,
+        Guid cityId,
+        string address)
     {
         Name = name;
         NationalId = nationalId;
         AppUserId = appUserId;
-        Province = province;
+
+        ProvinceId = provinceId;
+        CityId = cityId;
+
         Address = address;
-        City = city;
     }
-    
     /// <summary>
     /// نام شرکت
     /// </summary>
@@ -36,9 +42,11 @@ public class Company : BaseEntity
     /// </summary>
     public string NationalId { get; set; }
     
-    public string City { get; set; }
-    
-    public string Province { get; set; }
+    public Guid CityId { get; set; }
+    public City City { get; set; }
+
+    public Guid ProvinceId { get; set; }
+    public Province Province { get; set; }
 
     /// <summary>
     /// آدرس

@@ -12,8 +12,8 @@ public record RegisterEmployerRequestDto(
     string Password,
     string CompanyName,
     string CompanyNationalId,
-    string City,
-    string Province,
+    Guid CityId,
+    Guid ProvinceId,
     string Address)
 {
     public RegisterEmployerCommand ToCommand()
@@ -27,8 +27,8 @@ public record RegisterEmployerRequestDto(
              Gender,
              CompanyName,
              CompanyNationalId,
-             City,
-             Province,
+             CityId,
+             ProvinceId,
              Address);
 }
 
