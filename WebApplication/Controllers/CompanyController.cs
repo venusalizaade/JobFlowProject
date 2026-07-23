@@ -3,6 +3,7 @@ using JobFlowProject.Business.Dto.CompanyDto;
 using JobFlowProject.Business.Interfaces.EmployerInterfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using WebApplication1.Dto.Authentication;
 
 namespace WebApplication1.Controllers;
 
@@ -36,7 +37,10 @@ public class CompanyController : ControllerBase
             requesterId);
 
 
-        return Ok(result);
+        return Ok(new ApiResponse<object>(
+            true,
+            result,
+            null));
     }
 
 
@@ -56,7 +60,10 @@ public class CompanyController : ControllerBase
             request);
 
 
-        return NoContent();
+        return Ok(new ApiResponse<object>(
+            true,
+            null,
+            "Operation completed successfully."));
     }
     [HttpPost("logo")]
     public async Task<IActionResult> UploadLogo(
@@ -69,6 +76,9 @@ public class CompanyController : ControllerBase
             requesterId,
             request.File);
 
-        return Ok();
+        return Ok(new ApiResponse<object>(
+            true,
+            null,
+            null));
     }
 }

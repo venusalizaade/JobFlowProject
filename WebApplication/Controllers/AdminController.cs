@@ -2,6 +2,7 @@
 using JobFlowProject.Business.Interfaces.User;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using WebApplication1.Dto.Authentication;
 
 namespace WebApplication1.Controllers;
 
@@ -23,6 +24,9 @@ public class AdminController : ControllerBase
     {
         await _service.VerifyEmployerAsync(id);
         
-        return NoContent();
+        return Ok(new ApiResponse<object>(
+            true,
+            null,
+            "Operation completed successfully."));
     }
 }

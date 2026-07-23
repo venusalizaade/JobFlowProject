@@ -18,6 +18,7 @@ using JobFlowProject.Business.Services.User;
 using JobFlowProject.Domain.Entites.User;
 using JobFlowProject.Domain.Entities.User;
 using JobFlowProject.Domain.Interfaces.Repository;
+using JobFlowProject.Domain.Interfaces.Repository.User;
 using JobFlowProject.Infrastructure.DataSeeder;
 using JobFlowProject.Infrastructure.DbContext.AppDbContext;
 using JobFlowProject.Infrastructure.Repositories;
@@ -96,6 +97,8 @@ builder.Services.AddScoped<IJobApplicationRepository, JobApplicationRepository>(
 builder.Services.AddScoped<IAuthenticationService, AuthenticationService>(); 
 builder.Services.AddScoped<IJobSeekerService, JobSeekerService>();
 builder.Services.AddScoped<IAttachmentRepository, AttachmentRepository>();
+builder.Services.AddScoped<IJobApplicationRepository, JobApplicationRepository>();
+builder.Services.AddScoped<IRefreshTokenRepository, RefreshTokenRepository>();
 
 
 

@@ -28,14 +28,13 @@ public class JobApplicationRepository : GenericRepository<JobApplication>, IJobA
             .Where(x => x.JobPostId == jobPostId)
             .ToListAsync();
     }
-    public async Task<bool> HasAppliedAsync(
-        Guid jobPostId,
-        Guid jobSeekerId)
+    public async Task<bool> HasAppliedAsync(Guid jobPostId, Guid jobSeekerId)
     {
         return await _context.JobApplications
             .AnyAsync(x =>
                 x.JobPostId == jobPostId &&
-                x.JobSeekerId == jobSeekerId);
+                x.JobSeekerId == jobSeekerId &&
+                !x.IsDeleted);
     }
 
     public async Task<List<JobApplication>> GetByJobSeekerIdAsync(

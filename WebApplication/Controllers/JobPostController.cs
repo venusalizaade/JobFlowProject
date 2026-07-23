@@ -29,7 +29,10 @@ public class JobPostController : ControllerBase
 
         var result = await _jobPostService.CreateAsync(requesterId, command);
 
-        return Ok(result);
+        return Ok(new ApiResponse<object>(
+            true,
+            null,
+            "Operation completed successfully."));
     }
 
     [Authorize(Policy = "ApprovedEmployer")]
@@ -40,7 +43,10 @@ public class JobPostController : ControllerBase
 
         var result = await _jobPostService.GetCompanyJobPostsAsync(requesterId);
 
-        return Ok(result);
+        return Ok(new ApiResponse<object>(
+            true,
+            null,
+            "Operation completed successfully."));
     }
 
    
@@ -49,7 +55,10 @@ public class JobPostController : ControllerBase
     {
         var result = await _jobPostService.GetDetailsAsync(id);
 
-        return Ok(result);
+        return Ok(new ApiResponse<object>(
+            true,
+            null,
+            "Operation completed successfully."));
     }
 
     [Authorize(Policy = "ApprovedEmployer")]
@@ -62,7 +71,10 @@ public class JobPostController : ControllerBase
 
         await _jobPostService.UpdateAsync(requesterId, id, command);
 
-        return NoContent();
+        return Ok(new ApiResponse<object>(
+            true,
+            null,
+            "Operation completed successfully."));
     }
 
     [Authorize(Policy = "ApprovedEmployer")]
@@ -73,13 +85,21 @@ public class JobPostController : ControllerBase
 
         await _jobPostService.DeactivateAsync(requesterId, id);
 
-        return NoContent();
+        return Ok(new ApiResponse<object>(
+            true,
+            null,
+            "Operation completed successfully."));
     }
     
     [HttpGet("active")]
     public async Task<IActionResult> GetActive()
     {
-        return Ok(await _jobPostService.GetActiveAsync());
+        var result = await _jobPostService.GetActiveAsync();
+
+        return Ok(new ApiResponse<List<JobPostResponseDto>>(
+            true,
+            result,
+            null));
     }
     
     [HttpGet("search")]
@@ -87,7 +107,10 @@ public class JobPostController : ControllerBase
     {
         var result = await _jobPostService.SearchAsync(dto);
 
-        return Ok(result);
+        return Ok(new ApiResponse<object>(
+            true,
+            result,
+            null));
     }
     
    
@@ -102,14 +125,20 @@ public class JobPostController : ControllerBase
     {
         var result = await _jobPostService.SearchAsync(dto);
 
-        return Ok(result);
+        return Ok(new ApiResponse<object>(
+            true,
+            result,
+            null));
     }
     [HttpGet("filter-job-posts")]
     public async Task<IActionResult> FilterJobPosts([FromQuery] JobPostFilterRequestDto dto)
     {
         var result = await _jobPostService.FilterAsync(dto);
 
-        return Ok(result);
+        return Ok(new ApiResponse<object>(
+            true,
+            result,
+            null));
     }
     
 }

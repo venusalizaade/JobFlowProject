@@ -5,6 +5,7 @@ using JobFlowProject.Business.Interfaces.EmployerInterfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using JobFlowProject.Business.Interfaces.JobPost;
+using WebApplication1.Dto.Authentication;
 using static JobFlowProject.Business.Interfaces.EmployerInterfaces.IJobApplicationService;
 using IJobApplicationService = JobFlowProject.Business.Interfaces.JobPost.IJobApplicationService;
 
@@ -30,7 +31,10 @@ public class JobApplicationEmployerController : ControllerBase
     {
         var requesterId = GetUserId();
         var result = await _service.GetJobApplicationsAsync(requesterId, jobPostId);
-        return Ok(result);
+        return Ok(new ApiResponse<object>(
+            true,
+            result,
+            null));
     }
 
     [HttpPatch("status")]
@@ -39,7 +43,11 @@ public class JobApplicationEmployerController : ControllerBase
     {
         var requesterId = GetUserId();
         await _service.ChangeStatusAsync(requesterId, command);
-        return NoContent();
+      
+        return Ok(new ApiResponse<object>(
+            true,
+            null,
+            "Operation completed successfully."));
     }
 
     private Guid GetUserId()

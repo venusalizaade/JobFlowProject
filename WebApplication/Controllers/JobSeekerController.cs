@@ -3,6 +3,7 @@ using JobFlowProject.Business.Dto.User;
 using JobFlowProject.Business.Interfaces.User;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using WebApplication1.Dto.Authentication;
 
 namespace WebApplication1.Controllers;
 
@@ -22,7 +23,7 @@ public class JobSeekerController : ControllerBase
 
     private Guid GetUserId()
     {
-        return Guid.Parse(
+        return  Guid.Parse(
             User.FindFirst(ClaimTypes.NameIdentifier)!.Value);
     }
 
@@ -31,7 +32,10 @@ public class JobSeekerController : ControllerBase
     {
         var result = await _service.GetProfileAsync(GetUserId());
 
-        return Ok(result);
+        return Ok(new ApiResponse<object>(
+            true,
+            result,
+            null));
     }
 
     [HttpPut("profile")]
@@ -39,7 +43,10 @@ public class JobSeekerController : ControllerBase
     {
         await _service.UpdateProfileAsync(GetUserId(), dto);
 
-        return NoContent();
+        return Ok(new ApiResponse<object>(
+            true,
+            null,
+            "Operation completed successfully."));
     }
 
     [HttpPost("resume")]
@@ -47,10 +54,10 @@ public class JobSeekerController : ControllerBase
     {
         await _service.UploadResumeAsync(GetUserId(), file);
 
-        return Ok(new
-        {
-            message = "Resume uploaded successfully."
-        });
+        return Ok(new ApiResponse<object>(
+            true,
+            null,
+            "Resume uploaded successfully."));
     }
 
     [HttpPut("resume")]
@@ -58,7 +65,10 @@ public class JobSeekerController : ControllerBase
     {
         await _service.ReplaceResumeAsync(GetUserId(), file);
 
-        return NoContent();
+        return Ok(new ApiResponse<object>(
+            true,
+            null,
+            "Operation completed successfully."));
     }
 
     [HttpDelete("resume")]
@@ -66,7 +76,10 @@ public class JobSeekerController : ControllerBase
     {
         await _service.DeleteResumeAsync(GetUserId());
 
-        return NoContent();
+        return Ok(new ApiResponse<object>(
+            true,
+            null,
+            "Operation completed successfully."));
     }
     
     [HttpGet("resume")]

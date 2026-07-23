@@ -9,6 +9,8 @@ public interface IAuthenticationService
     Task <JobSeekerRegisterResult> JobSeekerRegisterAsync(RegisterJobSeekerCommand command);
     Task <EmployerRegisterResult> EmployerRegisterAsync(RegisterEmployerCommand command);
 
-        
+    Task<TokenLoginResult> RefreshTokenAsync(string refreshToken);
+
+    Task LogoutAsync(string refreshToken);
     
 }

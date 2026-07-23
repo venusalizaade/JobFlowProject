@@ -12,8 +12,10 @@ using JobFlowProject.Business.Exceptions.AuthenticationExceptions;
 using JobFlowProject.Business.Interfaces;
 using JobFlowProject.Business.Interfaces.Log;
 using JobFlowProject.Domain.Entites.User;
+using JobFlowProject.Domain.Entities;
 using JobFlowProject.Domain.Entities.User;
 using JobFlowProject.Domain.Interfaces.Repository;
+using JobFlowProject.Domain.Interfaces.Repository.User;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
@@ -30,6 +32,7 @@ public class AuthenticationService : IAuthenticationService
     private readonly RoleManager<Role> _roleManager;
     private readonly JwtSettings _jwtSettings;
     private readonly INotificationService _notificationService;
+    private readonly IRefreshTokenRepository _refreshTokenRepository;
     
 
     public AuthenticationService(
@@ -37,7 +40,8 @@ public class AuthenticationService : IAuthenticationService
         SignInManager<AppUser> signInManager,
         RoleManager<Role> roleManager,
         IOptions<JwtSettings> options, IGenericRepository<Company> companyRepository,
-      INotificationService notificationService)
+      INotificationService notificationService,
+        IRefreshTokenRepository refreshTokenRepository)
     {
         _userManager = userManager;
         _signInManager = signInManager;
@@ -45,6 +49,7 @@ public class AuthenticationService : IAuthenticationService
         _jwtSettings = options.Value;
         _companyRepository = companyRepository;
         _notificationService = notificationService;
+        _refreshTokenRepository = refreshTokenRepository;
     }
 
     public async Task<TokenLoginResult> LoginAsync(LoginCommand loginCommand)
@@ -109,7 +114,14 @@ private async Task<TokenLoginResult> GenerateTokenAsync(AppUser user)
                 ClaimConstants.CanApproveEmployer,
                 "true"));
         }
+        var refreshToken = Guid.NewGuid().ToString("N");
 
+        var refreshTokenEntity = new RefreshToken(
+            user.Id,
+            refreshToken,
+            DateTime.UtcNow.AddDays(30));
+
+        await _refreshTokenRepository.AddAsync(refreshTokenEntity);
         var secretKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_jwtSettings.Secret));
         var credentials = new SigningCredentials(secretKey, SecurityAlgorithms.HmacSha256);
         var expiresIn = DateTime.UtcNow.AddMinutes(_jwtSettings.ExpiresInMinutes);
@@ -123,7 +135,10 @@ private async Task<TokenLoginResult> GenerateTokenAsync(AppUser user)
         
         var accessToken = new JwtSecurityTokenHandler().WriteToken(token)!;
         var expiresInSeconds = expiresIn.Subtract(DateTime.UtcNow).TotalSeconds;
-        return new TokenLoginResult(accessToken, expiresInSeconds);
+        return new TokenLoginResult(
+            accessToken,
+            refreshToken,
+            expiresInSeconds);
     }
 
 
@@ -236,4 +251,32 @@ private async Task<TokenLoginResult> GenerateTokenAsync(AppUser user)
         }
     
 }
+    public async Task<TokenLoginResult> RefreshTokenAsync(string refreshToken)
+    {
+        var token =
+            await _refreshTokenRepository.GetByTokenAsync(refreshToken);
+
+        if (token is null)
+            throw new AuthenticationException("Invalid refresh token.");
+
+        if (token.IsRevoked)
+            throw new AuthenticationException("Refresh token revoked.");
+
+        if (token.ExpiresAt <= DateTime.UtcNow)
+            throw new AuthenticationException("Refresh token expired.");
+
+        return await GenerateTokenAsync(token.AppUser);
+    }
+    public async Task LogoutAsync(string refreshToken)
+    {
+        var token =
+            await _refreshTokenRepository.GetByTokenAsync(refreshToken);
+
+        if (token is null)
+            throw new AuthenticationException("Invalid refresh token.");
+
+        token.Revoke();
+
+        await _refreshTokenRepository.UpdateAsync(token);
+    }
 }

@@ -36,6 +36,32 @@ public class AuthenticationController : ControllerBase
     {
        
         var token = await _authenticationService.LoginAsync(request.ToCommand());
-        return Ok(token);
+        return Ok(new ApiResponse<object>(
+            true,
+            token,
+            null));
+    }
+    [HttpPost("refresh")]
+    public async Task<IActionResult> Refresh(
+        RefreshTokenRequestDto dto)
+    {
+        var result =
+            await _authenticationService.RefreshTokenAsync(dto.RefreshToken);
+
+        return Ok(new ApiResponse<object>(
+            true,
+            result,
+            null));
+    }
+    [HttpPost("logout")]
+    public async Task<IActionResult> Logout(
+        RefreshTokenRequestDto dto)
+    {
+        await _authenticationService.LogoutAsync(dto.RefreshToken);
+
+        return Ok(new ApiResponse<object>(
+            true,
+            null,
+            "Operation completed successfully."));
     }
 }

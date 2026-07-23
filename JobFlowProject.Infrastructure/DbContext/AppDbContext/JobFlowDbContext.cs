@@ -33,6 +33,7 @@ public class JobFlowDbContext : IdentityDbContext<AppUser, Role, Guid>
     public DbSet<NotificationLog> NotificationLogs { get; set; }
     public DbSet<ActivityLog> ActivityLogs { get; set; }
     public DbSet<Province> provinces { get; set; }
+    public DbSet<RefreshToken> RefreshTokens { get; set; }
     public DbSet<City> Cities { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)

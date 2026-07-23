@@ -1,5 +1,6 @@
 ﻿using JobFlowProject.Business.Interfaces.EmployerInterfaces;
 using Microsoft.AspNetCore.Mvc;
+using WebApplication1.Dto.Authentication;
 
 namespace WebApplication1.Controllers;
 
@@ -17,6 +18,10 @@ public class CategoryController : ControllerBase
     [HttpGet]
     public async Task<IActionResult> GetAll()
     {
-        return Ok(await _service.GetAllAsync());
+        var result= await _service.GetAllAsync();
+        return Ok(new ApiResponse<object>(
+            true,
+            result,
+            null));
     }
 }

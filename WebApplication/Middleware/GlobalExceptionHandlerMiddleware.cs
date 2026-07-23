@@ -20,13 +20,16 @@ public class GlobalExceptionHandlerMiddleware : IMiddleware
         }
     }
 
-    private static async Task HandleExceptionAsync(HttpContext context, Exception exception)
+    private static async Task HandleExceptionAsync(
+        HttpContext context,
+        Exception exception)
     {
         context.Response.ContentType = "application/json";
 
         switch (exception)
         {
             case BaseBusinessException ex:
+
                 context.Response.StatusCode = ex.Code switch
                 {
                     "PermissionDenied_403" => StatusCodes.Status403Forbidden,
@@ -34,29 +37,38 @@ public class GlobalExceptionHandlerMiddleware : IMiddleware
                     _ => StatusCodes.Status400BadRequest
                 };
 
-                await context.Response.WriteAsync(
-                    JsonSerializer.Serialize(
-                        new GeneralResponseDto(ex.Message, ex.Code)));
+                await context.Response.WriteAsJsonAsync(
+                    new ApiResponse<object>(
+                        false,
+                        null,
+                        ex.Message));
+
                 break;
 
             case AuthenticationException ex:
-                context.Response.StatusCode = StatusCodes.Status401Unauthorized;
 
-                await context.Response.WriteAsync(
-                    JsonSerializer.Serialize(
-                        new GeneralResponseDto(
-                            ex.Message,
-                            "AuthenticationError_401")));
+                context.Response.StatusCode =
+                    StatusCodes.Status401Unauthorized;
+
+                await context.Response.WriteAsJsonAsync(
+                    new ApiResponse<object>(
+                        false,
+                        null,
+                        ex.Message));
+
                 break;
 
             default:
-                context.Response.StatusCode = StatusCodes.Status500InternalServerError;
 
-                await context.Response.WriteAsync(
-                    JsonSerializer.Serialize(
-                        new GeneralResponseDto(
-                            "Something went wrong. Please contact administrator.",
-                            "InternalServerError_500")));
+                context.Response.StatusCode =
+                    StatusCodes.Status500InternalServerError;
+
+                await context.Response.WriteAsJsonAsync(
+                    new ApiResponse<object>(
+                        false,
+                        null,
+                        "Something went wrong. Please contact administrator."));
+
                 break;
         }
     }

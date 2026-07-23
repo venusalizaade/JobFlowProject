@@ -3,6 +3,7 @@ using JobFlowProject.Business.Dto.JobPost;
 using JobFlowProject.Business.Interfaces.JobPost;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using WebApplication1.Dto.Authentication;
 
 namespace WebApplication1.Controllers;
 
@@ -27,7 +28,10 @@ namespace WebApplication1.Controllers;
 
             await _jobApplicationService.ApplyAsync(requesterId, dto);
 
-            return Ok();
+            return Ok(new ApiResponse<object>(
+                true,
+                null,
+                "Application submitted successfully."));
         }
 
         [HttpGet("my-applications")]
@@ -37,7 +41,10 @@ namespace WebApplication1.Controllers;
 
             var result = await _jobApplicationService.GetMyApplicationsAsync(requesterId);
 
-            return Ok(result);
+            return Ok(new ApiResponse<object>(
+                true,
+                result,
+                null));
         }
 
         [HttpGet("{applicationId:guid}")]
@@ -47,7 +54,10 @@ namespace WebApplication1.Controllers;
 
             var result = await _jobApplicationService.GetDetailsAsync(requesterId, applicationId);
 
-            return Ok(result);
+            return Ok(new ApiResponse<object>(
+                true,
+                result,
+                null));
         }
 
         [HttpDelete("{applicationId:guid}")]
@@ -57,7 +67,10 @@ namespace WebApplication1.Controllers;
 
             await _jobApplicationService.CancelAsync(requesterId, applicationId);
 
-            return NoContent();
+            return Ok(new ApiResponse<object>(
+                true,
+                null,
+                "Operation completed successfully."));
         }
 
         private Guid GetUserId()
