@@ -9,5 +9,6 @@ public record CreateJobPostCommand(
     Guid CityId,
     string? Salary,
     EmploymentTypeEnum EmploymentType,
-    Guid CategoryId
+    Guid CategoryId,
+    Guid SkillId
 );

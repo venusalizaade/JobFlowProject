@@ -33,6 +33,15 @@ public class JobPostRepository : GenericRepository<JobPost>, IJobPostRepository
             .ThenInclude(c => c.Province)
             .FirstOrDefaultAsync(x => x.Id == id);
     }
-
+    public async Task<List<JobPost>> GetActiveAsync()
+    {
+        return await _context.JobPosts
+            .Where(x => x.IsActive)
+            .Include(x => x.Company)
+            .Include(x => x.Category)
+            .Include(x => x.City)
+            .Include(x => x.Skill)
+            .ToListAsync();
+    }
    
 }

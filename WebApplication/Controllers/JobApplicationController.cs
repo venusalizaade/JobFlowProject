@@ -12,7 +12,7 @@ namespace WebApplication1.Controllers;
 
 
 [ApiController]
-[Route("api/[controller]")]
+[Authorize(Policy = "ApprovedEmployer")]
 public class JobApplicationController : ControllerBase
 {
     private readonly IJobApplicationService _service;
@@ -32,7 +32,7 @@ public class JobApplicationController : ControllerBase
     }
 
     [HttpGet("job-post/{jobPostId:guid}")]
-    [Authorize(Roles = "Employer")]
+    [Authorize(Policy = "ApprovedEmployer")]
     public async Task<IActionResult> GetJobApplications(Guid jobPostId)
     {
         var requesterId = GetUserId();
@@ -41,7 +41,7 @@ public class JobApplicationController : ControllerBase
     }
 
     [HttpPatch("status")]
-    [Authorize(Roles = "Employer")]
+    [Authorize(Policy = "ApprovedEmployer")]
     public async Task<IActionResult> ChangeStatus(ChangeApplicationStatusCommand command)
     {
         var requesterId = GetUserId();

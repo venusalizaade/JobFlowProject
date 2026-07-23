@@ -37,9 +37,7 @@ public class JobPostService : IJobPostService
 
         if (employer is null)
             throw new UserNotFoundException();
-
-        if (!employer.IsApproved)
-            throw new PermissionDeniedException();
+        
 
         var company = await _companyRepository.GetByAppUserIdAsync(requesterId);
 
@@ -53,7 +51,8 @@ public class JobPostService : IJobPostService
             command.CityId,
             command.EmploymentType,
             company.Id,
-            command.CategoryId);
+            command.CategoryId,
+            command.SkillId);
 
         jobPost.Salary = command.Salary;
 
@@ -164,5 +163,20 @@ public class JobPostService : IJobPostService
         jobPost.Deactivate();
 
         await _jobPostRepository.UpdateAsync(jobPost);
+    }
+    
+    public async Task<List<JobPostResponseDto>> GetActiveAsync()
+    {
+        var jobs = await _jobPostRepository.GetActiveAsync();
+
+        return jobs.Select(job => new JobPostResponseDto(
+            job.Id,
+            job.Title,
+            job.AboutJob,
+            job.Salary,
+            job.EmploymentType,
+            job.IsActive,
+            job.ExpiresAt
+        )).ToList();
     }
 }

@@ -3,6 +3,7 @@ using JobFlowProject.Infrastructure.Configurations;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
+using JobFlowProject.Business.Constants;
 using JobFlowProject.Business.Interfaces;
 using JobFlowProject.Business.Interfaces.EmployerInterfaces;
 using JobFlowProject.Business.Interfaces.JobPost;
@@ -20,6 +21,7 @@ using JobFlowProject.Domain.Interfaces.Repository;
 using JobFlowProject.Infrastructure.DataSeeder;
 using JobFlowProject.Infrastructure.DbContext.AppDbContext;
 using JobFlowProject.Infrastructure.Repositories;
+using JobFlowProject.Infrastructure.Repositories.User;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using WebApplication1.Middleware;
@@ -29,7 +31,8 @@ var builder = WebApplication.CreateBuilder(args);
 
 
 builder.Services.AddControllers();
-
+builder.Services.AddEndpointsApiExplorer(); 
+builder.Services.AddSwaggerGen();
 
 builder.Services.AddDbContext<JobFlowDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
@@ -47,6 +50,7 @@ builder.Services.AddAuthentication(options => {
     options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
     options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
 })
+    
 .AddJwtBearer(options => {
     options.TokenValidationParameters = new TokenValidationParameters {
         ValidateIssuer = true,
@@ -55,8 +59,24 @@ builder.Services.AddAuthentication(options => {
         ValidateIssuerSigningKey = true,
         ValidIssuer = jwtSettings.Issuer,
         ValidAudience = jwtSettings.Audience,
-        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtSettings.Audience))
+        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtSettings.Secret)),
     };
+});
+
+builder.Services.AddAuthorization(options =>
+{
+    options.AddPolicy("ApprovedEmployer", policy =>
+    {
+        policy.RequireRole(RoleConstants.EmployerRoleName);
+        policy.RequireClaim("IsApproved", "true");
+    });
+
+    options.AddPolicy("CanApproveEmployer", policy =>
+    {
+        policy.RequireClaim(
+            ClaimConstants.CanApproveEmployer,
+            "true");
+    });
 });
 
 
@@ -74,6 +94,9 @@ builder.Services.AddScoped<IJobApplicationService, JobApplicationService>();
 builder.Services.AddScoped<IJobPostRepository, JobPostRepository>();
 builder.Services.AddScoped<IJobApplicationRepository, JobApplicationRepository>();
 builder.Services.AddScoped<IAuthenticationService, AuthenticationService>(); 
+builder.Services.AddScoped<IJobSeekerService, JobSeekerService>();
+builder.Services.AddScoped<IAttachmentRepository, AttachmentRepository>();
+
 
 
 var app = builder.Build();
@@ -87,15 +110,14 @@ using (var scope = app.Services.CreateScope())
         var userManager = services.GetRequiredService<UserManager<AppUser>>();
         var roleManager = services.GetRequiredService<RoleManager<Role>>();
 
-        // اجرای مهاجرت‌ها (تا دیتابیس ساخته شود)
+       
         await context.Database.MigrateAsync(); 
         
-        // اجرای سیدینگ
         await DataSeeder.SeedAsync(context, userManager, roleManager);
     }
     catch (Exception ex)
     {
-        // اگر موقع سید کردن به مشکل خوردیم، اینجا لاگ می‌اندازیم
+       
         Console.WriteLine($"خطا در سید کردن دیتابیس: {ex.Message}");
     }
 }
@@ -108,8 +130,7 @@ app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();
-builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+
 
 if (app.Environment.IsDevelopment())
 {

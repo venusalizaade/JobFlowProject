@@ -8,7 +8,7 @@ namespace WebApplication1.Controllers;
 
 [ApiController]
 [Route("api/company")]
-[Authorize(Roles = "Employer")]
+[Authorize(Policy = "ApprovedEmployer")]
 public class CompanyController : ControllerBase
 
 {
@@ -57,5 +57,18 @@ public class CompanyController : ControllerBase
 
 
         return NoContent();
+    }
+    [HttpPost("logo")]
+    public async Task<IActionResult> UploadLogo(
+        [FromForm] UploadCompanyLogoRequestDto request)
+    {
+        var requesterId = Guid.Parse(
+            User.FindFirstValue(ClaimTypes.NameIdentifier)!);
+
+        await _companyService.UploadLogoAsync(
+            requesterId,
+            request.File);
+
+        return Ok();
     }
 }

@@ -7,6 +7,7 @@ public interface IJobPostRepository : IGenericRepository<JobPost>
     Task<List<JobPost>> GetCompanyJobPostsAsync(Guid companyId);
 
     Task<JobPost?> GetJobPostDetailsAsync(Guid id);
+    Task<List<JobPost>> GetActiveAsync();
     
  
 }

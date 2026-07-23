@@ -23,6 +23,7 @@ public class AppUser : IdentityUser<Guid> , IEntity
         FirstName = firstName;
         LastName = lastName;
         UserName = nationalId;
+        NationalId = nationalId;
         Email=email;
         PhoneNumber=phoneNumber;
         Gender = gender;
@@ -48,7 +49,7 @@ public class AppUser : IdentityUser<Guid> , IEntity
     /// <summary>
     /// جنسیت
     /// </summary>
-    public string? Gender { get; private set; }
+    public string? Gender { get;  set; }
     /// <summary>
     /// کدملی
     /// </summary>
@@ -57,7 +58,7 @@ public class AppUser : IdentityUser<Guid> , IEntity
     /// <summary>
     ///توضیحات
     /// </summary>
-    public String? About{ get; private set; }
+    public String? About{ get;  set; }
     
     
     

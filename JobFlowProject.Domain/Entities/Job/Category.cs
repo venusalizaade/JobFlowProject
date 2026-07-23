@@ -21,6 +21,8 @@ public class Category : BaseEntity
     /// لیست آگهی‌های این دسته‌بندی
     /// </summary>
     public ICollection<JobPost> JobPosts { get; set; } = new List<JobPost>();
+  
+    public ICollection<Skill> Skills { get; private set; } = new List<Skill>();
 
     public override void Validate()
     {

@@ -17,4 +17,5 @@ public static class ClaimConstants
         RoleConstants.AdminRoleName);
 
     public const string UserId = ClaimTypes.NameIdentifier;
+    public const string CanApproveEmployer = "CanApproveEmployer";
 }

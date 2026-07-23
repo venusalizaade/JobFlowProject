@@ -7,7 +7,7 @@ namespace WebApplication1.Controllers;
 
 [ApiController]
 [Route("api/[controller]")] 
-[Authorize(Roles = "Admin")]
+[Authorize(Policy = "CanApproveEmployer")]
 public class AdminController : ControllerBase
 {
     private readonly IAdminService _service;

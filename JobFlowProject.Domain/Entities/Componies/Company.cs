@@ -1,4 +1,5 @@
 ﻿using JobFlowProject.Domain.Entites;
+using JobFlowProject.Domain.Entites.Resume;
 using JobFlowProject.Domain.Entities.Componies;
 using JobFlowProject.Domain.Entites.User;
 using JobFlowProject.Domain.Entities.Job;
@@ -82,6 +83,8 @@ public class Company : BaseEntity
     /// لیست نظراتی که برای این شرکت نوشته شده
     /// </summary>
     public ICollection<Review> Reviews { get; set; } = new List<Review>();
+    
+    public ICollection<AttachmentFile> Attachments { get; set; } = new List<AttachmentFile>();
 
     public override void Validate()
     {

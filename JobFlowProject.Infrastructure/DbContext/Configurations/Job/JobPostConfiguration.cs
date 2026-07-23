@@ -44,5 +44,10 @@ public class JobPostConfiguration : BaseModelBuilderConfiguration<JobPost>
             .HasForeignKey(x => x.CityId)
             .OnDelete(DeleteBehavior.Restrict);
         
+        builder.HasOne(x => x.Skill)
+            .WithMany(x => x.JobPosts)
+            .HasForeignKey(x => x.SkillId)
+            .OnDelete(DeleteBehavior.Restrict);
+        
     }
 }

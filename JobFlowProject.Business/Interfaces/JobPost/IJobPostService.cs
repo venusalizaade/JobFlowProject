@@ -15,4 +15,5 @@ public interface IJobPostService
     Task UpdateAsync(Guid requesterId, Guid jobPostId, UpdateJobPostCommand command);
 
     Task DeactivateAsync(Guid requesterId, Guid jobPostId);
+    Task<List<JobPostResponseDto>> GetActiveAsync();
 }

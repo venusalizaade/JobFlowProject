@@ -11,14 +11,9 @@ public class JobPost : BaseEntity
 {
     public JobPost() { }
 
-    public JobPost(
-        string title,
-        string aboutJob,
-        Guid provinceId,
-        Guid cityId,
-        EmploymentTypeEnum employmentType,
-        Guid companyId,
-        Guid categoryId)
+    public JobPost(string title, string aboutJob, Guid provinceId, Guid cityId,
+        EmploymentTypeEnum employmentType, Guid companyId, Guid categoryId,
+        Guid skillId)
     {
         Title = title;
         AboutJob = aboutJob;
@@ -29,6 +24,7 @@ public class JobPost : BaseEntity
         EmploymentType = employmentType;
         CompanyId = companyId;
         CategoryId = categoryId;
+        SkillId = skillId;
 
         IsActive = true;
         ExpiresAt = DateTime.UtcNow.AddDays(30);
@@ -71,35 +67,24 @@ public class JobPost : BaseEntity
     /// </summary>
     public DateTime ExpiresAt { get;  private set; }
 
-    /// <summary>
-    /// آیدی شرکت
-    /// </summary>
+   
     public Guid CompanyId { get; set; }
 
-    /// <summary>
-    /// شرکت
-    /// </summary>
+    
     public Company Company { get;  private set; }
 
 
-    /// <summary>
-    /// آیدی دسته‌بندی
-    /// </summary>
     public Guid CategoryId { get; set; }
 
-    /// <summary>
-    /// دسته‌بندی
-    /// </summary>
     public Category Category { get;  private set; }
+    
+    public Guid SkillId { get; set; }
 
-    /// <summary>
-    /// لیست درخواست‌های ارسال‌شده
-    /// </summary>
+    public Skill Skill { get; set; }
+
     public ICollection<JobApplication> JobApplications { get;  private set; } = new List<JobApplication>();
     
-    /// <summary>
-    /// لیست پرداخت‌های شرکت
-    /// </summary>
+    
     public ICollection<Payment> Payments { get; set; } = new List<Payment>();
 
 

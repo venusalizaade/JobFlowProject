@@ -158,6 +158,12 @@ namespace JobFlowProject.Infrastructure.Migrations
                     b.Property<Guid>("AppUserId")
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<int>("AttachmentType")
+                        .HasColumnType("int");
+
+                    b.Property<Guid?>("CompanyId")
+                        .HasColumnType("uniqueidentifier");
+
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime2");
 
@@ -200,6 +206,8 @@ namespace JobFlowProject.Infrastructure.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("AppUserId");
+
+                    b.HasIndex("CompanyId");
 
                     b.HasIndex("CreatedAt");
 
@@ -875,6 +883,9 @@ namespace JobFlowProject.Infrastructure.Migrations
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
 
+                    b.Property<Guid>("SkillId")
+                        .HasColumnType("uniqueidentifier");
+
                     b.Property<string>("Title")
                         .IsRequired()
                         .HasMaxLength(200)
@@ -898,7 +909,69 @@ namespace JobFlowProject.Infrastructure.Migrations
 
                     b.HasIndex("ProvinceId");
 
+                    b.HasIndex("SkillId");
+
                     b.ToTable("JobPosts");
+                });
+
+            modelBuilder.Entity("JobFlowProject.Domain.Entities.Job.Skill", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("CategoryId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<Guid?>("CreatedById")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid?>("CreatorId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime?>("DeletedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<Guid?>("DeletedById")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid?>("DeleterId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTime?>("ModifiedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<Guid?>("ModifiedById")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid?>("ModifierId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CategoryId");
+
+                    b.HasIndex("CreatorId");
+
+                    b.HasIndex("DeleterId");
+
+                    b.HasIndex("ModifierId");
+
+                    b.HasIndex("Name")
+                        .IsUnique();
+
+                    b.ToTable("Skills");
                 });
 
             modelBuilder.Entity("JobFlowProject.Domain.Entities.Province", b =>
@@ -959,8 +1032,8 @@ namespace JobFlowProject.Infrastructure.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<int?>("About")
-                        .HasColumnType("int");
+                    b.Property<string>("About")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("AccessFailedCount")
                         .HasColumnType("int");
@@ -1315,6 +1388,10 @@ namespace JobFlowProject.Infrastructure.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("JobFlowProject.Domain.Entities.Componies.Company", "Company")
+                        .WithMany("Attachments")
+                        .HasForeignKey("CompanyId");
+
                     b.HasOne("JobFlowProject.Domain.Entities.User.AppUser", "Creator")
                         .WithMany()
                         .HasForeignKey("CreatedById")
@@ -1331,6 +1408,8 @@ namespace JobFlowProject.Infrastructure.Migrations
                         .OnDelete(DeleteBehavior.NoAction);
 
                     b.Navigation("AppUser");
+
+                    b.Navigation("Company");
 
                     b.Navigation("Creator");
 
@@ -1721,6 +1800,12 @@ namespace JobFlowProject.Infrastructure.Migrations
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
+                    b.HasOne("JobFlowProject.Domain.Entities.Job.Skill", "Skill")
+                        .WithMany("JobPosts")
+                        .HasForeignKey("SkillId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
                     b.Navigation("Category");
 
                     b.Navigation("City");
@@ -1734,6 +1819,37 @@ namespace JobFlowProject.Infrastructure.Migrations
                     b.Navigation("Modifier");
 
                     b.Navigation("Province");
+
+                    b.Navigation("Skill");
+                });
+
+            modelBuilder.Entity("JobFlowProject.Domain.Entities.Job.Skill", b =>
+                {
+                    b.HasOne("JobFlowProject.Domain.Entities.Job.Category", "Category")
+                        .WithMany("Skills")
+                        .HasForeignKey("CategoryId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("JobFlowProject.Domain.Entities.User.AppUser", "Creator")
+                        .WithMany()
+                        .HasForeignKey("CreatorId");
+
+                    b.HasOne("JobFlowProject.Domain.Entities.User.AppUser", "Deleter")
+                        .WithMany()
+                        .HasForeignKey("DeleterId");
+
+                    b.HasOne("JobFlowProject.Domain.Entities.User.AppUser", "Modifier")
+                        .WithMany()
+                        .HasForeignKey("ModifierId");
+
+                    b.Navigation("Category");
+
+                    b.Navigation("Creator");
+
+                    b.Navigation("Deleter");
+
+                    b.Navigation("Modifier");
                 });
 
             modelBuilder.Entity("JobFlowProject.Domain.Entities.Province", b =>
@@ -1884,6 +2000,8 @@ namespace JobFlowProject.Infrastructure.Migrations
                     b.Navigation("AppUser")
                         .IsRequired();
 
+                    b.Navigation("Attachments");
+
                     b.Navigation("JobPosts");
 
                     b.Navigation("Reviews");
@@ -1892,6 +2010,8 @@ namespace JobFlowProject.Infrastructure.Migrations
             modelBuilder.Entity("JobFlowProject.Domain.Entities.Job.Category", b =>
                 {
                     b.Navigation("JobPosts");
+
+                    b.Navigation("Skills");
                 });
 
             modelBuilder.Entity("JobFlowProject.Domain.Entities.Job.JobPost", b =>
@@ -1899,6 +2019,11 @@ namespace JobFlowProject.Infrastructure.Migrations
                     b.Navigation("JobApplications");
 
                     b.Navigation("Payments");
+                });
+
+            modelBuilder.Entity("JobFlowProject.Domain.Entities.Job.Skill", b =>
+                {
+                    b.Navigation("JobPosts");
                 });
 
             modelBuilder.Entity("JobFlowProject.Domain.Entities.Province", b =>

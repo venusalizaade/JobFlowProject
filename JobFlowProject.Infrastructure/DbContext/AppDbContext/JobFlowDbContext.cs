@@ -12,9 +12,8 @@ using Microsoft.EntityFrameworkCore;
 
 namespace JobFlowProject.Infrastructure.DbContext.AppDbContext;
 
-public class JobFlowDbContext : IdentityDbContext<AppUser,Role, Guid>
+public class JobFlowDbContext : IdentityDbContext<AppUser, Role, Guid>
 {
-
     public JobFlowDbContext(DbContextOptions<JobFlowDbContext> options) : base(options)
     {
     }
@@ -30,10 +29,11 @@ public class JobFlowDbContext : IdentityDbContext<AppUser,Role, Guid>
     public DbSet<Payment> Payments { get; set; }
     public DbSet<Feature> Features { get; set; }
     public DbSet<CompanyFeature> CompanyFeatures { get; set; }
+    public DbSet<Skill> Skills { get; set; }
     public DbSet<NotificationLog> NotificationLogs { get; set; }
     public DbSet<ActivityLog> ActivityLogs { get; set; }
     public DbSet<Province> provinces { get; set; }
-    public  DbSet<City> Cities { get; set; }
+    public DbSet<City> Cities { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -41,6 +41,3 @@ public class JobFlowDbContext : IdentityDbContext<AppUser,Role, Guid>
         modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
     }
 }
-
-
-

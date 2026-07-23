@@ -4,9 +4,12 @@ using JobFlowProject.Business.Dto.User;
 using JobFlowProject.Business.Exceptions.AuthenticationExceptions;
 using JobFlowProject.Business.Exceptions.BaseExeption;
 using JobFlowProject.Business.Interfaces.EmployerInterfaces;
+using JobFlowProject.Domain.Entites.Resume;
 using JobFlowProject.Domain.Entities.Componies;
 using JobFlowProject.Domain.Entities.User;
+using JobFlowProject.Domain.Enums;
 using JobFlowProject.Domain.Interfaces.Repository;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 
 namespace JobFlowProject.Business.Services.CompaneisService
@@ -33,7 +36,6 @@ namespace JobFlowProject.Business.Services.CompaneisService
             Guid requesterId)
 
         {
-            await EnsureUserIsApproved(requesterId);
             var company = await _companyRepository.GetByCompanyIdAsync(companyId);
 
             if (company is null)
@@ -61,7 +63,6 @@ namespace JobFlowProject.Business.Services.CompaneisService
             UpdateCompanyRequestDto dto)
 
         {
-            await EnsureUserIsApproved(requesterId);
             var company = await _repository.GetByIdAsync(companyId);
 
 
@@ -75,11 +76,40 @@ namespace JobFlowProject.Business.Services.CompaneisService
                 throw new PermissionDeniedException();
         }
 
-        private async Task EnsureUserIsApproved(Guid userId)
+        public async Task UploadLogoAsync(Guid requesterId, IFormFile file)
         {
-            var user = await _userManager.FindByIdAsync(userId.ToString());
-            if (user is null || !user.IsApproved)
-                throw new PermissionDeniedException("Account is not approved yet.");
+            var company = await _companyRepository.GetByAppUserIdAsync(requesterId);
+
+            if (company is null)
+                throw new ItemNotFoundException("Company not found.");
+
+            if (file == null || file.Length == 0)
+                throw new Exception("File is empty.");
+
+            var uploadsFolder = Path.Combine("Uploads", "Companies");
+
+            if (!Directory.Exists(uploadsFolder))
+                Directory.CreateDirectory(uploadsFolder);
+
+            var fileName = $"{Guid.NewGuid()}{Path.GetExtension(file.FileName)}";
+
+            var filePath = Path.Combine(uploadsFolder, fileName);
+
+            using (var stream = new FileStream(filePath, FileMode.Create))
+            {
+                await file.CopyToAsync(stream);
+            }
+
+            var attachment = new AttachmentFile(
+                fileName,
+                filePath,
+                file.ContentType,
+                requesterId,
+                AttachmentType.CompanyLogo);
+
+            company.Attachments.Add(attachment);
+
+            await _repository.UpdateAsync(company);
         }
     }
 }

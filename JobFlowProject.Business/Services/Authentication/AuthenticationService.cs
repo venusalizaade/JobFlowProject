@@ -98,6 +98,17 @@ private async Task<TokenLoginResult> GenerateTokenAsync(AppUser user)
         var userClaims = await _userManager.GetClaimsAsync(user);
 
         claims.AddRange(userClaims);
+       
+        claims.Add(new Claim(
+            "IsApproved",
+            user.IsApproved.ToString().ToLower()));
+       
+        if (await _userManager.IsInRoleAsync(user, RoleConstants.AdminRoleName))
+        {
+            claims.Add(new Claim(
+                ClaimConstants.CanApproveEmployer,
+                "true"));
+        }
 
         var secretKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_jwtSettings.Secret));
         var credentials = new SigningCredentials(secretKey, SecurityAlgorithms.HmacSha256);

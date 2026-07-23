@@ -9,7 +9,6 @@ namespace WebApplication1.Controllers;
 
 [ApiController]
 [Route("api/[controller]")]
-[Authorize(Roles = "Employer")]
 public class JobPostController : ControllerBase
 {
     private readonly IJobPostService _jobPostService;
@@ -19,9 +18,7 @@ public class JobPostController : ControllerBase
         _jobPostService = jobPostService;
     }
 
-    /// <summary>
-    /// ایجاد آگهی شغلی
-    /// </summary>
+    [Authorize(Policy = "ApprovedEmployer")]
     [HttpPost]
     public async Task<IActionResult> Create(CreateJobPostCommand command)
     {
@@ -32,9 +29,7 @@ public class JobPostController : ControllerBase
         return Ok(result);
     }
 
-    /// <summary>
-    /// لیست آگهی‌های کارفرما
-    /// </summary>
+    [Authorize(Policy = "ApprovedEmployer")]
     [HttpGet]
     public async Task<IActionResult> GetMyJobPosts()
     {
@@ -45,9 +40,7 @@ public class JobPostController : ControllerBase
         return Ok(result);
     }
 
-    /// <summary>
-    /// مشاهده جزئیات آگهی
-    /// </summary>
+   
     [HttpGet("{id:guid}")]
     public async Task<IActionResult> GetDetails(Guid id)
     {
@@ -56,9 +49,7 @@ public class JobPostController : ControllerBase
         return Ok(result);
     }
 
-    /// <summary>
-    /// ویرایش آگهی
-    /// </summary>
+    [Authorize(Policy = "ApprovedEmployer")]
     [HttpPut("{id:guid}")]
     public async Task<IActionResult> Update(
         Guid id,
@@ -71,9 +62,7 @@ public class JobPostController : ControllerBase
         return NoContent();
     }
 
-    /// <summary>
-    /// غیرفعال کردن آگهی
-    /// </summary>
+    [Authorize(Policy = "ApprovedEmployer")]
     [HttpDelete("{id:guid}")]
     public async Task<IActionResult> Deactivate(Guid id)
     {
@@ -82,6 +71,12 @@ public class JobPostController : ControllerBase
         await _jobPostService.DeactivateAsync(requesterId, id);
 
         return NoContent();
+    }
+    
+    [HttpGet("active")]
+    public async Task<IActionResult> GetActive()
+    {
+        return Ok(await _jobPostService.GetActiveAsync());
     }
    
     private Guid GetUserId()

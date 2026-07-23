@@ -22,13 +22,13 @@ public class SavedJob : BaseEntity
     public Guid JobPostId { get; private set; }
     public JobPost JobPost { get; private set; }
 
-    public override void Validate()
+public override void Validate()
     {
         if( AppUserId == Guid.Empty)
             throw new Exception("Profile is required");
 
         if (JobPostId == Guid.Empty)
-            throw new Exception("JobPost is required");
+                throw new Exception("JobPost is required");
     }
 
    
