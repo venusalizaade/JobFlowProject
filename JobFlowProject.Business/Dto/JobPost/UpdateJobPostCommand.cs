@@ -9,5 +9,6 @@ public record UpdateJobPostCommand(
     Guid CityId,
     Guid CategoryId,
     EmploymentTypeEnum EmploymentType,
-    string? Salary
+    decimal? Salary,
+    Guid SkillId
 );

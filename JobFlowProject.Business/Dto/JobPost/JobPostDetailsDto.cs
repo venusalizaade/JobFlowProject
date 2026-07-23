@@ -1,18 +1,16 @@
 ﻿using JobFlowProject.Domain.Enums;
 
 namespace JobFlowProject.Business.Dto.JobPost;
-
-public record JobPostDetailDto(
+public record JobPostDetailsDto(
     Guid Id,
     string Title,
     string AboutJob,
     decimal? Salary,
     EmploymentTypeEnum EmploymentType,
-    bool IsActive,
     DateTime ExpiresAt,
-
     string CompanyName,
     string CategoryName,
+    string SkillName,
     string CityName,
     string ProvinceName
 );

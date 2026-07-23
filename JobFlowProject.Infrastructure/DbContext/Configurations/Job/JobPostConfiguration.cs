@@ -19,7 +19,8 @@ public class JobPostConfiguration : BaseModelBuilderConfiguration<JobPost>
             .HasMaxLength(4000);
         
         builder.Property(x => x.Salary)
-            .HasMaxLength(100);
+            .HasColumnType("decimal(18,2)")
+            .IsRequired();
         
        
 

@@ -2,10 +2,10 @@
 
 namespace JobFlowProject.Business.Dto.CompanyDto;
 
-public record JobApplicationResponseDto(
+public record JobApplicationDto(
     Guid Id,
     Guid JobPostId,
     Guid ApplicantId,
     string ApplicantName,
-    ApplicationStatusEnum Status
+    JobApplicationStatusEnum Status
 );

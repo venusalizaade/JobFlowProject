@@ -18,7 +18,7 @@ public class JobApplication : BaseEntity
         JobPostId = jobPostId;
         JobSeekerId = jobSeekerId;
         AttachmentId = attachmentId;
-        Status = ApplicationStatusEnum.Pending;
+        Status = JobApplicationStatusEnum.Pending;
     }
 
     public JobApplication(
@@ -28,7 +28,7 @@ public class JobApplication : BaseEntity
         JobPostId = jobPostId;
         JobSeekerId = applicantId;
 
-        Status = ApplicationStatusEnum.Pending;
+        Status = JobApplicationStatusEnum.Pending;
     }
 
     
@@ -37,7 +37,7 @@ public class JobApplication : BaseEntity
     /// <summary>
     /// وضعیت درخواست
     /// </summary>
-    public ApplicationStatusEnum Status { get; set; }
+    public JobApplicationStatusEnum Status { get; set; }
 
     /// <summary>
     ///آیدی آگهی
@@ -81,9 +81,9 @@ public class JobApplication : BaseEntity
             throw new Exception("Attachment is required");
     }
     
-    public void ChangeStatus(ApplicationStatusEnum status)
+    public void ChangeStatus(JobApplicationStatusEnum status)
     {
-        if (status == ApplicationStatusEnum.Pending)
+        if (status == JobApplicationStatusEnum.Pending)
             throw new Exception("Cannot change status back to Pending.");
 
         Status = status;

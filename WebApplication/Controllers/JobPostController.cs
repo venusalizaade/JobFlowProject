@@ -2,8 +2,11 @@
 using JobFlowProject.Business.Dto.Commands;
 using JobFlowProject.Business.Dto.JobPost;
 using JobFlowProject.Business.Interfaces.JobPost;
+using JobFlowProject.Domain.Enums;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using WebApplication1.Dto.Authentication;
+using JobPostSearchRequestDto = JobFlowProject.Business.Dto.JobPost.JobPostSearchRequestDto;
 
 namespace WebApplication1.Controllers;
 
@@ -78,10 +81,35 @@ public class JobPostController : ControllerBase
     {
         return Ok(await _jobPostService.GetActiveAsync());
     }
+    
+    [HttpGet("search")]
+    public async Task<IActionResult> Search([FromQuery] JobPostSearchRequestDto dto)
+    {
+        var result = await _jobPostService.SearchAsync(dto);
+
+        return Ok(result);
+    }
+    
    
     private Guid GetUserId()
     {
         return Guid.Parse(
             User.FindFirst(ClaimTypes.NameIdentifier)!.Value);
     }
+    
+    [HttpGet("search-job-posts")]
+    public async Task<IActionResult> SearchJobPosts([FromQuery] JobPostSearchRequestDto dto)
+    {
+        var result = await _jobPostService.SearchAsync(dto);
+
+        return Ok(result);
+    }
+    [HttpGet("filter-job-posts")]
+    public async Task<IActionResult> FilterJobPosts([FromQuery] JobPostFilterRequestDto dto)
+    {
+        var result = await _jobPostService.FilterAsync(dto);
+
+        return Ok(result);
+    }
+    
 }

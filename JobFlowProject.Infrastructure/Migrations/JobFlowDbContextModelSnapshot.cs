@@ -879,9 +879,8 @@ namespace JobFlowProject.Infrastructure.Migrations
                     b.Property<Guid>("ProvinceId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<string>("Salary")
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
+                    b.Property<decimal>("Salary")
+                        .HasColumnType("decimal(18,2)");
 
                     b.Property<Guid>("SkillId")
                         .HasColumnType("uniqueidentifier");

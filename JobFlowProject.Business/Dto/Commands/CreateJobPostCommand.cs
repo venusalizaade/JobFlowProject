@@ -7,7 +7,7 @@ public record CreateJobPostCommand(
     string AboutJob,
     Guid ProvinceId,
     Guid CityId,
-    string? Salary,
+    decimal? Salary,
     EmploymentTypeEnum EmploymentType,
     Guid CategoryId,
     Guid SkillId

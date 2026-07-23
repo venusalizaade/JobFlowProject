@@ -7,9 +7,12 @@ using JobFlowProject.Business.Interfaces.JobPost;
 using JobFlowProject.Domain.Entities.Componies;
 using JobFlowProject.Domain.Entities.Job;
 using JobFlowProject.Domain.Entities.User;
+using JobFlowProject.Domain.Enums;
 using JobFlowProject.Domain.Interfaces.Repository;
 using Microsoft.AspNetCore.Identity;
+using WebApplication1.Dto.Authentication;
 using JobPostResponseDto = JobFlowProject.Business.Dto.JobPost.JobPostResponseDto;
+using JobPostSearchRequestDto = JobFlowProject.Business.Dto.JobPost.JobPostSearchRequestDto;
 
 namespace JobFlowProject.Business.Services.job;
 
@@ -50,11 +53,13 @@ public class JobPostService : IJobPostService
             command.ProvinceId,
             command.CityId,
             command.EmploymentType,
+            command.Salary,
             company.Id,
             command.CategoryId,
-            command.SkillId);
+            command.SkillId
+            );
 
-        jobPost.Salary = command.Salary;
+        
 
         jobPost.Validate();
         await _jobPostRepository.AddAsync(jobPost);
@@ -136,6 +141,7 @@ public class JobPostService : IJobPostService
         jobPost.CategoryId = command.CategoryId;
         jobPost.EmploymentType = command.EmploymentType;
         jobPost.Salary = command.Salary;
+        jobPost.SkillId = command.SkillId;
 
         jobPost.Validate();
 
@@ -168,6 +174,49 @@ public class JobPostService : IJobPostService
     public async Task<List<JobPostResponseDto>> GetActiveAsync()
     {
         var jobs = await _jobPostRepository.GetActiveAsync();
+
+        return jobs.Select(job => new JobPostResponseDto(
+            job.Id,
+            job.Title,
+            job.AboutJob,
+            job.Salary,
+            job.EmploymentType,
+            job.IsActive,
+            job.ExpiresAt
+        )).ToList();
+    }
+    
+    public async Task<List<JobPostResponseDto>> SearchAsync(JobPostSearchRequestDto dto)
+    {
+        var jobs = await _jobPostRepository.SearchAsync(
+            dto.Title,
+            dto.CategoryId,
+            dto.SkillId,
+            dto.EmploymentType,
+            dto.MinSalary,
+            dto.MaxSalary,
+            dto.CityId,
+            dto.ProvinceId);
+
+        return jobs.Select(job => new JobPostResponseDto(
+            job.Id,
+            job.Title,
+            job.AboutJob,
+            job.Salary,
+            job.EmploymentType,
+            job.IsActive,
+            job.ExpiresAt
+        )).ToList();
+    }
+    
+   
+    public async Task<List<JobPostResponseDto>> FilterAsync(JobPostFilterRequestDto dto)
+    {
+        var jobs = await _jobPostRepository.FilterAsync(
+            dto.CategoryId,
+            dto.SkillId,
+            dto.MinSalary,
+            dto.MaxSalary);
 
         return jobs.Select(job => new JobPostResponseDto(
             job.Id,

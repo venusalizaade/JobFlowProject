@@ -1,5 +1,6 @@
 ﻿using JobFlowProject.Business.Dto.Commands;
 using JobFlowProject.Business.Dto.CompanyDto;
+using JobFlowProject.Business.Dto.JobPost;
 using JobFlowProject.Business.Exceptions.Authentication_Exceptions;
 using JobFlowProject.Business.Exceptions.AuthenticationExceptions;
 using JobFlowProject.Business.Exceptions.BaseExeption;
@@ -62,13 +63,13 @@ public class JobApplicationService : IJobApplicationService
             throw new Exception("You already applied for this job.");
 
 
-        var application = new JobApplication(command.JobPostId, requesterId);
+        var application = new JobApplication(requesterId,command.JobPostId );
 
          
         await _jobApplicationRepository.AddAsync(application);
     }
 
-    public async Task<List<JobApplicationResponseDto>> GetJobApplicationsAsync(Guid requesterId, Guid jobPostId)
+    public async Task<List<JobApplicationDto>> GetJobApplicationsAsync(Guid requesterId, Guid jobPostId)
     {
         var company = await _companyRepository
             .GetByAppUserIdAsync(requesterId);
@@ -95,7 +96,7 @@ public class JobApplicationService : IJobApplicationService
 
 
         return applications
-            .Select(x => new JobApplicationResponseDto(
+            .Select(x => new JobApplicationDto(
                 x.Id,
                 x.JobPostId,
                 x.JobSeekerId,
@@ -120,4 +121,55 @@ public class JobApplicationService : IJobApplicationService
 
         await _jobApplicationRepository.UpdateAsync(application);
     }
+     
+    public async Task<List<JobApplicationResponseDto>> GetMyApplicationsAsync(
+        Guid requesterId)
+    {
+        var applications =
+            await _jobApplicationRepository.GetByJobSeekerIdAsync(requesterId);
+
+        return applications.Select(x => new JobApplicationResponseDto(
+            x.Id,
+            x.JobPost.Title,
+            x.Status,
+            x.CreatedAt
+        )).ToList();
+    }
+
+    public async Task<JobApplicationDetailDto> GetDetailsAsync(
+        Guid requesterId,
+        Guid applicationId)
+    {
+        var application =
+            await _jobApplicationRepository.GetDetailsAsync(applicationId);
+
+        if (application is null)
+            throw new ItemNotFoundException("Application not found.");
+
+        if (application.JobSeekerId != requesterId)
+            throw new PermissionDeniedException();
+
+        return new JobApplicationDetailDto(
+            application.Id,
+            application.JobPost.Title,
+            application.JobPost.Company.Name,
+            application.Status,
+            application.CreatedAt
+        );
+    }
+    public async Task CancelAsync(Guid requesterId, Guid applicationId)
+    {
+        var application =
+            await _jobApplicationRepository.GetPendingApplicationAsync(
+                applicationId,
+                requesterId);
+
+        if (application is null)
+            throw new ItemNotFoundException("Pending application not found.");
+
+        application.ChangeStatus(JobApplicationStatusEnum.Cancelled);
+
+        await _jobApplicationRepository.UpdateAsync(application);
+    }
+
 }

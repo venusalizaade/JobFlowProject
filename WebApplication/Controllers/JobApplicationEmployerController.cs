@@ -1,5 +1,6 @@
 ﻿using System.Security.Claims;
 using JobFlowProject.Business.Dto.Commands;
+using JobFlowProject.Business.Dto.JobPost;
 using JobFlowProject.Business.Interfaces.EmployerInterfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -13,23 +14,15 @@ namespace WebApplication1.Controllers;
 
 [ApiController]
 [Authorize(Policy = "ApprovedEmployer")]
-public class JobApplicationController : ControllerBase
+public class JobApplicationEmployerController : ControllerBase
 {
     private readonly IJobApplicationService _service;
 
-    public JobApplicationController(IJobApplicationService service)
+    public JobApplicationEmployerController(IJobApplicationService service)
     {
         _service = service;
     }
 
-    [HttpPost]
-    [Authorize(Roles = "JobSeeker")]
-    public async Task<IActionResult> Apply(ApplyJobCommand command)
-    {
-        var requesterId = GetUserId();
-        await _service.ApplyAsync(requesterId, command);
-        return Ok(new { message = "Application submitted successfully" });
-    }
 
     [HttpGet("job-post/{jobPostId:guid}")]
     [Authorize(Policy = "ApprovedEmployer")]
@@ -55,3 +48,4 @@ public class JobApplicationController : ControllerBase
         return Guid.Parse(claim!.Value);
     }
 }
+   

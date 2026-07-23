@@ -1,10 +1,11 @@
 ﻿namespace JobFlowProject.Domain.Enums;
 
-public enum ApplicationStatusEnum
+public enum JobApplicationStatusEnum
 {
     Pending = 1,
-    Review = 2,
-    Interview = 3,
-    Accepted = 4,
-    Rejected = 5
+    Cancelled = 2,
+    Review = 3,
+    Interview = 4,
+    Accepted = 5,
+    Rejected = 6
 }

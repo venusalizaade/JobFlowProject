@@ -11,4 +11,12 @@ public interface IJobApplicationRepository
 
     Task<List<JobApplication>> GetByJobPostAsync(
         Guid jobPostId);
+    
+    Task<bool> HasAppliedAsync(Guid jobPostId, Guid jobSeekerId);
+
+    Task<List<JobApplication>> GetByJobSeekerIdAsync(Guid jobSeekerId);
+
+    Task<JobApplication?> GetDetailsAsync(Guid applicationId);
+
+    Task<JobApplication?> GetPendingApplicationAsync(Guid applicationId, Guid jobSeekerId);
 }

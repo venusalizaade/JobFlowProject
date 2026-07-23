@@ -12,7 +12,7 @@ public class JobPost : BaseEntity
     public JobPost() { }
 
     public JobPost(string title, string aboutJob, Guid provinceId, Guid cityId,
-        EmploymentTypeEnum employmentType, Guid companyId, Guid categoryId,
+        EmploymentTypeEnum employmentType,decimal? salary, Guid companyId, Guid categoryId ,
         Guid skillId)
     {
         Title = title;
@@ -22,6 +22,7 @@ public class JobPost : BaseEntity
         CityId = cityId;
 
         EmploymentType = employmentType;
+        Salary = salary;
         CompanyId = companyId;
         CategoryId = categoryId;
         SkillId = skillId;
@@ -50,7 +51,7 @@ public class JobPost : BaseEntity
     /// <summary>
     /// حقوق (اختیاری)
     /// </summary>
-    public string? Salary { get; set; }
+    public decimal? Salary { get; set; }
 
     /// <summary>
     /// نوع همکاری

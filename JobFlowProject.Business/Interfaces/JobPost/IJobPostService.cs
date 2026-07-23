@@ -1,6 +1,9 @@
 ﻿using JobFlowProject.Business.Dto.Commands;
 using JobFlowProject.Business.Dto.JobPost;
+using JobFlowProject.Domain.Enums;
+using WebApplication1.Dto.Authentication;
 using JobPostResponseDto = JobFlowProject.Business.Dto.JobPost.JobPostResponseDto;
+using JobPostSearchRequestDto = JobFlowProject.Business.Dto.JobPost.JobPostSearchRequestDto;
 
 namespace JobFlowProject.Business.Interfaces.JobPost;
 
@@ -16,4 +19,8 @@ public interface IJobPostService
 
     Task DeactivateAsync(Guid requesterId, Guid jobPostId);
     Task<List<JobPostResponseDto>> GetActiveAsync();
-}
+    
+    Task<List<JobPostResponseDto>> SearchAsync(JobPostSearchRequestDto dto);
+    
+    Task<List<JobPostResponseDto>> FilterAsync(JobPostFilterRequestDto dto);
+    }
