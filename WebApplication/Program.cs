@@ -81,7 +81,7 @@ builder.Services.AddAuthorization(options =>
 });
 
 
-builder.Services.AddScoped<GlobalExceptionHandlerMiddleware>();
+ builder.Services.AddScoped<GlobalExceptionHandlerMiddleware>();
 builder.Services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
 builder.Services.AddScoped<INotificationRepository, NotificationRepository>();
 builder.Services.AddScoped<ICompanyRepository, CompanyRepository>();
@@ -106,25 +106,18 @@ var app = builder.Build();
 
 using (var scope = app.Services.CreateScope())
 {
+    Console.WriteLine("Before Seeder");
+
     var services = scope.ServiceProvider;
-    try
-    {
-        var context = services.GetRequiredService<JobFlowDbContext>();
-        var userManager = services.GetRequiredService<UserManager<AppUser>>();
-        var roleManager = services.GetRequiredService<RoleManager<Role>>();
 
-       
-        await context.Database.MigrateAsync(); 
-        
-        await DataSeeder.SeedAsync(context, userManager, roleManager);
-    }
-    catch (Exception ex)
-    {
-       
-        Console.WriteLine($"خطا در سید کردن دیتابیس: {ex.Message}");
-    }
+    var context = services.GetRequiredService<JobFlowDbContext>();
+    var userManager = services.GetRequiredService<UserManager<AppUser>>();
+    var roleManager = services.GetRequiredService<RoleManager<Role>>();
+
+    await DataSeeder.SeedAsync(context, userManager, roleManager);
+
+    Console.WriteLine("After Seeder");
 }
-
 app.UseMiddleware<GlobalExceptionHandlerMiddleware>();
 
 app.UseHttpsRedirection();

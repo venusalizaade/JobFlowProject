@@ -4,6 +4,7 @@ using JobFlowProject.Business.Exceptions.BaseExeption;
 using JobFlowProject.Business.Interfaces.User;
 using JobFlowProject.Domain.Entites.Resume;
 using JobFlowProject.Domain.Entities.User;
+using JobFlowProject.Domain.Enums;
 using JobFlowProject.Infrastructure.Repositories;
 using JobFlowProject.Infrastructure.Repositories.User;
 using Microsoft.AspNetCore.Hosting;
@@ -99,7 +100,8 @@ public class JobSeekerService : IJobSeekerService
             file.FileName,
             path,
             file.ContentType,
-            requesterId);
+            requesterId,
+            AttachmentType.Resume);
 
         attachment.Validate();
 

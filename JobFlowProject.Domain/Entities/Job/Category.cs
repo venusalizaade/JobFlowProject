@@ -7,6 +7,17 @@ namespace JobFlowProject.Domain.Entities.Job;
 
 public class Category : BaseEntity
 {
+    private Category()
+    {
+        
+        
+    }
+    public Category(string name, string description)
+    {
+        Name = name;
+        Description = description;
+        
+    }
     /// <summary>
     /// نام دسته‌بندی
     /// </summary>

@@ -24,12 +24,14 @@ public class AttachmentFile : BaseEntity
         Validate();
     }
 
-    public AttachmentFile(string fileName, string filePath, string fileType, Guid requesterId)
+    public AttachmentFile(string fileName, string filePath, string fileType, Guid requesterId,
+        AttachmentType attachmentType)
     {
         FileName = fileName;
         FilePath = filePath;
         FileType = fileType;
         AppUserId = requesterId;
+        AttachmentType = attachmentType;
     }
 
     /// <summary>

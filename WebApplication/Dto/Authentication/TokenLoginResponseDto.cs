@@ -16,7 +16,7 @@ namespace WebApplication1.Dto.Authentication;
             return new TokenLoginResponseDto(
                 new TokenDto(
                     result.AccessToken,
-                    result.ExpiresIn ));
+                    result.ExpiresInSeconds ));
         }
     
 }

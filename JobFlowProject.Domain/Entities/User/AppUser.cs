@@ -12,13 +12,15 @@ using Microsoft.AspNetCore.Identity;
 namespace JobFlowProject.Domain.Entities.User;
 
 
-public class AppUser : IdentityUser<Guid> , IEntity
+public class 
+    AppUser : IdentityUser<Guid> , IEntity
 {
     
-    public AppUser()
+    private AppUser()
     {
     }
-    public AppUser(string firstName, string lastName, string nationalId,string email,string phoneNumber , string gender, Guid? requesterId = null)
+    public AppUser(string firstName, string lastName, string nationalId,string email,string phoneNumber ,
+        string gender, Guid? requesterId = null)
     {
         FirstName = firstName;
         LastName = lastName;
@@ -27,7 +29,6 @@ public class AppUser : IdentityUser<Guid> , IEntity
         Email=email;
         PhoneNumber=phoneNumber;
         Gender = gender;
-        CreatedById = requesterId ?? Id;
         Validate();
     }
 

@@ -8,5 +8,5 @@ public record RegisterJobSeekerCommand(
     string Email,
     string PhoneNumber,
     string Password,
-    string? Gender = null
-    );
+    string? Gender=null
+);

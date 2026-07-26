@@ -49,10 +49,12 @@ public class JobSeekerController : ControllerBase
             "Operation completed successfully."));
     }
 
-    [HttpPost("resume")]
-    public async Task<IActionResult> UploadResume([FromForm] IFormFile file)
+    [HttpPost("upload-resume")]
+    [Consumes("multipart/form-data")]
+    public async Task<IActionResult> UploadResume(
+        [FromForm] UploadResumeDto dto)
     {
-        await _service.UploadResumeAsync(GetUserId(), file);
+        await _service.UploadResumeAsync(GetUserId(), dto.File);
 
         return Ok(new ApiResponse<object>(
             true,
@@ -60,18 +62,20 @@ public class JobSeekerController : ControllerBase
             "Resume uploaded successfully."));
     }
 
-    [HttpPut("resume")]
-    public async Task<IActionResult> ReplaceResume([FromForm] IFormFile file)
+    [HttpPut("replace-resume")]
+    [Consumes("multipart/form-data")]
+    public async Task<IActionResult> ReplaceResume(
+        [FromForm] UploadResumeDto dto)
     {
-        await _service.ReplaceResumeAsync(GetUserId(), file);
+        await _service.ReplaceResumeAsync(GetUserId(), dto.File);
 
         return Ok(new ApiResponse<object>(
             true,
             null,
-            "Operation completed successfully."));
+            "Resume replaced successfully."));
     }
 
-    [HttpDelete("resume")]
+    [HttpDelete("delete-resume")]
     public async Task<IActionResult> DeleteResume()
     {
         await _service.DeleteResumeAsync(GetUserId());
@@ -79,7 +83,7 @@ public class JobSeekerController : ControllerBase
         return Ok(new ApiResponse<object>(
             true,
             null,
-            "Operation completed successfully."));
+            "Resume deleted successfully."));
     }
     
     [HttpGet("resume")]

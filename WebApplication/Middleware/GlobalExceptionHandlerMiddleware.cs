@@ -59,17 +59,16 @@ public class GlobalExceptionHandlerMiddleware : IMiddleware
                 break;
 
             default:
+                context.Response.StatusCode = StatusCodes.Status500InternalServerError;
 
-                context.Response.StatusCode =
-                    StatusCodes.Status500InternalServerError;
-
-                await context.Response.WriteAsJsonAsync(
-                    new ApiResponse<object>(
-                        false,
-                        null,
-                        "Something went wrong. Please contact administrator."));
+                await context.Response.WriteAsJsonAsync(new
+                {
+                    Exception = exception.GetType().Name,
+                    Message = exception.Message,
+                    Inner = exception.InnerException?.Message
+                });
 
                 break;
         }
     }
-}
+    }

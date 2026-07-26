@@ -161,14 +161,19 @@ private async Task<TokenLoginResult> GenerateTokenAsync(AppUser user)
             command.Email,
             command.PhoneNumber,
             command.Gender);
+        
 
         var result = await _userManager.CreateAsync(user, command.Password);
 
         if (!result.Succeeded)
         {
+            foreach (var error in result.Errors)
+            {
+                Console.WriteLine($"{error.Code} : {error.Description}");
+            }
+
             throw new UserRegistrationException(
-                result.Errors.FirstOrDefault()?.Description ??
-                "Registration failed.");
+                string.Join(" | ", result.Errors.Select(x => $"{x.Code}: {x.Description}")));
         }
 
         var roleResult = await _userManager.AddToRoleAsync(user, RoleConstants.JobSeekerRoleName);
