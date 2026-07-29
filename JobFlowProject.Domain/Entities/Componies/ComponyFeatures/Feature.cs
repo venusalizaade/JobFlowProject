@@ -4,7 +4,24 @@ namespace JobFlowProject.Domain.Entities.Componies.ComponyFeatures;
 
 
 public class Feature : BaseEntity
+
 {
+    public Feature(
+        string name,
+        decimal price,
+        int durationDays,
+        FeatureTypeEnum featureType)
+    {
+        Name = name;
+        Price = price;
+        DurationDays = durationDays;
+        FeatureType = featureType;
+
+        Validate();
+    }
+
+    private Feature() { }
+   
     /// <summary>
     /// نام 
     /// </summary>

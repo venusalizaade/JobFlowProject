@@ -17,4 +17,6 @@ public interface IJobPostRepository : IGenericRepository<JobPost>
     Task<List<JobPost>> SearchAsync(string? title, EmploymentTypeEnum? employmentType, Guid? cityId);
     
     Task<List<JobPost>> FilterAsync(Guid? categoryId, Guid? skillId, decimal? minSalary, decimal? maxSalary);
+    
+    Task<List<JobPost>> GetAllAsync();
 }

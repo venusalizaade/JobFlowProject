@@ -126,4 +126,13 @@ public class JobPostRepository : GenericRepository<JobPost>, IJobPostRepository
 
         return await query.ToListAsync();
     }
+    
+    public async Task<List<JobPost>> GetAllAsync()
+    {
+        return await _context.JobPosts
+            .Include(x => x.Company)
+            .Include(x => x.Category)
+            .Include(x => x.City)
+            .ToListAsync();
+    }
 }

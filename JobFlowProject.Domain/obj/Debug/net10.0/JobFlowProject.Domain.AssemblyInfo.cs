@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("JobFlowProject.Domain")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+6f4f25d6b273280fbaec3dcd82172f28229ce662")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+e0d1b6859253545615bd70531ea83ef8f3e23238")]
 [assembly: System.Reflection.AssemblyProductAttribute("JobFlowProject.Domain")]
 [assembly: System.Reflection.AssemblyTitleAttribute("JobFlowProject.Domain")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

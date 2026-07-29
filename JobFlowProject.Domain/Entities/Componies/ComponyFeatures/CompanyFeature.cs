@@ -5,6 +5,22 @@ namespace JobFlowProject.Domain.Entities.Componies.ComponyFeatures;
 
 public class CompanyFeature : BaseEntity
 {
+    public CompanyFeature(
+        Guid companyId,
+        Guid featureId,
+        DateTime startDate,
+        DateTime endDate)
+    {
+        CompanyId = companyId;
+        FeatureId = featureId;
+        StartDate = startDate;
+        EndDate = endDate;
+
+        Validate();
+    }
+
+    private CompanyFeature() { }
+    
     /// <summary>
     /// آیدی شرکت
     /// </summary>
@@ -30,7 +46,7 @@ public class CompanyFeature : BaseEntity
     /// <summary>
     /// آیا هنوز فعال است؟
     /// </summary>
-    public bool IsActive => DateTime.UtcNow <= EndDate;
+    public bool IsActive { get; private set; }
 
     public override void Validate()
     {
