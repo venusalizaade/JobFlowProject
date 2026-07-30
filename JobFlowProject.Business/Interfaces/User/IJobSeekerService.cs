@@ -6,7 +6,7 @@ namespace JobFlowProject.Business.Interfaces.User;
 
 public interface IJobSeekerService
 {
-    Task <JobSeekerProfileDto> GetProfileAsync(Guid requesterId);
+    Task <JobSeekerDetailsDto> GetProfileAsync(Guid requesterId);
 
     Task UpdateProfileAsync(Guid requesterId, UpdateJobSeekerProfileDto dto);
    

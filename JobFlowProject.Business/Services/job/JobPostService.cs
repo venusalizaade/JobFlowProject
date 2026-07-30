@@ -1,5 +1,6 @@
 ﻿using JobFlowProject.Business.Dto.Commands;
 using JobFlowProject.Business.Dto.JobPost;
+using JobFlowProject.Business.Dto.User;
 using JobFlowProject.Business.Exceptions.Authentication_Exceptions;
 using JobFlowProject.Business.Exceptions.AuthenticationExceptions;
 using JobFlowProject.Business.Exceptions.BaseExeption;

@@ -1,5 +1,6 @@
 ﻿using JobFlowProject.Business.Dto.Commands;
 using JobFlowProject.Business.Dto.JobPost;
+using JobFlowProject.Business.Dto.User;
 using JobFlowProject.Domain.Enums;
 using WebApplication1.Dto.Authentication;
 using JobPostResponseDto = JobFlowProject.Business.Dto.JobPost.JobPostResponseDto;

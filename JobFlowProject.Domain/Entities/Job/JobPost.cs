@@ -61,7 +61,7 @@ public class JobPost : BaseEntity
     /// <summary>
     /// وضعیت فعال بودن آگهی
     /// </summary>
-    public bool IsActive { get;  private set; } = true;
+    public bool IsActive { get;  set; } = true;
 
     /// <summary>
     /// تاریخ انقضای آگهی
@@ -87,6 +87,42 @@ public class JobPost : BaseEntity
     
     
     public ICollection<Payment> Payments { get; set; } = new List<Payment>();
+    
+    public bool IsFeatured { get; private set; }
+
+    public DateTime? FeaturedUntil { get; private set; }
+
+    public void SetFeatured(int durationDays, Guid requesterId)
+    {
+        IsFeatured = true;
+        FeaturedUntil = DateTime.UtcNow.AddDays(durationDays);
+        SetModificationInfo(requesterId);
+    }
+
+    public void RemoveFeatured(Guid requesterId)
+    {
+        IsFeatured = false;
+        FeaturedUntil = null;
+        SetModificationInfo(requesterId);
+    }
+    
+    public void Activate(Guid requesterId)
+    {
+        IsActive = true;
+        SetModificationInfo(requesterId);
+    }
+
+    public void Deactivate(Guid requesterId)
+    {
+        IsActive = false;
+        SetModificationInfo(requesterId);
+    }
+
+    public void ToggleStatus(Guid requesterId)
+    {
+        IsActive = !IsActive;
+        SetModificationInfo(requesterId);
+    }
 
 
     public override void Validate()

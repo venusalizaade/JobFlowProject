@@ -167,3 +167,6 @@ C:\Users\VenusA\RiderProjects\JobFlowProject\WebApplication\bin\Debug\net10.0\tr
 C:\Users\VenusA\RiderProjects\JobFlowProject\WebApplication\bin\Debug\net10.0\zh-Hans\Microsoft.CodeAnalysis.Workspaces.MSBuild.resources.dll
 C:\Users\VenusA\RiderProjects\JobFlowProject\WebApplication\bin\Debug\net10.0\zh-Hant\Microsoft.CodeAnalysis.Workspaces.MSBuild.resources.dll
 C:\Users\VenusA\RiderProjects\JobFlowProject\WebApplication\bin\Debug\net10.0\Microsoft.AspNetCore.Authentication.JwtBearer.dll
+C:\Users\VenusA\RiderProjects\JobFlowProject\WebApplication\bin\Debug\net10.0\BouncyCastle.Cryptography.dll
+C:\Users\VenusA\RiderProjects\JobFlowProject\WebApplication\bin\Debug\net10.0\MailKit.dll
+C:\Users\VenusA\RiderProjects\JobFlowProject\WebApplication\bin\Debug\net10.0\MimeKit.dll

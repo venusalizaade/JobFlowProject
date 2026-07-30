@@ -12,7 +12,9 @@ using JobFlowProject.Business.Interfaces.User;
 using JobFlowProject.Business.Services;
 using JobFlowProject.Business.Services.Authentication;
 using JobFlowProject.Business.Services.CompaneisService;
+using JobFlowProject.Business.Services.EmailSender;
 using JobFlowProject.Business.Services.job;
+using JobFlowProject.Business.Services.Job;
 using JobFlowProject.Business.Services.Log;
 using JobFlowProject.Business.Services.MailKit;
 using JobFlowProject.Business.Services.User;
@@ -26,7 +28,6 @@ using JobFlowProject.Infrastructure.Repositories;
 using JobFlowProject.Infrastructure.Repositories.User;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using WebApplication1.EmailSender;
 using WebApplication1.Middleware;
 using IJobApplicationService = JobFlowProject.Business.Interfaces.EmployerInterfaces.IJobApplicationService;
 

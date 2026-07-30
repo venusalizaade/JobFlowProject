@@ -29,23 +29,37 @@ public class JobSeekerService : IJobSeekerService
        
     }
 
-    public async Task<JobSeekerProfileDto> GetProfileAsync(Guid requesterId)
+    public async Task<JobSeekerDetailsDto> GetProfileAsync(Guid requesterId)
     {
         var user = await _userManager.FindByIdAsync(requesterId.ToString());
 
         if (user is null)
             throw new UserNotFoundException();
 
-        return new JobSeekerProfileDto(
+        return new JobSeekerDetailsDto(
+            user.Id,
             user.FirstName,
             user.LastName,
             user.Email!,
             user.PhoneNumber!,
             user.Gender,
-            user.About
+            user.NationalId,
+            user.About,
+            user.Attachments.Select(a => new JobSeekerAttachmentDto(
+                a.Id,
+                a.FileName,
+                a.FilePath
+            )).ToList()!,
+            
+            user.JobApplications.Select(a => new JobSeekerApplicationDto(
+                a.Id,
+                a.JobPost.Title,
+                a.JobPost.Company.Name,
+                a.Status,
+                a.CreatedAt
+            )).ToList()!
         );
     }
-
     public async Task UpdateProfileAsync(Guid requesterId, UpdateJobSeekerProfileDto dto)
     {
         var user = await _userManager.FindByIdAsync(requesterId.ToString());

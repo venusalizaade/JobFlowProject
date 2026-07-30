@@ -19,4 +19,9 @@ public interface IJobPostRepository : IGenericRepository<JobPost>
     Task<List<JobPost>> FilterAsync(Guid? categoryId, Guid? skillId, decimal? minSalary, decimal? maxSalary);
     
     Task<List<JobPost>> GetAllAsync();
+    Task ToggleActiveAsync(Guid jobPostId, Guid requesterId);
+    
+    Task SetFeaturedAsync(Guid jobPostId, int durationDays, Guid requesterId);
+
+    Task RemoveFeaturedAsync(Guid jobPostId, Guid requesterId);
 }

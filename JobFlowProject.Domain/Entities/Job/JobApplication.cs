@@ -62,12 +62,12 @@ public class JobApplication : BaseEntity
     /// <summary>
     ///آیدی فایل رزومه (Attachment)
     /// </summary>
-    public Guid AttachmentId { get;  private set; }
+    public Guid ?AttachmentId { get;  private set; }
 
     /// <summary>
     /// فایل رزومه
     /// </summary>
-    public AttachmentFile Attachment { get;  private set; }
+    public AttachmentFile? Attachment { get;  private set; }
 
     public override void Validate()
     {
