@@ -14,6 +14,7 @@ using JobFlowProject.Business.Services.Authentication;
 using JobFlowProject.Business.Services.CompaneisService;
 using JobFlowProject.Business.Services.job;
 using JobFlowProject.Business.Services.Log;
+using JobFlowProject.Business.Services.MailKit;
 using JobFlowProject.Business.Services.User;
 using JobFlowProject.Domain.Entites.User;
 using JobFlowProject.Domain.Entities.User;
@@ -25,6 +26,7 @@ using JobFlowProject.Infrastructure.Repositories;
 using JobFlowProject.Infrastructure.Repositories.User;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using WebApplication1.EmailSender;
 using WebApplication1.Middleware;
 using IJobApplicationService = JobFlowProject.Business.Interfaces.EmployerInterfaces.IJobApplicationService;
 
@@ -99,6 +101,14 @@ builder.Services.AddScoped<IJobSeekerService, JobSeekerService>();
 builder.Services.AddScoped<IAttachmentRepository, AttachmentRepository>();
 builder.Services.AddScoped<IJobApplicationRepository, JobApplicationRepository>();
 builder.Services.AddScoped<IRefreshTokenRepository, RefreshTokenRepository>();
+builder.Services.AddScoped<IFeatureService, FeatureService>();
+builder.Services.AddScoped<IFeatureRepository, FeatureRepository>();
+builder.Services.AddScoped<ICompanyFeatureRepository, CompanyFeatureRepository>();
+builder.Services.AddScoped<ICompanyFeatureService, CompanyFeatureService>();
+builder.Services.Configure<EmailSetting>(
+    builder.Configuration.GetSection("EmailSettings"));
+
+builder.Services.AddScoped<IEmailService, EmailService>();
 
 
 

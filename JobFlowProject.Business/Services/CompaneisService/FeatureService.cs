@@ -1,14 +1,15 @@
 ﻿using JobFlowProject.Business.Dto.Feature;
+using JobFlowProject.Business.Interfaces;
 using JobFlowProject.Domain.Entities.Componies.ComponyFeatures;
 using JobFlowProject.Domain.Interfaces.Repository;
 
 namespace JobFlowProject.Business.Services.CompaneisService;
 
-public class FeatureService
+public class FeatureService : IFeatureService
 {
     private readonly IFeatureRepository _featureRepository;
 
-    public FeatureService(IFeatureRepository  featureRepository)
+    public FeatureService(IFeatureRepository featureRepository)
     {
         _featureRepository = featureRepository;
     }
@@ -24,6 +25,7 @@ public class FeatureService
             x.DurationDays
         )).ToList();
     }
+
     public async Task CreateFeatureAsync(CreateFeatureDto dto)
     {
         if (await _featureRepository.GetByNameAsync(dto.Name) is not null)
@@ -37,6 +39,7 @@ public class FeatureService
 
         await _featureRepository.AddAsync(feature);
     }
+
     public async Task UpdateFeatureAsync(Guid id, UpdateFeatureDto dto)
     {
         var feature = await _featureRepository.GetByIdAsync(id);
@@ -53,7 +56,7 @@ public class FeatureService
 
         await _featureRepository.UpdateAsync(feature);
     }
- 
+
     public async Task DeleteFeatureAsync(Guid id, Guid requesterId)
     {
         await _featureRepository.SoftDeleteAsync(id, requesterId);

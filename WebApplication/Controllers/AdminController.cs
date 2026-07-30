@@ -21,11 +21,13 @@ public class AdminController : ControllerBase
     }
 
    
+    
     [HttpPatch("verify-employer/{id:guid}")]
+    [Authorize(Policy = "CanApproveEmployer")]
     public async Task<IActionResult> VerifyEmployer(Guid id)
     {
         await _service.VerifyEmployerAsync(id);
-        
+
         return Ok(new ApiResponse<object>(
             true,
             null,

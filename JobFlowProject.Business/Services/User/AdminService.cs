@@ -3,6 +3,7 @@ using JobFlowProject.Business.Dto.Admin;
 using JobFlowProject.Business.Dto.JobPost;
 using JobFlowProject.Business.Exceptions.Authentication_Exceptions;
 using JobFlowProject.Business.Exceptions.BaseExeption;
+using JobFlowProject.Business.Interfaces;
 using JobFlowProject.Business.Interfaces.User;
 using JobFlowProject.Domain.Entities.User;
 using JobFlowProject.Domain.Enums;
@@ -18,16 +19,22 @@ public class AdminService : IAdminService
     private readonly UserManager<AppUser> _userManager;
     private readonly JobFlowDbContext _context;
     private readonly IJobPostRepository _jobPostRepository;
+    private readonly IEmailService _emailService;
+    
 
     public AdminService(
         UserManager<AppUser> userManager,
         JobFlowDbContext context,
-        IJobPostRepository jobPostRepository)
+        IJobPostRepository jobPostRepository,
+        IEmailService emailService)
     {
         _userManager = userManager;
         _context = context;
         _jobPostRepository = jobPostRepository;
+        _emailService = emailService;
     }
+    
+    
 
     public async Task VerifyEmployerAsync(Guid employerId)
     {
@@ -42,6 +49,18 @@ public class AdminService : IAdminService
 
         if (!result.Succeeded)
             throw new Exception(result.Errors.FirstOrDefault()?.Description);
+        try
+        {
+            await _emailService.SendAsync(
+                employer.Email!,
+                "Employer account approved",
+                "<h3>Your employer account has been approved successfully.</h3>");
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Email sending failed: {ex.Message}");
+        }
+        
     }
     public async Task<DashboardDto> GetDashboardAsync()
     {
