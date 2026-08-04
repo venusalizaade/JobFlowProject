@@ -94,7 +94,10 @@ private async Task<TokenLoginResult> GenerateTokenAsync(AppUser user)
         foreach (var claim in userRoles)
         {
             var role = _roleManager.Roles.FirstOrDefault(r => r.Name == claim.Value);
-            var roleClaims = await _roleManager.GetClaimsAsync(role!);
+            
+            if (role is null) continue;
+            
+            var roleClaims = await _roleManager.GetClaimsAsync(role);
             claims.AddRange(roleClaims);
         } 
         
@@ -122,8 +125,11 @@ private async Task<TokenLoginResult> GenerateTokenAsync(AppUser user)
             DateTime.UtcNow.AddDays(30));
 
         await _refreshTokenRepository.AddAsync(refreshTokenEntity);
+        
         var secretKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_jwtSettings.Secret));
+       
         var credentials = new SigningCredentials(secretKey, SecurityAlgorithms.HmacSha256);
+       
         var expiresIn = DateTime.UtcNow.AddMinutes(_jwtSettings.ExpiresInMinutes);
         
         var token = new JwtSecurityToken(
@@ -269,7 +275,11 @@ private async Task<TokenLoginResult> GenerateTokenAsync(AppUser user)
 
         if (token.ExpiresAt <= DateTime.UtcNow)
             throw new AuthenticationException("Refresh token expired.");
-
+       
+        token.Revoke();                                         
+       
+        await _refreshTokenRepository.UpdateAsync(token);
+       
         return await GenerateTokenAsync(token.AppUser);
     }
     public async Task LogoutAsync(string refreshToken)

@@ -847,7 +847,9 @@
         "dependencies": {
           "JobFlowProject.Domain": "1.0.0",
           "JobFlowProject.Infrastructure": "1.0.0",
-          "Microsoft.AspNetCore.Authentication.JwtBearer": "10.0.10"
+          "MailKit": "4.17.0",
+          "Microsoft.AspNetCore.Authentication.JwtBearer": "10.0.10",
+          "MimeKit": "4.17.0"
         },
         "runtime": {
           "JobFlowProject.Business.dll": {

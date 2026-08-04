@@ -66,14 +66,11 @@ public async Task ApplyAsync(Guid requesterId, ApplyJobCommand command)
 
         if (employer is not null && !string.IsNullOrWhiteSpace(employer.Email))
         {
-            await _emailService.SendAsync(
-                employer.Email,
-                "New job application received",
-                $@"
-            <h3>New job application received</h3>
-            <p>A new applicant has applied for your job post:</p>
-            <p><b>{jobPost.Title}</b></p>
-            <p>Applicant: {applicant.FirstName} {applicant.LastName}</p>");
+            var subject = "New job application received";
+            var body = "A new applicant has applied for your job post: " + jobPost.Title +
+                       ". Applicant: " + applicant.FirstName + " " + applicant.LastName;
+
+            await _emailService.SendAsync(employer.Email, subject, body);
         }
     }
     catch (Exception ex)

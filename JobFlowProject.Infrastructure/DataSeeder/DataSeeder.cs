@@ -51,10 +51,24 @@ public static class DataSeeder
 
                 var result = await userManager.CreateAsync(admin, "Admin@12345");
 
-                if (!result.Succeeded)
+            
+
+            if (!result.Succeeded)
+            {
                     throw new Exception(string.Join(" | ", result.Errors.Select(e => e.Description)));
 
                 await userManager.AddToRoleAsync(admin, "Admin");
+                }
+                else
+                {
+                    // اگر کاربر قبلاً ساخته شده، مطمئن شو نقش Admin را دارد!
+                    var roles = await userManager.GetRolesAsync(admin);
+                    if (!roles.Contains("Admin"))
+                    {
+                        await userManager.AddToRoleAsync(admin, "Admin");
+                        Console.WriteLine(">>> نقش Admin به کاربر موجود اضافه شد!");
+                    }
+                }
             }
 
             Console.WriteLine("Admin Done");
