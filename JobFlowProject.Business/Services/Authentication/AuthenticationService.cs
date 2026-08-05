@@ -107,10 +107,25 @@ private async Task<TokenLoginResult> GenerateTokenAsync(AppUser user)
 
         claims.AddRange(userClaims);
        
-        claims.Add(new Claim(
-            "IsApproved",
-            user.IsApproved.ToString().ToLower()));
        
+        var isEmployer = await _userManager.IsInRoleAsync(user, RoleConstants.EmployerRoleName);
+    
+        if (isEmployer)
+        {
+           
+            claims.Add(new Claim(
+                "IsApproved",
+                user.IsApproved.ToString().ToLower()));
+        }
+        else
+        {
+            
+            claims.Add(new Claim(
+                "IsApproved",
+                "true"));
+        }
+   
+      
         if (await _userManager.IsInRoleAsync(user, RoleConstants.AdminRoleName))
         {
             claims.Add(new Claim(

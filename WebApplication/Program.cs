@@ -1,6 +1,3 @@
-using JobFlowProject.Infrastructure.Configurations;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using JobFlowProject.Business.Constants;
 using JobFlowProject.Business.Interfaces;
@@ -25,32 +22,35 @@ using JobFlowProject.Infrastructure.DataSeeder;
 using JobFlowProject.Infrastructure.DbContext.AppDbContext;
 using JobFlowProject.Infrastructure.Repositories;
 using JobFlowProject.Infrastructure.Repositories.User;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi;
-using Swashbuckle.AspNetCore.Filters;
 using WebApplication1.Middleware;
-using IJobApplicationService = JobFlowProject.Business.Interfaces.EmployerInterfaces.IJobApplicationService;
-
 
 var builder = WebApplication.CreateBuilder(args);
 
-
+// ===== Services =====
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 
-
 builder.Services.AddDbContext<JobFlowDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
-
 
 builder.Services.AddIdentity<AppUser, Role>()
     .AddEntityFrameworkStores<JobFlowDbContext>()
     .AddDefaultTokenProviders();
 
+// ===== JWT =====
+var jwtSettings = builder.Configuration.GetSection("JwtSettings").Get<JwtSettings>();
+if (jwtSettings == null || string.IsNullOrEmpty(jwtSettings.Secret))
+{
+    throw new Exception("JwtSettings not configured properly!");
+}
 
 builder.Services.Configure<JwtSettings>(builder.Configuration.GetSection("JwtSettings"));
-var jwtSettings = builder.Configuration.GetSection("JwtSettings").Get<JwtSettings>()!;
 
 builder.Services.AddAuthentication(options =>
 {
@@ -67,7 +67,21 @@ builder.Services.AddAuthentication(options =>
         ValidateIssuerSigningKey = true,
         ValidIssuer = jwtSettings.Issuer,
         ValidAudience = jwtSettings.Audience,
-        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtSettings.Secret)),
+        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtSettings.Secret))
+    };
+
+    options.Events = new JwtBearerEvents
+    {
+        OnAuthenticationFailed = context =>
+        {
+            Console.WriteLine($"=== JWT FAILED: {context.Exception.Message} ===");
+            return Task.CompletedTask;
+        },
+        OnTokenValidated = context =>
+        {
+            Console.WriteLine("=== JWT VALIDATED ===");
+            return Task.CompletedTask;
+        }
     };
 });
 
@@ -81,13 +95,11 @@ builder.Services.AddAuthorization(options =>
 
     options.AddPolicy("CanApproveEmployer", policy =>
     {
-        policy.RequireClaim(
-            ClaimConstants.CanApproveEmployer,
-            "true");
+        policy.RequireClaim(ClaimConstants.CanApproveEmployer, "true");
     });
 });
 
-
+// ===== DI =====
 builder.Services.AddScoped<GlobalExceptionHandlerMiddleware>();
 builder.Services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
 builder.Services.AddScoped<INotificationRepository, NotificationRepository>();
@@ -98,25 +110,29 @@ builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
 builder.Services.AddScoped<ICategoryService, CategoryService>();
 builder.Services.AddScoped<IAdminService, AdminService>();
 builder.Services.AddScoped<IJobPostService, JobPostService>();
-builder.Services.AddScoped<IJobApplicationService, JobApplicationService>();
 builder.Services.AddScoped<IJobPostRepository, JobPostRepository>();
+builder.Services.AddScoped<IJobApplicationService, JobApplicationService>();
 builder.Services.AddScoped<IJobApplicationRepository, JobApplicationRepository>();
 builder.Services.AddScoped<IAuthenticationService, AuthenticationService>();
 builder.Services.AddScoped<IJobSeekerService, JobSeekerService>();
 builder.Services.AddScoped<IAttachmentRepository, AttachmentRepository>();
-builder.Services.AddScoped<IJobApplicationRepository, JobApplicationRepository>();
 builder.Services.AddScoped<IRefreshTokenRepository, RefreshTokenRepository>();
 builder.Services.AddScoped<IFeatureService, FeatureService>();
 builder.Services.AddScoped<IFeatureRepository, FeatureRepository>();
 builder.Services.AddScoped<ICompanyFeatureRepository, CompanyFeatureRepository>();
 builder.Services.AddScoped<ICompanyFeatureService, CompanyFeatureService>();
-builder.Services.Configure<EmailSetting>(
-    builder.Configuration.GetSection("EmailSettings"));
-
+builder.Services.Configure<EmailSetting>(builder.Configuration.GetSection("EmailSettings"));
 builder.Services.AddScoped<IEmailService, EmailService>();
 
+// ===== Swagger (درست شده) =====
 builder.Services.AddSwaggerGen(options =>
 {
+    options.SwaggerDoc("v1", new OpenApiInfo
+    {
+        Title = "JobFlow API",
+        Version = "v1"
+    });
+
     options.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
     {
         Name = "Authorization",
@@ -124,42 +140,42 @@ builder.Services.AddSwaggerGen(options =>
         Scheme = "Bearer",
         BearerFormat = "JWT",
         In = ParameterLocation.Header,
-        Description = "Enter: Bearer {your JWT token}\n\nExample: \"Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9\""
+        Description = "Enter 'Bearer' [space] and then your valid token."
+    });
+    
+
+        options.AddSecurityRequirement(document =>
+            new OpenApiSecurityRequirement
+            {
+                [new OpenApiSecuritySchemeReference("Bearer")] = []
+            });
     });
 
-    options.OperationFilter<SecurityRequirementsOperationFilter>();
-});
-
+// ===== Build =====
 var app = builder.Build();
 
+// ===== Seed Data =====
 using (var scope = app.Services.CreateScope())
 {
-    Console.WriteLine("Before Seeder");
-
     var services = scope.ServiceProvider;
-
     var context = services.GetRequiredService<JobFlowDbContext>();
     var userManager = services.GetRequiredService<UserManager<AppUser>>();
     var roleManager = services.GetRequiredService<RoleManager<Role>>();
 
-    await DataSeeder.SeedAsync(context, userManager, roleManager);
-
-    Console.WriteLine("After Seeder");
+    DataSeeder.SeedAsync(context, userManager, roleManager).GetAwaiter().GetResult();
 }
 
-app.UseMiddleware<GlobalExceptionHandlerMiddleware>();
-
-app.UseHttpsRedirection();
-
-app.UseAuthentication();
-app.UseAuthorization();
-
-app.MapControllers();
-
+// ===== Middleware =====
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+
+app.UseHttpsRedirection();
+app.UseAuthentication();
+app.UseAuthorization();
+app.UseMiddleware<GlobalExceptionHandlerMiddleware>();
+app.MapControllers();
 
 app.Run();

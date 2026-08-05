@@ -8,7 +8,7 @@ using JobPostSearchRequestDto = JobFlowProject.Business.Dto.JobPost.JobPostSearc
 
 namespace JobFlowProject.Business.Interfaces.JobPost;
 
-public interface IJobPostService
+public interface IJobPostService 
 {
     Task<JobPostResponseDto> CreateAsync(Guid requesterId, CreateJobPostCommand command);
 

@@ -20,6 +20,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebApplication", "WebApplic
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "05-Mvc", "05-Mvc", "{8DEE4DB4-9FD0-41CB-A3EF-F5C47960A05C}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JovFlowProject.JobMvc", "JovFlowProject.JobMvc\JovFlowProject.JobMvc.csproj", "{3365E744-2FCE-41D1-AAA0-702E85135BD2}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -46,6 +48,10 @@ Global
 		{9A3A5B5F-0367-4593-AC1A-DBB1C6F6B77A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9A3A5B5F-0367-4593-AC1A-DBB1C6F6B77A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9A3A5B5F-0367-4593-AC1A-DBB1C6F6B77A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3365E744-2FCE-41D1-AAA0-702E85135BD2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3365E744-2FCE-41D1-AAA0-702E85135BD2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3365E744-2FCE-41D1-AAA0-702E85135BD2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3365E744-2FCE-41D1-AAA0-702E85135BD2}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{C1030F3C-57A6-4280-B7C0-EF17AD9A6EDA} = {3AE7229C-ACF9-46D8-98D4-B4A08E3A02A8}

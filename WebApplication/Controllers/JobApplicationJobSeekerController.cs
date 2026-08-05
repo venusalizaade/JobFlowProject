@@ -1,4 +1,5 @@
 ﻿using System.Security.Claims;
+using JobFlowProject.Business.Dto.Commands;
 using JobFlowProject.Business.Dto.JobPost;
 using JobFlowProject.Business.Interfaces.JobPost;
 using Microsoft.AspNetCore.Authorization;
@@ -22,7 +23,7 @@ namespace WebApplication1.Controllers;
         }
 
         [HttpPost]
-        public async Task<IActionResult> Apply(CreateJobApplicationDto dto)
+        public async Task<IActionResult> Apply(ApplyJobCommand dto)
         {
             var requesterId = GetUserId();
 

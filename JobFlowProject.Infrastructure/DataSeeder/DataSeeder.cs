@@ -37,38 +37,47 @@ public static class DataSeeder
 
             // ---------------- Admin ----------------
 
+            if (!await roleManager.RoleExistsAsync("Admin"))
+            {
+                await roleManager.CreateAsync(new Role("Admin"));
+            } 
+            
             var admin = await userManager.FindByNameAsync("1111111111");
 
             if (admin == null)
             {
+                admin.IsApproved = true;
                 admin = new AppUser(
                     "Admin",
                     "System",
                     "1111111111",
                     "admin@site.com",
                     "09120000001",
-                    "Male");
+                    "Male"
+                    )
+                {
+                    
+                        IsApproved = true, 
+                        EmailConfirmed = true,
+                        LockoutEnabled = false
+                    
+                };
 
                 var result = await userManager.CreateAsync(admin, "Admin@12345");
 
             
 
-            if (!result.Succeeded)
-            {
-                    throw new Exception(string.Join(" | ", result.Errors.Select(e => e.Description)));
-
-                await userManager.AddToRoleAsync(admin, "Admin");
-                }
-                else
-                {
-                    // اگر کاربر قبلاً ساخته شده، مطمئن شو نقش Admin را دارد!
-                    var roles = await userManager.GetRolesAsync(admin);
-                    if (!roles.Contains("Admin"))
-                    {
-                        await userManager.AddToRoleAsync(admin, "Admin");
-                        Console.WriteLine(">>> نقش Admin به کاربر موجود اضافه شد!");
-                    }
-                }
+           
+               // else
+               //  {
+               //      // اگر کاربر قبلاً ساخته شده، مطمئن شو نقش Admin را دارد!
+               //      var roles = await userManager.GetRolesAsync(admin);
+               //      if (!roles.Contains("Admin"))
+               //      {
+               //          await userManager.AddToRoleAsync(admin, "Admin");
+               //          Console.WriteLine(">>> نقش Admin به کاربر موجود اضافه شد!");
+               //      }
+               //  }
             }
 
             Console.WriteLine("Admin Done");

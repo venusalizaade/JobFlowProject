@@ -6,6 +6,7 @@ using JobFlowProject.Business.Exceptions.AuthenticationExceptions;
 using JobFlowProject.Business.Exceptions.BaseExeption;
 using JobFlowProject.Business.Interfaces;
 using JobFlowProject.Business.Interfaces.EmployerInterfaces;
+using JobFlowProject.Business.Interfaces.JobPost;
 using JobFlowProject.Domain.Entities.Job;
 using JobFlowProject.Domain.Entities.User;
 using JobFlowProject.Domain.Enums;
@@ -169,6 +170,8 @@ public async Task ChangeStatusAsync(Guid requesterId, ChangeApplicationStatusCom
         Console.WriteLine($"Email sending failed: {ex.Message}");
     }
 }
+
+
 
 public async Task<List<JobApplicationResponseDto>> GetMyApplicationsAsync(Guid requesterId)
 {

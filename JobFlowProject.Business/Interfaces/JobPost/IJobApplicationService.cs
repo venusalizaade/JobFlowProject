@@ -16,7 +16,6 @@ public interface IJobApplicationService
 
     Task ChangeStatusAsync(Guid requesterId, ChangeApplicationStatusCommand command);
     
-    Task ApplyAsync(Guid requesterId, CreateJobApplicationDto dto);
 
     Task<List<JobApplicationResponseDto>> GetMyApplicationsAsync(Guid requesterId);
 
