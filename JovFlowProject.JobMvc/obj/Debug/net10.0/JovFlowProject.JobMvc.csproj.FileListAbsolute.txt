@@ -1,0 +1,10 @@
+C:\Users\VenusA\RiderProjects\JobFlowProject\JovFlowProject.JobMvc\obj\Debug\net10.0\JovFlowProject.JobMvc.csproj.AssemblyReference.cache
+C:\Users\VenusA\RiderProjects\JobFlowProject\JovFlowProject.JobMvc\obj\Debug\net10.0\rpswa.dswa.cache.json
+C:\Users\VenusA\RiderProjects\JobFlowProject\JovFlowProject.JobMvc\obj\Debug\net10.0\JovFlowProject.JobMvc.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\VenusA\RiderProjects\JobFlowProject\JovFlowProject.JobMvc\obj\Debug\net10.0\JovFlowProject.JobMvc.AssemblyInfoInputs.cache
+C:\Users\VenusA\RiderProjects\JobFlowProject\JovFlowProject.JobMvc\obj\Debug\net10.0\JovFlowProject.JobMvc.AssemblyInfo.cs
+C:\Users\VenusA\RiderProjects\JobFlowProject\JovFlowProject.JobMvc\obj\Debug\net10.0\JovFlowProject.JobMvc.csproj.CoreCompileInputs.cache
+C:\Users\VenusA\RiderProjects\JobFlowProject\JovFlowProject.JobMvc\obj\Debug\net10.0\JovFlowProject.JobMvc.MvcApplicationPartsAssemblyInfo.cache
+C:\Users\VenusA\RiderProjects\JobFlowProject\JovFlowProject.JobMvc\obj\Debug\net10.0\JovFlowProject.JobMvc.RazorAssemblyInfo.cache
+C:\Users\VenusA\RiderProjects\JobFlowProject\JovFlowProject.JobMvc\obj\Debug\net10.0\JovFlowProject.JobMvc.RazorAssemblyInfo.cs
+C:\Users\VenusA\RiderProjects\JobFlowProject\JovFlowProject.JobMvc\obj\Debug\net10.0\JovFlowProject.JobMvc.sourcelink.json
