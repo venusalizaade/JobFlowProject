@@ -11,4 +11,7 @@ public record JobPostResponseDto(
     EmploymentTypeEnum EmploymentType,
     bool IsActive,
     DateTime ExpiresAt
-);
+)
+{
+    public bool IsFeatured { get; set; }
+}
