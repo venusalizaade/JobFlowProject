@@ -1,0 +1,40 @@
+﻿@model JovFlowProject.JobMvc.Models.Company.EditFeatureVm
+
+@{
+    ViewData["Title"] = "Edit Feature";
+}
+
+<h2>Edit Feature</h2>
+
+<form asp-action="Edit" method="post">
+    <input asp-for="Id" type="hidden" />
+
+    <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+
+    <div class="mb-3">
+        <label asp-for="Name" class="form-label"></label>
+        <input asp-for="Name" class="form-control" />
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="Price" class="form-label"></label>
+        <input asp-for="Price" class="form-control" />
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="DurationDays" class="form-label"></label>
+        <input asp-for="DurationDays" class="form-control" />
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="FeatureType" class="form-label"></label>
+        <select asp-for="FeatureType" asp-items="Html.GetEnumSelectList<JobFlowProject.Domain.Enums.FeatureTypeEnum>()" class="form-select"></select>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Save Changes</button>
+</form>
+
+@section Scripts
+{
+    <partial name="_ValidationScriptsPartial" />
+}

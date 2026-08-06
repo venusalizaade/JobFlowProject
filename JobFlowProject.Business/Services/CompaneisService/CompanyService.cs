@@ -44,6 +44,7 @@ public class CompanyService : ICompanyService
 
        return new CompanyResponseDto
        (
+           company.Id,
            company.Name,
            company.NationalId,
            company.CityId,

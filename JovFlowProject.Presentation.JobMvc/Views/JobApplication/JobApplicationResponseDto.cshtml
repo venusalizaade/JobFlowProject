@@ -1,0 +1,48 @@
+﻿
+@model IEnumerable<JobFlowProject.Business.Dto.JobPost.JobApplicationResponseDto>
+
+@{
+    ViewData["Title"] = "My Applications";
+}
+
+<h2 class="mb-4">My Applications</h2>
+
+@if (!Model.Any())
+{
+    <div class="alert alert-info">
+        You have not applied for any jobs yet.
+    </div>
+}
+else
+{
+    <table class="table table-striped">
+        <thead>
+        <tr>
+            <th>Job</th>
+            <th>Status</th>
+            <th>Applied At</th>
+            <th></th>
+        </tr>
+        </thead>
+        <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.JobTitle</td>
+                <td><span class="badge bg-primary">@item.Status</span></td>
+                <td>@item.CreatedAt.ToString("yyyy/MM/dd")</td>
+                <td>
+                    <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-outline-primary btn-sm">
+                        Details
+                    </a>
+                </td>
+            </tr>
+        }
+        </tbody>
+    </table>
+}
+
+
+
+
+

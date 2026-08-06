@@ -1,0 +1,28 @@
+﻿@model IEnumerable<JobFlowProject.Business.Dto.CompanyDto.CategoryResponseDto>
+
+@{
+    ViewData["Title"] = "Categories";
+}
+
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h2>Categories</h2>
+    <a asp-action="Create" class="btn btn-primary">Create Category</a>
+</div>
+
+<table class="table table-bordered">
+    <thead>
+    <tr>
+        <th>Name</th>
+        <th>Description</th>
+    </tr>
+    </thead>
+    <tbody>
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>@item.Name</td>
+            <td>@item.Description</td>
+        </tr>
+    }
+    </tbody>
+</table>
