@@ -16,6 +16,7 @@ using JobFlowProject.Domain.Entities;
 using JobFlowProject.Domain.Entities.User;
 using JobFlowProject.Domain.Interfaces.Repository;
 using JobFlowProject.Domain.Interfaces.Repository.User;
+using JobFlowProject.Infrastructure.DbContext.AppDbContext;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
@@ -33,6 +34,7 @@ public class AuthenticationService : IAuthenticationService
     private readonly JwtSettings _jwtSettings;
     private readonly INotificationService _notificationService;
     private readonly IRefreshTokenRepository _refreshTokenRepository;
+    private readonly JobFlowDbContext _dbContext;
     
 
     public AuthenticationService(
@@ -41,7 +43,8 @@ public class AuthenticationService : IAuthenticationService
         RoleManager<Role> roleManager,
         IOptions<JwtSettings> options, IGenericRepository<Company> companyRepository,
       INotificationService notificationService,
-        IRefreshTokenRepository refreshTokenRepository)
+        IRefreshTokenRepository refreshTokenRepository,
+        JobFlowDbContext dbContext)
     {
         _userManager = userManager;
         _signInManager = signInManager;
@@ -50,30 +53,39 @@ public class AuthenticationService : IAuthenticationService
         _companyRepository = companyRepository;
         _notificationService = notificationService;
         _refreshTokenRepository = refreshTokenRepository;
+        _dbContext = dbContext;
     }
 
     public async Task<TokenLoginResult> LoginAsync(LoginCommand loginCommand)
     {
+        var user = await _userManager.FindByNameAsync(loginCommand.Username);
+        
         var result = await _signInManager.PasswordSignInAsync
             (loginCommand.Username, loginCommand.Password, false, false);
        
+        
+        if (user == null)
+            throw new AuthenticationException("Invalid username or password.");
+
+        
+        if (await _userManager.IsLockedOutAsync(user))
+            throw new AuthenticationException("User is locked out. Please try again 15 minutes later.");
+
+        
+        if (await _userManager.IsInRoleAsync(user, RoleConstants.EmployerRoleName) && !user.IsApproved)
+            throw new AuthenticationException("Your account is pending approval by admin.");
+        
+
         if (result.IsLockedOut)
             throw new AuthenticationException("User is locked out. Please try again 15 minutes later.");
-       
+
         if (result.IsNotAllowed)
             throw new PermissionDeniedException();
-        
 
         if (!result.Succeeded)
             throw new AuthenticationException("Invalid username or password.");
 
-        var user = await _userManager.FindByNameAsync(loginCommand.Username);
-
-        if (user == null)
-        {
-            throw new UserNotFoundException();
-        }
-
+       
         return await GenerateTokenAsync(user);
     }
 
@@ -220,8 +232,7 @@ private async Task<TokenLoginResult> GenerateTokenAsync(AppUser user)
             throw new DuplicateEmailException();
 
        
-        using var transaction =
-            new System.Transactions.TransactionScope(System.Transactions.TransactionScopeAsyncFlowOption.Enabled);
+        await using var transaction = await _dbContext.Database.BeginTransactionAsync();
 
         try
         {
@@ -265,14 +276,14 @@ private async Task<TokenLoginResult> GenerateTokenAsync(AppUser user)
             await _notificationService.NotifyAdminForEmployerVerificationAsync(company);
 
          
-            transaction.Complete();
+            await transaction.CommitAsync();
 
             return new EmployerRegisterResult(user.Id, company.Id);
         }
         
-        catch (Exception)
+        catch
         {
-           
+            await transaction.RollbackAsync();
             throw;
         }
     

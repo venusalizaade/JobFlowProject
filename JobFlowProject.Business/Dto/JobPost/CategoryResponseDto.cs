@@ -5,3 +5,9 @@ public record CategoryResponseDto(
     string Name,
     string? Description
 );
+public record  CreateCategoryDto(
+   
+    string Name,
+    string? Description
+);
+

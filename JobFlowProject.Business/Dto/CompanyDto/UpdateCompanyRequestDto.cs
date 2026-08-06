@@ -1,6 +1,6 @@
 ﻿namespace JobFlowProject.Business.Dto.CompanyDto;
 
-public record UpdateCompanyRequestDto
+public record UpdateCompanyRequestDto(string Name, Guid ProvinceId, Guid CityId, string Address, string? About)
 {
     public string Name { get; set; } = null!;
 
