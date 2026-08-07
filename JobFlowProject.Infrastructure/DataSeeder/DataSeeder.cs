@@ -64,7 +64,20 @@ public static class DataSeeder
                 };
 
                 var result = await userManager.CreateAsync(admin, "Admin@12345");
-
+                if (result.Succeeded)
+                {
+                    await userManager.AddToRoleAsync(admin, "Admin");
+                    Console.WriteLine(">>> Admin user created and assigned to Admin role.");
+                }
+            }
+            else
+            {
+                var roles = await userManager.GetRolesAsync(admin);
+                if (!roles.Contains("Admin"))
+                {
+                    await userManager.AddToRoleAsync(admin, "Admin");
+                    Console.WriteLine(">>> Admin role assigned to existing admin user.");
+                }
             
 
            

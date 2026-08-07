@@ -1,4 +1,5 @@
-﻿using JobFlowProject.Business.Interfaces.EmployerInterfaces;
+﻿using System.Security.Claims;
+using JobFlowProject.Business.Interfaces.EmployerInterfaces;
 using Microsoft.AspNetCore.Mvc;
 using WebApplication1.Dto.Authentication;
 
@@ -18,6 +19,7 @@ public class CategoryController : ControllerBase
     [HttpGet]
     public async Task<IActionResult> GetAll()
     {
+        var user = User.FindFirstValue(ClaimTypes.NameIdentifier);
         var result= await _service.GetAllAsync();
         return Ok(new ApiResponse<object>(
             true,

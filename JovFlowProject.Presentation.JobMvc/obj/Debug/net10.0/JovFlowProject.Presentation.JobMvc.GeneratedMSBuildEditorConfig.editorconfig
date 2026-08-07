@@ -83,16 +83,16 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ29tcGFueVxGZWF0dXJlTGlzdER0by5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/VenusA/RiderProjects/JobFlowProject/JovFlowProject.Presentation.JobMvc/Views/Home/Index.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxJbmRleC5jc2h0bWw=
+[C:/Users/VenusA/RiderProjects/JobFlowProject/JovFlowProject.Presentation.JobMvc/Views/Home/about.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxhYm91dC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/VenusA/RiderProjects/JobFlowProject/JovFlowProject.Presentation.JobMvc/Views/Home/index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxpbmRleC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
 [C:/Users/VenusA/RiderProjects/JobFlowProject/JovFlowProject.Presentation.JobMvc/Views/Home/Privacy.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxQcml2YWN5LmNzaHRtbA==
-build_metadata.AdditionalFiles.CssScope = 
-
-[C:/Users/VenusA/RiderProjects/JobFlowProject/JovFlowProject.Presentation.JobMvc/Views/Home/Test.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxUZXN0LmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
 [C:/Users/VenusA/RiderProjects/JobFlowProject/JovFlowProject.Presentation.JobMvc/Views/JobApplication/CreateJobApplicationVm.cshtml]

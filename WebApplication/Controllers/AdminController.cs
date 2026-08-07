@@ -5,6 +5,7 @@ using JobFlowProject.Business.Dto.CompanyDto;
 using JobFlowProject.Business.Dto.Feature;
 using JobFlowProject.Business.Dto.User;
 using JobFlowProject.Business.Interfaces.User;
+using JobFlowProject.Domain.Entities.User;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using WebApplication1.Dto.Authentication;
@@ -13,7 +14,7 @@ namespace WebApplication1.Controllers;
 
 [ApiController]
 [Route("api/[controller]")] 
-[Authorize(Roles="Admin")]
+ [Authorize(Roles="Admin")]
 public class AdminController : ControllerBase
 {
     private readonly IAdminService _service;
@@ -41,7 +42,7 @@ public class AdminController : ControllerBase
     public async Task<IActionResult> Dashboard()
     {
         var result = await _service.GetDashboardAsync();
-
+        var user=User.FindFirstValue(ClaimTypes.NameIdentifier);
         return Ok(new ApiResponse<DashboardDto>(
             true,
             result,

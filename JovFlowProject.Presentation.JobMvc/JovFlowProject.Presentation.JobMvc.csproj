@@ -13,4 +13,10 @@
       <ProjectReference Include="..\JobFlowProject.Infrastructure\JobFlowProject.Infrastructure.csproj" />
     </ItemGroup>
 
+    <ItemGroup>
+      <_ContentIncludedByDefault Remove="wwwroot\js\css\bootstrap.min.css" />
+      <_ContentIncludedByDefault Remove="wwwroot\js\css\main.js" />
+      <_ContentIncludedByDefault Remove="wwwroot\js\css\style.css" />
+    </ItemGroup>
+
 </Project>

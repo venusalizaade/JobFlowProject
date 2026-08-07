@@ -27,7 +27,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
-using Microsoft.OpenApi;
+using Microsoft.OpenApi.Models;
 using WebApplication1.Middleware;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -54,11 +54,14 @@ builder.Services.Configure<JwtSettings>(builder.Configuration.GetSection("JwtSet
 
 builder.Services.AddAuthentication(options =>
 {
+    options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
     options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
     options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
 })
 .AddJwtBearer(options =>
 {
+    options.RequireHttpsMetadata = false;
+    options.SaveToken=true;
     options.TokenValidationParameters = new TokenValidationParameters
     {
         ValidateIssuer = true,
@@ -81,7 +84,24 @@ builder.Services.AddAuthentication(options =>
         {
             Console.WriteLine("=== JWT VALIDATED ===");
             return Task.CompletedTask;
-        }
+        },
+        OnChallenge = context =>
+        {
+        Console.WriteLine(
+        $"JWT challenge: {context.Error} - {context.ErrorDescription}"
+        );
+
+        return Task.CompletedTask;
+    },
+
+    OnMessageReceived = context =>
+    {
+        Console.WriteLine(
+            $"Received token: {context.Token}"
+        );
+
+        return Task.CompletedTask;
+    }
     };
 });
 
@@ -136,20 +156,34 @@ builder.Services.AddSwaggerGen(options =>
     options.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
     {
         Name = "Authorization",
-        Type = SecuritySchemeType.ApiKey,
+        Type = SecuritySchemeType.Http,
         Scheme = "Bearer",
         BearerFormat = "JWT",
         In = ParameterLocation.Header,
-        Description = "Enter 'Bearer' [space] and then your valid token."
+        Description = "Enter your valid token."
     });
-    
 
-        options.AddSecurityRequirement(document =>
-            new OpenApiSecurityRequirement
+
+    options.AddSecurityRequirement(new OpenApiSecurityRequirement
+    {
+        {
+            new OpenApiSecurityScheme
             {
-                [new OpenApiSecuritySchemeReference("Bearer")] = []
-            });
+                Reference = new OpenApiReference
+                {
+                    Type = ReferenceType.SecurityScheme,
+                    Id = "Bearer"
+                }
+            },
+            Array.Empty<string>()
+        }
     });
+});
+
+// ===== Build =====
+
+
+
 
 // ===== Build =====
 var app = builder.Build();
@@ -177,5 +211,11 @@ app.UseAuthentication();
 app.UseAuthorization();
 app.UseMiddleware<GlobalExceptionHandlerMiddleware>();
 app.MapControllers();
-
+app.Use(async (context, next) =>
+{
+    var authHeader = context.Request.Headers["Authorization"].ToString();
+    Console.WriteLine($"=== Incoming Request: {context.Request.Method} {context.Request.Path} ===");
+    Console.WriteLine($"=== Authorization Header: '{authHeader}' ===");
+    await next();
+});
 app.Run();
