@@ -1,0 +1,71 @@
+﻿@model JovFlowProject.JobMvc.Models.Company.CreateCategoryVm
+
+@{
+    ViewData["Title"] = "ایجاد دسته بندی";
+}
+
+
+<div class="card shadow">
+
+    <div class="card-body">
+
+
+        <h3>
+            ایجاد دسته بندی جدید
+        </h3>
+
+
+        <form asp-action="Create" method="post">
+
+
+            <div asp-validation-summary="ModelOnly"
+                 class="text-danger">
+            </div>
+
+
+            <div class="mb-3">
+
+                <label asp-for="Name"></label>
+
+                <input asp-for="Name"
+                       class="form-control"/>
+
+                <span asp-validation-for="Name"
+                      class="text-danger"></span>
+
+            </div>
+
+
+
+            <div class="mb-3">
+
+                <label asp-for="Description"></label>
+
+                <textarea asp-for="Description"
+class="form-control"
+rows="4"></textarea>
+
+                <span asp-validation-for="Description"
+                      class="text-danger"></span>
+
+            </div>
+
+
+
+            <button class="btn btn-success">
+                ثبت دسته بندی
+            </button>
+
+
+            <a asp-action="Index"
+               class="btn btn-secondary">
+                بازگشت
+            </a>
+
+
+        </form>
+
+
+    </div>
+
+</div>

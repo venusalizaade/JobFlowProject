@@ -1,44 +1,106 @@
 ﻿@model JovFlowProject.JobMvc.Models.Company.EditCompanyVm
 
 @{
-    ViewData["Title"] = "Edit Company";
+    ViewData["Title"]="ویرایش شرکت";
 }
 
-<h2>Edit Company</h2>
 
-<form asp-action="Edit" method="post">
-    <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+<div class="card shadow">
 
-    <div class="mb-3">
-        <label asp-for="Name" class="form-label"></label>
-        <input asp-for="Name" class="form-control" />
+    <div class="card-body">
+
+
+        <h3>
+            ویرایش اطلاعات شرکت
+        </h3>
+
+
+        <form asp-action="Edit" method="post">
+
+
+            <div asp-validation-summary="ModelOnly"
+                 class="text-danger"></div>
+
+
+            <div class="mb-3">
+
+                <label asp-for="Name"></label>
+
+                <input asp-for="Name"
+                       class="form-control"/>
+
+            </div>
+
+
+            <div class="mb-3">
+
+                <label asp-for="Address"></label>
+
+                <textarea asp-for="Address"
+class="form-control"></textarea>
+
+            </div>
+
+
+            <div class="mb-3">
+
+                <label asp-for="About"></label>
+
+                <textarea asp-for="About"
+class="form-control"></textarea>
+
+            </div>
+
+
+            <div class="row">
+
+
+                <div class="col-md-6">
+
+                    <label asp-for="ProvinceId"></label>
+
+                    <select asp-for="ProvinceId"
+                            class="form-select">
+
+                        <option>
+                            انتخاب استان
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+                <div class="col-md-6">
+
+                    <label asp-for="CityId"></label>
+
+                    <select asp-for="CityId"
+                            class="form-select">
+
+                        <option>
+                            انتخاب شهر
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+            </div>
+
+
+            <br/>
+
+
+            <button class="btn btn-primary">
+                ذخیره
+            </button>
+
+
+        </form>
+
+
     </div>
 
-    <div class="row">
-        <div class="col-md-6 mb-3">
-            <label asp-for="ProvinceId" class="form-label"></label>
-            <input asp-for="ProvinceId" class="form-control" />
-        </div>
-        <div class="col-md-6 mb-3">
-            <label asp-for="CityId" class="form-label"></label>
-            <input asp-for="CityId" class="form-control" />
-        </div>
-    </div>
-
-    <div class="mb-3">
-        <label asp-for="Address" class="form-label"></label>
-        <input asp-for="Address" class="form-control" />
-    </div>
-
-    <div class="mb-3">
-        <label asp-for="About" class="form-label"></label>
-        <textarea asp-for="About" class="form-control" rows="5"></textarea>
-    </div>
-
-    <button type="submit" class="btn btn-primary">Save Changes</button>
-</form>
-
-@section Scripts
-{
-    <partial name="_ValidationScriptsPartial" />
-}
+</div>

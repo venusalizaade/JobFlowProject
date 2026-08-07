@@ -1,97 +1,93 @@
-﻿
-@model IEnumerable<JobFlowProject.Business.Dto.JobPost.JobPostResponseDto>
+﻿@model IEnumerable<JovFlowProject.JobMvc.Models.Job.JobPostListItemVm>
 
 @{
-    ViewData["Title"] = "Job Posts";
+    ViewData["Title"] = "فرصت های شغلی";
 }
 
-<div class="d-flex justify-content-between align-items-center mb-4">
-    <h2>Job Posts</h2>
+<div class="d-flex justify-content-between mb-3">
 
-    <a asp-action="Create" class="btn btn-primary">
-        Create Job Post
-    </a>
+    <h3>
+        فرصت های شغلی
+    </h3>
+
+    @if(User.Identity?.IsAuthenticated ?? false)
+    {
+        <a asp-action="Create" class="btn btn-success">
+            ایجاد آگهی
+        </a>
+    }
+
 </div>
 
-@if (!Model.Any())
-{
-    <div class="alert alert-info">
-        No job posts available.
-    </div>
-}
-else
-{
-    <div class="row">
-        @foreach (var job in Model)
-        {
-            <div class="col-md-6 col-lg-4 mb-4">
-                <div class="card h-100 shadow-sm">
 
-                    <div class="card-body">
+<div class="row">
 
-                        <h5 class="card-title">@job.Title</h5>
+    @foreach(var job in Model)
+    {
 
-                        <p class="text-muted mb-2">
-                            @job.EmploymentType
-                        </p>
+        <div class="col-md-4 mb-4">
 
-                        <p class="card-text">
-                            @job.AboutJob
-                        </p>
+            <div class="card shadow h-100">
 
-                        <div class="mb-3">
 
-                            @if (job.Salary.HasValue)
-                            {
-                                <span class="badge bg-success">
-                                    @job.Salary.Value.ToString("N0")
-                                </span>
-                            }
-
-                            @if (job.IsFeatured)
-                            {
-                                <span class="badge bg-warning text-dark">
-                                    Featured
-                                </span>
-                            }
-
-                            @if (job.IsActive)
-                            {
-                                <span class="badge bg-primary">
-                                    Active
-                                </span>
-                            }
-                            else
-                            {
-                                <span class="badge bg-secondary">
-                                    Inactive
-                                </span>
-                            }
-
-                        </div>
-
+                @if(job.IsFeatured)
+                {
+                    <div class="badge bg-warning text-dark">
+                        ویژه
                     </div>
+                }
 
-                    <div class="card-footer bg-white border-0 d-flex justify-content-between">
 
-                        <a asp-action="Details"
-                           asp-route-id="@job.Id"
-                           class="btn btn-outline-primary btn-sm">
-                            Details
-                        </a>
+                <div class="card-body">
 
-                        <a asp-controller="JobApplication"
-                           asp-action="Apply"
-                           asp-route-jobPostId="@job.Id"
-                           class="btn btn-success btn-sm">
-                            Apply
-                        </a>
+                    <h5>
+                        @job.Title
+                    </h5>
 
-                    </div>
+
+                    <p>
+                        شرکت:
+                        <strong>
+                            @job.CompanyName
+                        </strong>
+                    </p>
+
+
+                    <p>
+                        شهر:
+                        @job.CityName
+                    </p>
+
+
+                    <p>
+                        نوع همکاری:
+                        @job.EmploymentType
+                    </p>
+
+
+                    @if(job.Salary.HasValue)
+                    {
+                        <p>
+                            حقوق:
+                            @job.Salary.Value.ToString("N0")
+                        </p>
+                    }
+
+
+                    <a asp-action="Details"
+                       asp-route-id="@job.Id"
+                       class="btn btn-primary">
+                        جزئیات
+                    </a>
+
 
                 </div>
+
+
             </div>
-        }
-    </div>
-}
-```
+
+        </div>
+
+    }
+
+</div>

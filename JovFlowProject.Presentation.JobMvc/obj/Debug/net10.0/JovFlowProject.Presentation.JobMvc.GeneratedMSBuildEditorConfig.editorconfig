@@ -12,141 +12,137 @@ build_property.EntryPointFilePath =
 build_property._SupportedPlatformList = Linux,macOS,Windows
 build_property.RootNamespace = JovFlowProject.JobMvc
 build_property.RootNamespace = JovFlowProject.JobMvc
-build_property.ProjectDir = C:\Users\VenusA\RiderProjects\JobFlowProject\JovFlowProject.Presentation.JobMvc\
+build_property.ProjectDir = C:\Users\VenusA\RiderProjects\JobFlowProject2\JovFlowProject.Presentation.JobMvc\
 build_property.EnableComHosting = 
 build_property.EnableGeneratedComInterfaceComImportInterop = 
 build_property.RazorLangVersion = 10.0
 build_property.SupportLocalizedComponentNames = 
 build_property.GenerateRazorMetadataSourceChecksumAttributes = 
-build_property.MSBuildProjectDirectory = C:\Users\VenusA\RiderProjects\JobFlowProject\JovFlowProject.Presentation.JobMvc
+build_property.MSBuildProjectDirectory = C:\Users\VenusA\RiderProjects\JobFlowProject2\JovFlowProject.Presentation.JobMvc
 build_property._RazorSourceGeneratorDebug = 
 build_property.EffectiveAnalysisLevelStyle = 10.0
 build_property.EnableCodeStyleSeverity = 
 
-[C:/Users/VenusA/RiderProjects/JobFlowProject/JovFlowProject.Presentation.JobMvc/Views/Account/EditJobSeekerProfileVm.cshtml]
+[C:/Users/VenusA/RiderProjects/JobFlowProject2/JovFlowProject.Presentation.JobMvc/Views/Account/EditJobSeekerProfileVm.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWNjb3VudFxFZGl0Sm9iU2Vla2VyUHJvZmlsZVZtLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/VenusA/RiderProjects/JobFlowProject/JovFlowProject.Presentation.JobMvc/Views/Account/JobSeekerDetailsDto.cshtml]
+[C:/Users/VenusA/RiderProjects/JobFlowProject2/JovFlowProject.Presentation.JobMvc/Views/Account/JobSeekerDetailsDto.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWNjb3VudFxKb2JTZWVrZXJEZXRhaWxzRHRvLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/VenusA/RiderProjects/JobFlowProject/JovFlowProject.Presentation.JobMvc/Views/Account/LoginVm.cshtml]
+[C:/Users/VenusA/RiderProjects/JobFlowProject2/JovFlowProject.Presentation.JobMvc/Views/Account/LoginVm.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWNjb3VudFxMb2dpblZtLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/VenusA/RiderProjects/JobFlowProject/JovFlowProject.Presentation.JobMvc/Views/Account/RegisterEmployerVm.cshtml]
+[C:/Users/VenusA/RiderProjects/JobFlowProject2/JovFlowProject.Presentation.JobMvc/Views/Account/RegisterEmployerVm.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWNjb3VudFxSZWdpc3RlckVtcGxveWVyVm0uY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/VenusA/RiderProjects/JobFlowProject/JovFlowProject.Presentation.JobMvc/Views/Account/RegisterJobSeekerVm.cshtml]
+[C:/Users/VenusA/RiderProjects/JobFlowProject2/JovFlowProject.Presentation.JobMvc/Views/Account/RegisterJobSeekerVm.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWNjb3VudFxSZWdpc3RlckpvYlNlZWtlclZtLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/VenusA/RiderProjects/JobFlowProject/JovFlowProject.Presentation.JobMvc/Views/Company/AssignFeatureToCompanyVm.cshtml]
+[C:/Users/VenusA/RiderProjects/JobFlowProject2/JovFlowProject.Presentation.JobMvc/Views/Company/AssignFeatureToCompanyVm.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ29tcGFueVxBc3NpZ25GZWF0dXJlVG9Db21wYW55Vm0uY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/VenusA/RiderProjects/JobFlowProject/JovFlowProject.Presentation.JobMvc/Views/Company/CategoryResponseDto.cshtml]
+[C:/Users/VenusA/RiderProjects/JobFlowProject2/JovFlowProject.Presentation.JobMvc/Views/Company/CategoryResponseDto.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ29tcGFueVxDYXRlZ29yeVJlc3BvbnNlRHRvLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/VenusA/RiderProjects/JobFlowProject/JovFlowProject.Presentation.JobMvc/Views/Company/CompanyResponseDto.cshtml]
+[C:/Users/VenusA/RiderProjects/JobFlowProject2/JovFlowProject.Presentation.JobMvc/Views/Company/CompanyResponseDto.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ29tcGFueVxDb21wYW55UmVzcG9uc2VEdG8uY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/VenusA/RiderProjects/JobFlowProject/JovFlowProject.Presentation.JobMvc/Views/Company/CreateCategoryVm.cshtml]
+[C:/Users/VenusA/RiderProjects/JobFlowProject2/JovFlowProject.Presentation.JobMvc/Views/Company/CreateCategoryVm.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ29tcGFueVxDcmVhdGVDYXRlZ29yeVZtLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/VenusA/RiderProjects/JobFlowProject/JovFlowProject.Presentation.JobMvc/Views/Company/CreateFeatureVm.cshtml]
+[C:/Users/VenusA/RiderProjects/JobFlowProject2/JovFlowProject.Presentation.JobMvc/Views/Company/CreateFeatureVm.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ29tcGFueVxDcmVhdGVGZWF0dXJlVm0uY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/VenusA/RiderProjects/JobFlowProject/JovFlowProject.Presentation.JobMvc/Views/Company/EditCategoryVm.cshtml]
+[C:/Users/VenusA/RiderProjects/JobFlowProject2/JovFlowProject.Presentation.JobMvc/Views/Company/EditCategoryVm.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ29tcGFueVxFZGl0Q2F0ZWdvcnlWbS5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/VenusA/RiderProjects/JobFlowProject/JovFlowProject.Presentation.JobMvc/Views/Company/EditCompanyVm.cshtml]
+[C:/Users/VenusA/RiderProjects/JobFlowProject2/JovFlowProject.Presentation.JobMvc/Views/Company/EditCompanyVm.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ29tcGFueVxFZGl0Q29tcGFueVZtLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/VenusA/RiderProjects/JobFlowProject/JovFlowProject.Presentation.JobMvc/Views/Company/EditFeatureVm.cshtml]
+[C:/Users/VenusA/RiderProjects/JobFlowProject2/JovFlowProject.Presentation.JobMvc/Views/Company/EditFeatureVm.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ29tcGFueVxFZGl0RmVhdHVyZVZtLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/VenusA/RiderProjects/JobFlowProject/JovFlowProject.Presentation.JobMvc/Views/Company/FeatureList.cshtml]
+[C:/Users/VenusA/RiderProjects/JobFlowProject2/JovFlowProject.Presentation.JobMvc/Views/Company/FeatureList.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ29tcGFueVxGZWF0dXJlTGlzdC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/VenusA/RiderProjects/JobFlowProject/JovFlowProject.Presentation.JobMvc/Views/Company/FeatureListDto.cshtml]
+[C:/Users/VenusA/RiderProjects/JobFlowProject2/JovFlowProject.Presentation.JobMvc/Views/Company/FeatureListDto.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ29tcGFueVxGZWF0dXJlTGlzdER0by5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/VenusA/RiderProjects/JobFlowProject/JovFlowProject.Presentation.JobMvc/Views/Home/about.cshtml]
+[C:/Users/VenusA/RiderProjects/JobFlowProject2/JovFlowProject.Presentation.JobMvc/Views/Home/about.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxhYm91dC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/VenusA/RiderProjects/JobFlowProject/JovFlowProject.Presentation.JobMvc/Views/Home/index.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxpbmRleC5jc2h0bWw=
-build_metadata.AdditionalFiles.CssScope = 
-
-[C:/Users/VenusA/RiderProjects/JobFlowProject/JovFlowProject.Presentation.JobMvc/Views/Home/Privacy.cshtml]
+[C:/Users/VenusA/RiderProjects/JobFlowProject2/JovFlowProject.Presentation.JobMvc/Views/Home/Privacy.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxQcml2YWN5LmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/VenusA/RiderProjects/JobFlowProject/JovFlowProject.Presentation.JobMvc/Views/JobApplication/CreateJobApplicationVm.cshtml]
+[C:/Users/VenusA/RiderProjects/JobFlowProject2/JovFlowProject.Presentation.JobMvc/Views/JobApplication/CreateJobApplicationVm.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSm9iQXBwbGljYXRpb25cQ3JlYXRlSm9iQXBwbGljYXRpb25WbS5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/VenusA/RiderProjects/JobFlowProject/JovFlowProject.Presentation.JobMvc/Views/JobApplication/JobApplicationDto.cshtml]
+[C:/Users/VenusA/RiderProjects/JobFlowProject2/JovFlowProject.Presentation.JobMvc/Views/JobApplication/JobApplicationDto.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSm9iQXBwbGljYXRpb25cSm9iQXBwbGljYXRpb25EdG8uY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/VenusA/RiderProjects/JobFlowProject/JovFlowProject.Presentation.JobMvc/Views/JobApplication/JobApplicationResponseDto.cshtml]
+[C:/Users/VenusA/RiderProjects/JobFlowProject2/JovFlowProject.Presentation.JobMvc/Views/JobApplication/JobApplicationResponseDto.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSm9iQXBwbGljYXRpb25cSm9iQXBwbGljYXRpb25SZXNwb25zZUR0by5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/VenusA/RiderProjects/JobFlowProject/JovFlowProject.Presentation.JobMvc/Views/JobPost/JobPostCreate.cshtml]
+[C:/Users/VenusA/RiderProjects/JobFlowProject2/JovFlowProject.Presentation.JobMvc/Views/JobPost/JobPostCreate.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSm9iUG9zdFxKb2JQb3N0Q3JlYXRlLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/VenusA/RiderProjects/JobFlowProject/JovFlowProject.Presentation.JobMvc/Views/JobPost/JobPostDetailsDto.cshtml]
+[C:/Users/VenusA/RiderProjects/JobFlowProject2/JovFlowProject.Presentation.JobMvc/Views/JobPost/JobPostDetailsDto.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSm9iUG9zdFxKb2JQb3N0RGV0YWlsc0R0by5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/VenusA/RiderProjects/JobFlowProject/JovFlowProject.Presentation.JobMvc/Views/JobPost/JobPostEdit.cshtml]
+[C:/Users/VenusA/RiderProjects/JobFlowProject2/JovFlowProject.Presentation.JobMvc/Views/JobPost/JobPostEdit.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSm9iUG9zdFxKb2JQb3N0RWRpdC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/VenusA/RiderProjects/JobFlowProject/JovFlowProject.Presentation.JobMvc/Views/JobPost/JobPostIndex.cshtml]
+[C:/Users/VenusA/RiderProjects/JobFlowProject2/JovFlowProject.Presentation.JobMvc/Views/JobPost/JobPostIndex.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSm9iUG9zdFxKb2JQb3N0SW5kZXguY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/VenusA/RiderProjects/JobFlowProject/JovFlowProject.Presentation.JobMvc/Views/JobPost/JobPostResponseDto.cshtml]
+[C:/Users/VenusA/RiderProjects/JobFlowProject2/JovFlowProject.Presentation.JobMvc/Views/JobPost/JobPostResponseDto.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSm9iUG9zdFxKb2JQb3N0UmVzcG9uc2VEdG8uY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/VenusA/RiderProjects/JobFlowProject/JovFlowProject.Presentation.JobMvc/Views/Shared/Error.cshtml]
+[C:/Users/VenusA/RiderProjects/JobFlowProject2/JovFlowProject.Presentation.JobMvc/Views/Shared/Error.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXEVycm9yLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/VenusA/RiderProjects/JobFlowProject/JovFlowProject.Presentation.JobMvc/Views/Shared/Shared.cshtml]
+[C:/Users/VenusA/RiderProjects/JobFlowProject2/JovFlowProject.Presentation.JobMvc/Views/Shared/Shared.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXFNoYXJlZC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/VenusA/RiderProjects/JobFlowProject/JovFlowProject.Presentation.JobMvc/Views/Shared/_ValidationScriptsPartial.cshtml]
+[C:/Users/VenusA/RiderProjects/JobFlowProject2/JovFlowProject.Presentation.JobMvc/Views/Shared/_ValidationScriptsPartial.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9WYWxpZGF0aW9uU2NyaXB0c1BhcnRpYWwuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/VenusA/RiderProjects/JobFlowProject/JovFlowProject.Presentation.JobMvc/Views/_ViewImports.cshtml]
+[C:/Users/VenusA/RiderProjects/JobFlowProject2/JovFlowProject.Presentation.JobMvc/Views/_ViewImports.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcX1ZpZXdJbXBvcnRzLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/VenusA/RiderProjects/JobFlowProject/JovFlowProject.Presentation.JobMvc/Views/_ViewStart.cshtml]
+[C:/Users/VenusA/RiderProjects/JobFlowProject2/JovFlowProject.Presentation.JobMvc/Views/_ViewStart.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcX1ZpZXdTdGFydC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/VenusA/RiderProjects/JobFlowProject/JovFlowProject.Presentation.JobMvc/Views/Shared/_Layout.cshtml]
+[C:/Users/VenusA/RiderProjects/JobFlowProject2/JovFlowProject.Presentation.JobMvc/Views/Shared/_Layout.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9MYXlvdXQuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = b-phnhb2v97a

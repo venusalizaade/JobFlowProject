@@ -1,0 +1,85 @@
+﻿@model IEnumerable<JovFlowProject.JobMvc.Models.Job.JobPostListItemVm>
+
+@{
+    ViewData["Title"]="آگهی های من";
+}
+
+
+<h3>
+    آگهی های من
+</h3>
+
+
+<table class="table table-striped">
+
+
+    <thead>
+
+    <tr>
+
+        <th>
+            عنوان
+        </th>
+
+        <th>
+            شرکت
+        </th>
+
+        <th>
+            عملیات
+        </th>
+
+    </tr>
+
+    </thead>
+
+
+    <tbody>
+
+
+    @foreach(var item in Model)
+    {
+
+        <tr>
+
+            <td>
+                @item.Title
+            </td>
+
+            <td>
+                @item.CompanyName
+            </td>
+
+
+            <td>
+
+                <a asp-action="Details"
+                   asp-route-id="@item.Id"
+                   class="btn btn-sm btn-info">
+                    مشاهده
+                </a>
+
+
+                <form asp-action="Deactivate"
+                      asp-route-id="@item.Id"
+                      method="post"
+                      class="d-inline">
+
+                    <button class="btn btn-sm btn-danger">
+                        غیرفعال
+                    </button>
+
+                </form>
+
+
+            </td>
+
+        </tr>
+
+    }
+
+
+    </tbody>
+
+
+</table>

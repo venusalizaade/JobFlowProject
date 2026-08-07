@@ -1,0 +1,127 @@
+﻿@model IEnumerable<JobFlowProject.Business.Dto.Feature.FeatureListDto>
+
+@{
+    ViewData["Title"]="لیست امکانات";
+}
+
+
+<div class="d-flex justify-content-between mb-3">
+
+    <h3>
+        لیست امکانات
+    </h3>
+
+
+    <a asp-action="Create"
+       class="btn btn-success">
+        ایجاد امکان جدید
+    </a>
+
+
+</div>
+
+
+
+<table class="table table-bordered table-hover">
+
+
+    <thead class="table-dark">
+
+    <tr>
+
+        <th>
+            نام
+        </th>
+
+
+        <th>
+            قیمت
+        </th>
+
+
+        <th>
+            مدت
+        </th>
+
+
+        <th>
+            نوع
+        </th>
+
+
+        <th>
+            عملیات
+        </th>
+
+
+    </tr>
+
+    </thead>
+
+
+    <tbody>
+
+
+    @foreach(var item in Model)
+    {
+
+        <tr>
+
+            <td>
+                @item.Name
+            </td>
+
+
+            <td>
+                @item.Price.ToString("N0")
+            </td>
+
+
+            <td>
+                @item.DurationDays روز
+            </td>
+
+
+            <td>
+                @item.FeatureType
+            </td>
+
+
+            <td>
+
+
+                <a asp-action="Edit"
+                   asp-route-id="@item.Id"
+                   class="btn btn-warning btn-sm">
+                    ویرایش
+                </a>
+
+
+
+                <form asp-action="Delete"
+                      asp-route-id="@item.Id"
+                      method="post"
+                      class="d-inline">
+
+
+                    <button class="btn btn-danger btn-sm">
+                        حذف
+                    </button>
+
+
+                </form>
+
+
+            </td>
+
+
+        </tr>
+
+
+    }
+
+
+    </tbody>
+
+
+</table>

@@ -1,0 +1,49 @@
+﻿@model dynamic
+
+@{
+    ViewData["Title"]="جزئیات درخواست";
+}
+
+
+<div class="card shadow">
+
+
+    <div class="card-body">
+
+
+        <h3>
+            جزئیات درخواست
+        </h3>
+
+
+        <hr/>
+
+
+        <p>
+            <strong>شغل:</strong>
+            @Model.JobTitle
+        </p>
+
+
+        <p>
+            <strong>شرکت:</strong>
+            @Model.CompanyName
+        </p>
+
+
+        <p>
+            <strong>وضعیت:</strong>
+            @Model.Status
+        </p>
+
+
+        <p>
+            <strong>تاریخ ارسال:</strong>
+            @Model.CreatedAt
+        </p>
+
+
+    </div>
+
+
+</div>

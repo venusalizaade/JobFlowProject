@@ -1,0 +1,104 @@
+﻿@model IEnumerable<dynamic>
+
+@{
+    ViewData["Title"]="امکانات شرکت";
+}
+
+
+<div class="d-flex justify-content-between mb-3">
+
+    <h3>
+        امکانات فعال شرکت
+    </h3>
+
+
+    <a asp-action="Assign"
+       asp-route-companyId="@ViewBag.CompanyId"
+       class="btn btn-success">
+        افزودن امکان
+    </a>
+
+
+</div>
+
+
+
+<table class="table table-bordered">
+
+
+    <thead>
+
+    <tr>
+
+        <th>
+            نام
+        </th>
+
+        <th>
+            نوع
+        </th>
+
+        <th>
+            عملیات
+        </th>
+
+    </tr>
+
+    </thead>
+
+
+    <tbody>
+
+
+    @foreach(var item in Model)
+    {
+
+        <tr>
+
+            <td>
+                @item.FeatureName
+            </td>
+
+
+            <td>
+                @item.FeatureType
+            </td>
+
+
+            <td>
+
+
+                <form asp-action="Remove"
+                      method="post">
+
+
+                    <input type="hidden"
+                           name="companyFeatureId"
+                           value="@item.Id"/>
+
+
+                    <input type="hidden"
+                           name="companyId"
+                           value="@ViewBag.CompanyId"/>
+
+
+                    <button class="btn btn-danger btn-sm">
+                        حذف
+                    </button>
+
+
+                </form>
+
+
+            </td>
+
+
+        </tr>
+
+    }
+
+
+    </tbody>
+
+
+</table>

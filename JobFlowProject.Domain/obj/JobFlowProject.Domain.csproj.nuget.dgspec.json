@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\VenusA\\RiderProjects\\JobFlowProject\\JobFlowProject.Domain\\JobFlowProject.Domain.csproj": {}
+    "C:\\Users\\VenusA\\RiderProjects\\JobFlowProject2\\JobFlowProject.Domain\\JobFlowProject.Domain.csproj": {}
   },
   "projects": {
-    "C:\\Users\\VenusA\\RiderProjects\\JobFlowProject\\JobFlowProject.Domain\\JobFlowProject.Domain.csproj": {
+    "C:\\Users\\VenusA\\RiderProjects\\JobFlowProject2\\JobFlowProject.Domain\\JobFlowProject.Domain.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\VenusA\\RiderProjects\\JobFlowProject\\JobFlowProject.Domain\\JobFlowProject.Domain.csproj",
+        "projectUniqueName": "C:\\Users\\VenusA\\RiderProjects\\JobFlowProject2\\JobFlowProject.Domain\\JobFlowProject.Domain.csproj",
         "projectName": "JobFlowProject.Domain",
-        "projectPath": "C:\\Users\\VenusA\\RiderProjects\\JobFlowProject\\JobFlowProject.Domain\\JobFlowProject.Domain.csproj",
+        "projectPath": "C:\\Users\\VenusA\\RiderProjects\\JobFlowProject2\\JobFlowProject.Domain\\JobFlowProject.Domain.csproj",
         "packagesPath": "C:\\Users\\VenusA\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\VenusA\\RiderProjects\\JobFlowProject\\JobFlowProject.Domain\\obj\\",
+        "outputPath": "C:\\Users\\VenusA\\RiderProjects\\JobFlowProject2\\JobFlowProject.Domain\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"

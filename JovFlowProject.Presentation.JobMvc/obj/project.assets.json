@@ -1414,11 +1414,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\VenusA\\RiderProjects\\JobFlowProject\\JovFlowProject.Presentation.JobMvc\\JovFlowProject.Presentation.JobMvc.csproj",
+      "projectUniqueName": "C:\\Users\\VenusA\\RiderProjects\\JobFlowProject2\\JovFlowProject.Presentation.JobMvc\\JovFlowProject.Presentation.JobMvc.csproj",
       "projectName": "JovFlowProject.Presentation.JobMvc",
-      "projectPath": "C:\\Users\\VenusA\\RiderProjects\\JobFlowProject\\JovFlowProject.Presentation.JobMvc\\JovFlowProject.Presentation.JobMvc.csproj",
+      "projectPath": "C:\\Users\\VenusA\\RiderProjects\\JobFlowProject2\\JovFlowProject.Presentation.JobMvc\\JovFlowProject.Presentation.JobMvc.csproj",
       "packagesPath": "C:\\Users\\VenusA\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\VenusA\\RiderProjects\\JobFlowProject\\JovFlowProject.Presentation.JobMvc\\obj\\",
+      "outputPath": "C:\\Users\\VenusA\\RiderProjects\\JobFlowProject2\\JovFlowProject.Presentation.JobMvc\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
@@ -1440,14 +1440,14 @@
         "net10.0": {
           "targetAlias": "net10.0",
           "projectReferences": {
-            "C:\\Users\\VenusA\\RiderProjects\\JobFlowProject\\JobFlowProject.Business\\JobFlowProject.Business.csproj": {
-              "projectPath": "C:\\Users\\VenusA\\RiderProjects\\JobFlowProject\\JobFlowProject.Business\\JobFlowProject.Business.csproj"
+            "C:\\Users\\VenusA\\RiderProjects\\JobFlowProject2\\JobFlowProject.Business\\JobFlowProject.Business.csproj": {
+              "projectPath": "C:\\Users\\VenusA\\RiderProjects\\JobFlowProject2\\JobFlowProject.Business\\JobFlowProject.Business.csproj"
             },
-            "C:\\Users\\VenusA\\RiderProjects\\JobFlowProject\\JobFlowProject.Domain\\JobFlowProject.Domain.csproj": {
-              "projectPath": "C:\\Users\\VenusA\\RiderProjects\\JobFlowProject\\JobFlowProject.Domain\\JobFlowProject.Domain.csproj"
+            "C:\\Users\\VenusA\\RiderProjects\\JobFlowProject2\\JobFlowProject.Domain\\JobFlowProject.Domain.csproj": {
+              "projectPath": "C:\\Users\\VenusA\\RiderProjects\\JobFlowProject2\\JobFlowProject.Domain\\JobFlowProject.Domain.csproj"
             },
-            "C:\\Users\\VenusA\\RiderProjects\\JobFlowProject\\JobFlowProject.Infrastructure\\JobFlowProject.Infrastructure.csproj": {
-              "projectPath": "C:\\Users\\VenusA\\RiderProjects\\JobFlowProject\\JobFlowProject.Infrastructure\\JobFlowProject.Infrastructure.csproj"
+            "C:\\Users\\VenusA\\RiderProjects\\JobFlowProject2\\JobFlowProject.Infrastructure\\JobFlowProject.Infrastructure.csproj": {
+              "projectPath": "C:\\Users\\VenusA\\RiderProjects\\JobFlowProject2\\JobFlowProject.Infrastructure\\JobFlowProject.Infrastructure.csproj"
             }
           }
         }

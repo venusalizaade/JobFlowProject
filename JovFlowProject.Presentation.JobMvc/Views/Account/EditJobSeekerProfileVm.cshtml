@@ -1,45 +1,115 @@
 ﻿@model JovFlowProject.JobMvc.Models.Accounts.EditJobSeekerProfileVm
 
 @{
-    ViewData["Title"] = "Edit Profile";
+    ViewData["Title"]="ویرایش پروفایل";
 }
 
-<h2>Edit Profile</h2>
 
-<form asp-action="Edit" method="post">
-    <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+<div class="card shadow">
 
-    <div class="row">
-        <div class="col-md-6 mb-3">
-            <label asp-for="FirstName" class="form-label"></label>
-            <input asp-for="FirstName" class="form-control" />
-        </div>
+    <div class="card-body">
 
-        <div class="col-md-6 mb-3">
-            <label asp-for="LastName" class="form-label"></label>
-            <input asp-for="LastName" class="form-control" />
-        </div>
+
+        <h3>
+            ویرایش پروفایل
+        </h3>
+
+
+        <form asp-action="Edit"
+              method="post">
+
+
+            <div class="row">
+
+
+                <div class="col-md-6 mb-3">
+
+                    <label asp-for="FirstName"></label>
+
+                    <input asp-for="FirstName"
+                           class="form-control"/>
+
+                </div>
+
+
+                <div class="col-md-6 mb-3">
+
+                    <label asp-for="LastName"></label>
+
+                    <input asp-for="LastName"
+                           class="form-control"/>
+
+                </div>
+
+
+                <div class="col-md-6 mb-3">
+
+                    <label asp-for="PhoneNumber"></label>
+
+                    <input asp-for="PhoneNumber"
+                           class="form-control"/>
+
+                </div>
+
+
+                <div class="col-md-6 mb-3">
+
+                    <label asp-for="Gender"></label>
+
+                    <input asp-for="Gender"
+                           class="form-control"/>
+
+                </div>
+
+
+                <div class="col-12 mb-3">
+
+                    <label asp-for="About"></label>
+
+                    <textarea asp-for="About"
+class="form-control"
+rows="5"></textarea>
+
+                </div>
+
+
+            </div>
+
+
+            <button class="btn btn-success">
+                ذخیره
+            </button>
+
+
+        </form>
+
+
+        <hr/>
+
+
+        <form asp-action="UploadResume"
+              method="post"
+              enctype="multipart/form-data">
+
+
+            <label>
+                آپلود رزومه
+            </label>
+
+
+            <input type="file"
+                   name="file"
+                   class="form-control"/>
+
+
+            <button class="btn btn-primary mt-2">
+                ارسال رزومه
+            </button>
+
+
+        </form>
+
+
     </div>
 
-    <div class="mb-3">
-        <label asp-for="PhoneNumber" class="form-label"></label>
-        <input asp-for="PhoneNumber" class="form-control" />
-    </div>
-
-    <div class="mb-3">
-        <label asp-for="Gender" class="form-label"></label>
-        <input asp-for="Gender" class="form-control" />
-    </div>
-
-    <div class="mb-3">
-        <label asp-for="About" class="form-label"></label>
-        <textarea asp-for="About" class="form-control" rows="5"></textarea>
-    </div>
-
-    <button type="submit" class="btn btn-primary">Save Changes</button>
-</form>
-
-@section Scripts
-{
-    <partial name="_ValidationScriptsPartial" />
-}
+</div>

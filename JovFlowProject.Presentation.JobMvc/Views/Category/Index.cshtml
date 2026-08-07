@@ -1,0 +1,51 @@
+﻿@model IEnumerable<dynamic>
+
+@{
+    ViewData["Title"]="دسته بندی ها";
+}
+
+
+<div class="card shadow">
+
+    <div class="card-body">
+
+        <h3 class="mb-3">
+            دسته بندی مشاغل
+        </h3>
+
+
+        <table class="table table-striped">
+
+            <thead>
+            <tr>
+                <th>نام</th>
+                <th>توضیحات</th>
+            </tr>
+            </thead>
+
+
+            <tbody>
+
+            @foreach(var item in Model)
+            {
+                <tr>
+
+                    <td>
+                        @item.Name
+                    </td>
+
+                    <td>
+                        @item.Description
+                    </td>
+
+                </tr>
+            }
+
+            </tbody>
+
+        </table>
+
+
+    </div>
+
+</div>

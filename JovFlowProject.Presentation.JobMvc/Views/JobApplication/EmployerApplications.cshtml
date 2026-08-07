@@ -1,0 +1,107 @@
+﻿@model IEnumerable<dynamic>
+
+@{
+    ViewData["Title"]="درخواست های دریافتی";
+}
+
+
+<h3>
+    متقاضیان این شغل
+</h3>
+
+
+<table class="table table-striped">
+
+
+    <thead>
+
+    <tr>
+
+        <th>
+            نام
+        </th>
+
+        <th>
+            وضعیت
+        </th>
+
+        <th>
+            عملیات
+        </th>
+
+    </tr>
+
+    </thead>
+
+
+    <tbody>
+
+
+    @foreach(var item in Model)
+    {
+
+        <tr>
+
+
+            <td>
+                @item.JobSeekerName
+            </td>
+
+
+            <td>
+                @item.Status
+            </td>
+
+
+            <td>
+
+
+                <form asp-action="ChangeStatus"
+                      method="post">
+
+
+                    <input type="hidden"
+                           name="JobApplicationId"
+                           value="@item.Id"/>
+
+
+                    <input type="hidden"
+                           name="JobPostId"
+                           value="@ViewBag.JobPostId"/>
+
+
+                    <select name="Status"
+                            class="form-select">
+
+                        <option value="Accepted">
+                            پذیرش
+                        </option>
+
+                        <option value="Rejected">
+                            رد
+                        </option>
+
+
+                    </select>
+
+
+                    <button class="btn btn-primary btn-sm mt-2">
+                        ثبت
+                    </button>
+
+
+                </form>
+
+
+            </td>
+
+
+        </tr>
+
+    }
+
+
+    </tbody>
+
+
+</table>

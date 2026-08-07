@@ -1,47 +1,60 @@
-﻿
-@model JovFlowProject.JobMvc.Models.Accounts.LoginVm
+﻿@model JovFlowProject.JobMvc.Models.Accounts.LoginVm
 
 @{
-    ViewData["Title"] = "Login";
+    ViewData["Title"] = "ورود";
 }
 
+
 <div class="row justify-content-center">
+
     <div class="col-md-5">
-        <div class="card shadow-sm">
-            <div class="card-header">
-                <h4 class="mb-0">Login</h4>
-            </div>
+
+        <div class="card shadow">
 
             <div class="card-body">
 
+                <h3 class="text-center mb-4">
+                    ورود
+                </h3>
+
+
                 <form asp-action="Login" method="post">
 
-                    <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+
+                    <div class="mb-3">
+                        <label asp-for="Username" class="form-label"></label>
+                        <input asp-for="Username" class="form-control"/>
+                        <span asp-validation-for="Username" class="text-danger"></span>
+                    </div>
+
 
                     <div class="mb-3">
                         <label asp-for="NationalId" class="form-label"></label>
-                        <input asp-for="NationalId" class="form-control" />
+                        <input asp-for="NationalId" class="form-control"/>
                         <span asp-validation-for="NationalId" class="text-danger"></span>
                     </div>
 
+
                     <div class="mb-3">
                         <label asp-for="Password" class="form-label"></label>
-                        <input asp-for="Password" class="form-control" />
+                        <input asp-for="Password" class="form-control"/>
                         <span asp-validation-for="Password" class="text-danger"></span>
                     </div>
 
-                    <button type="submit" class="btn btn-primary w-100">
-                        Login
+
+                    <button class="btn btn-primary w-100">
+                        ورود
                     </button>
+
 
                 </form>
 
             </div>
-        </div>
-    </div>
-</div>
 
-@section Scripts
-{
-    <partial name="_ValidationScriptsPartial" />
-}
+        </div>
+
+    </div>
+
+</div>

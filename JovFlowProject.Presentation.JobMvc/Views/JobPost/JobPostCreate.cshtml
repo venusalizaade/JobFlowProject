@@ -1,71 +1,156 @@
-﻿
-@model JovFlowProject.JobMvc.Models.Job.CreateJobPostVm
+﻿@model JovFlowProject.JobMvc.Models.Job.CreateJobPostVm
 
 @{
-    ViewData["Title"] = "Create Job Post";
-}
-
-<h2>Create Job Post</h2>
-
-<form asp-action="Create" method="post">
-
-    <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
-
-    <div class="mb-3">
-        <label asp-for="Title" class="form-label"></label>
-        <input asp-for="Title" class="form-control" />
-        <span asp-validation-for="Title" class="text-danger"></span>
-    </div>
-
-    <div class="mb-3">
-        <label asp-for="AboutJob" class="form-label"></label>
-        <textarea asp-for="AboutJob" class="form-control" rows="5"></textarea>
-        <span asp-validation-for="AboutJob" class="text-danger"></span>
-    </div>
-
-    <div class="row">
-        <div class="col-md-6 mb-3">
-            <label asp-for="ProvinceId" class="form-label"></label>
-            <input asp-for="ProvinceId" class="form-control" />
-        </div>
-
-        <div class="col-md-6 mb-3">
-            <label asp-for="CityId" class="form-label"></label>
-            <input asp-for="CityId" class="form-control" />
-        </div>
-    </div>
-
-    <div class="mb-3">
-        <label asp-for="EmploymentType" class="form-label"></label>
-        <select asp-for="EmploymentType" asp-items="Html.GetEnumSelectList<JobFlowProject.Domain.Enums.EmploymentTypeEnum>()" class="form-select"></select>
-    </div>
-
-    <div class="mb-3">
-        <label asp-for="Salary" class="form-label"></label>
-        <input asp-for="Salary" class="form-control" />
-    </div>
-
-    <div class="row">
-        <div class="col-md-6 mb-3">
-            <label asp-for="CategoryId" class="form-label"></label>
-            <input asp-for="CategoryId" class="form-control" />
-        </div>
-
-        <div class="col-md-6 mb-3">
-            <label asp-for="SkillId" class="form-label"></label>
-            <input asp-for="SkillId" class="form-control" />
-        </div>
-    </div>
-
-    <button type="submit" class="btn btn-primary">Create</button>
-
-</form>
-
-@section Scripts
-{
-    <partial name="_ValidationScriptsPartial" />
+    ViewData["Title"]="ایجاد آگهی";
 }
 
 
+<div class="card shadow">
+
+    <div class="card-body">
 
 
+        <h3>
+            ایجاد آگهی شغلی
+        </h3>
+
+
+        <form asp-action="Create" method="post">
+
+
+            <div asp-validation-summary="ModelOnly"
+                 class="text-danger">
+            </div>
+
+
+            <div class="mb-3">
+
+                <label asp-for="Title"></label>
+
+                <input asp-for="Title"
+                       class="form-control"/>
+
+            </div>
+
+
+
+            <div class="mb-3">
+
+                <label asp-for="AboutJob"></label>
+
+                <textarea asp-for="AboutJob"
+          class="form-control"
+          rows="5"></textarea>
+
+            </div>
+
+
+
+            <div class="row">
+
+
+                <div class="col-md-6 mb-3">
+
+                    <label asp-for="ProvinceId"></label>
+
+                    <select asp-for="ProvinceId"
+                            class="form-select">
+
+                        <option>
+                            انتخاب استان
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+                <div class="col-md-6 mb-3">
+
+                    <label asp-for="CityId"></label>
+
+                    <select asp-for="CityId"
+                            class="form-select">
+
+                        <option>
+                            انتخاب شهر
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+                <div class="col-md-6 mb-3">
+
+                    <label asp-for="EmploymentType"></label>
+
+                    <select asp-for="EmploymentType"
+                            class="form-select">
+                        <option value="">انتخاب</option>
+                    </select>
+
+                </div>
+
+
+
+                <div class="col-md-6 mb-3">
+
+                    <label asp-for="Salary"></label>
+
+                    <input asp-for="Salary"
+                           class="form-control"/>
+
+                </div>
+
+
+
+                <div class="col-md-6 mb-3">
+
+                    <label asp-for="CategoryId"></label>
+
+                    <select asp-for="CategoryId"
+                            class="form-select">
+
+                        <option>
+                            انتخاب دسته بندی
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+
+                <div class="col-md-6 mb-3">
+
+                    <label asp-for="SkillId"></label>
+
+                    <select asp-for="SkillId"
+                            class="form-select">
+
+                        <option>
+                            انتخاب مهارت
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+
+            </div>
+
+
+
+            <button class="btn btn-success">
+                ثبت آگهی
+            </button>
+
+
+        </form>
+
+
+    </div>
+
+</div>

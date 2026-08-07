@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "DbS3U6/aUpA=",
+  "dgSpecHash": "6QSM+3BPuJc=",
   "success": true,
-  "projectFilePath": "C:\\Users\\VenusA\\RiderProjects\\JobFlowProject\\JobFlowProject.Business\\JobFlowProject.Business.csproj",
+  "projectFilePath": "C:\\Users\\VenusA\\RiderProjects\\JobFlowProject2\\JobFlowProject.Business\\JobFlowProject.Business.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\VenusA\\.nuget\\packages\\azure.core\\1.47.1\\azure.core.1.47.1.nupkg.sha512",
     "C:\\Users\\VenusA\\.nuget\\packages\\azure.identity\\1.14.2\\azure.identity.1.14.2.nupkg.sha512",
