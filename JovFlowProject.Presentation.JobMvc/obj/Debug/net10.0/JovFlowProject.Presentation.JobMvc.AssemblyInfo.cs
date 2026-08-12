@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("JovFlowProject.Presentation.JobMvc")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+6323e8545b5cd9ce78eeb22bc3b07ad750bfa17a")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+2ca2876611a32471446ba49d49f1c8787b2cf116")]
 [assembly: System.Reflection.AssemblyProductAttribute("JovFlowProject.Presentation.JobMvc")]
 [assembly: System.Reflection.AssemblyTitleAttribute("JovFlowProject.Presentation.JobMvc")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

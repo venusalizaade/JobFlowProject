@@ -19,8 +19,8 @@ public class EditFeatureVm
     [Range(1, 365)]
     public int DurationDays { get; set; }
 
-    [Required]
-    public FeatureTypeEnum FeatureType { get; set; }
+    [Required(ErrorMessage = "لطفاً نوع فیچر را انتخاب کنید.")]
+    public FeatureTypeEnum? FeatureType { get; set; }
 
     public UpdateFeatureDto ToDto()
     {
@@ -28,7 +28,7 @@ public class EditFeatureVm
             Name,
             Price,
             DurationDays,
-            FeatureType
+            FeatureType!.Value
         );
     }
 }

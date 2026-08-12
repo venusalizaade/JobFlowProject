@@ -2,19 +2,20 @@
     ViewData["Title"] = "عدم دسترسی";
 }
 
+<div class="auth-wrap">
+    <div class="auth-card text-center">
 
-<div class="alert alert-danger text-center">
+        <div class="auth-ico">🚫</div>
 
-    <h3>
-        دسترسی غیرمجاز
-    </h3>
+        <h3 class="fw-bold mb-2">دسترسی غیرمجاز</h3>
 
-    <p>
-        شما اجازه مشاهده این صفحه را ندارید.
-    </p>
+        <p class="text-secondary mb-4">
+            شما اجازه مشاهده این صفحه را ندارید. اگر فکر می‌کنید این اشتباه است، با پشتیبانی تماس بگیرید.
+        </p>
 
-    <a asp-controller="Home" asp-action="Index" class="btn btn-dark">
-        بازگشت
-    </a>
+        <a asp-controller="Home" asp-action="Index" class="btn btn-glow w-100">
+            بازگشت به خانه
+        </a>
 
+    </div>
 </div>

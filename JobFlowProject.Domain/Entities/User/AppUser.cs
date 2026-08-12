@@ -110,6 +110,11 @@ public class
     /// </summary>
     public ICollection<NotificationLog> Notifications { get; private set; } = new List<NotificationLog>();
 
+    /// <summary>
+    /// کیف پول کاربر
+    /// </summary>
+    public Wallet? Wallet { get; private set; }
+
     private void Validate()
     {
         if (string.IsNullOrWhiteSpace(FirstName))

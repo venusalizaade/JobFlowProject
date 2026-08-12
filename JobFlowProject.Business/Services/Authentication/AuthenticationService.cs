@@ -256,8 +256,8 @@ private async Task<TokenLoginResult> GenerateTokenAsync(AppUser user)
                 command.CompanyName,
                 command.CompanyNationalId,
                 user.Id, 
-                command.CityId,
                 command.ProvinceId,
+                command.CityId,
                 command.Address);
 
             await _companyRepository.AddAsync(company);

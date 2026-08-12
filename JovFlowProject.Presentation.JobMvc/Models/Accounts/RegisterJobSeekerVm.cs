@@ -44,8 +44,8 @@ namespace JovFlowProject.JobMvc.Models.Accounts;
             NationalId,
             Email,
             PhoneNumber,
-            Gender,
-            Password
+            Password,
+            Gender
         );
     }
     }

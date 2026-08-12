@@ -1,6 +1,7 @@
 ﻿using JobFlowProject.Domain.Entites.User;
 using JobFlowProject.Domain.Entities;
 using JobFlowProject.Domain.Entities.Componies;
+using JobFlowProject.Domain.Entities.Componies.ComponyFeatures;
 using JobFlowProject.Domain.Enums;
 using Microsoft.EntityFrameworkCore;
 
@@ -46,7 +47,6 @@ public static class DataSeeder
 
             if (admin == null)
             {
-                admin.IsApproved = true;
                 admin = new AppUser(
                     "Admin",
                     "System",
@@ -146,45 +146,68 @@ public static class DataSeeder
 
             Console.WriteLine("JobSeeker Done");
 
-            // ---------------- Province ----------------
+            // ---------------- Province & City ----------------
 
-            var tehranProvince = await context.provinces.FirstOrDefaultAsync(p => p.Name == "تهران");
-            if (tehranProvince == null)
+            var provinceCityData = new Dictionary<string, string[]>
             {
-                tehranProvince = new Province("تهران");
-                context.provinces.Add(tehranProvince);
-                await context.SaveChangesAsync();
+                ["تهران"] = new[] { "تهران", "ورامین", "شهریار", "دماوند" },
+                ["اصفهان"] = new[] { "اصفهان", "کاشان", "نجف‌آباد", "خمینی‌شهر" },
+                ["البرز"] = new[] { "کرج", "نظرآباد", "فردیس", "هشتگرد" },
+                ["خراسان رضوی"] = new[] { "مشهد", "نیشابور", "سبزوار", "تربت حیدریه" },
+                ["فارس"] = new[] { "شیراز", "مرودشت", "لار", "جهرم" },
+                ["آذربایجان شرقی"] = new[] { "تبریز", "مراغه", "اهر", "مرند" },
+                ["آذربایجان غربی"] = new[] { "ارومیه", "خوی", "مهاباد", "میاندوآب" },
+                ["خوزستان"] = new[] { "اهواز", "آبادان", "دزفول", "بندرماهشهر" },
+                ["مازندران"] = new[] { "ساری", "بابل", "آمل", "قائم‌شهر" },
+                ["گیلان"] = new[] { "رشت", "انزلی", "لاهیجان", "آستارا" },
+                ["کرمان"] = new[] { "کرمان", "سیرجان", "رفسنجان", "بم" },
+                ["قم"] = new[] { "قم" },
+                ["کرمانشاه"] = new[] { "کرمانشاه", "اسلام‌آباد غرب", "سنقر" },
+                ["همدان"] = new[] { "همدان", "ملایر", "نهاوند" },
+                ["قزوین"] = new[] { "قزوین", "تاکستان" },
+                ["یزد"] = new[] { "یزد", "میبد", "اردکان" },
+                ["اردبیل"] = new[] { "اردبیل", "پارس‌آباد", "مشگین‌شهر" },
+                ["زنجان"] = new[] { "زنجان", "ابهر" },
+                ["گلستان"] = new[] { "گرگان", "گنبدکاووس", "علی‌آباد" },
+                ["کردستان"] = new[] { "سنندج", "مریوان", "سقز" },
+                ["لرستان"] = new[] { "خرم‌آباد", "بروجرد", "الیگودرز" },
+                ["بوشهر"] = new[] { "بوشهر", "برازجان", "کنگان" },
+                ["سمنان"] = new[] { "سمنان", "شاهرود", "دامغان" },
+                ["سیستان و بلوچستان"] = new[] { "زاهدان", "زابل", "چابهار", "ایرانشهر" },
+                ["هرمزگان"] = new[] { "بندرعباس", "بندرلنگه", "قشم", "میناب" },
+                ["چهارمحال و بختیاری"] = new[] { "شهرکرد", "بروجن", "فارسان" },
+                ["کهگیلویه و بویراحمد"] = new[] { "یاسوج", "دوگنبدان" },
+                ["مرکزی"] = new[] { "اراک", "ساوه", "خمین" },
+                ["ایلام"] = new[] { "ایلام", "مهران" },
+                ["خراسان شمالی"] = new[] { "بجنورد", "شیروان" },
+                ["خراسان جنوبی"] = new[] { "بیرجند", "قائن" },
+            };
+
+            foreach (var (provinceName, cityNames) in provinceCityData)
+            {
+                var province = await context.provinces.FirstOrDefaultAsync(p => p.Name == provinceName);
+                if (province == null)
+                {
+                    province = new Province(provinceName);
+                    context.provinces.Add(province);
+                    await context.SaveChangesAsync();
+                }
+
+                foreach (var cityName in cityNames)
+                {
+                    var cityExists = await context.Cities
+                        .AnyAsync(c => c.Name == cityName && c.ProvinceId == province.Id);
+
+                    if (!cityExists)
+                    {
+                        context.Cities.Add(new City(cityName, province.Id));
+                    }
+                }
             }
 
-            var isfahanProvince = await context.provinces.FirstOrDefaultAsync(p => p.Name == "اصفهان");
-            if (isfahanProvince == null)
-            {
-                isfahanProvince = new Province("اصفهان");
-                context.provinces.Add(isfahanProvince);
-                await context.SaveChangesAsync();
-            }
+            await context.SaveChangesAsync();
 
-            Console.WriteLine("Provinces Done");
-
-            // ---------------- City ----------------
-
-            var tehran = await context.Cities.FirstOrDefaultAsync(c => c.Name == "تهران");
-            if (tehran == null)
-            {
-                tehran = new City("تهران", tehranProvince.Id);
-                context.Cities.Add(tehran);
-                await context.SaveChangesAsync();
-            }
-
-            var karaj = await context.Cities.FirstOrDefaultAsync(c => c.Name == "کرج");
-            if (karaj == null)
-            {
-                karaj = new City("کرج", tehranProvince.Id);
-                context.Cities.Add(karaj);
-                await context.SaveChangesAsync();
-            }
-
-            Console.WriteLine("Cities Done");
+            Console.WriteLine("Provinces & Cities Done");
 
             // ---------------- Category ----------------
 
@@ -225,6 +248,10 @@ public static class DataSeeder
             }
 
             Console.WriteLine("Skills Done");
+
+            var tehranProvince = (await context.provinces.FirstOrDefaultAsync(p => p.Name == "تهران"))!;
+            var tehran = (await context.Cities.FirstOrDefaultAsync(c => c.Name == "تهران"))!;
+            var karaj = (await context.Cities.FirstOrDefaultAsync(c => c.Name == "کرج"))!;
 
             // ---------------- Company ----------------
 
@@ -300,6 +327,30 @@ public static class DataSeeder
 
             Console.WriteLine("JobPosts Done");
 
+            // ---------------- Features ----------------
+
+            var highlightFeature = await context.Features.FirstOrDefaultAsync(f => f.Name == "آگهی ویژه");
+            if (highlightFeature == null)
+            {
+                context.Features.Add(new Feature("آگهی ویژه", 200000, 7, FeatureTypeEnum.Highlight));
+            }
+
+            var pinFeature = await context.Features.FirstOrDefaultAsync(f => f.Name == "آگهی پین‌شده");
+            if (pinFeature == null)
+            {
+                context.Features.Add(new Feature("آگهی پین‌شده", 350000, 7, FeatureTypeEnum.Pin));
+            }
+
+            var extraFeature = await context.Features.FirstOrDefaultAsync(f => f.Name == "تمدید آگهی");
+            if (extraFeature == null)
+            {
+                context.Features.Add(new Feature("تمدید آگهی", 120000, 14, FeatureTypeEnum.JobPostExtra));
+            }
+
+            await context.SaveChangesAsync();
+
+            Console.WriteLine("Features Done");
+
             // ---------------- Job Applications ----------------
 
             var application1Exists = await context.JobApplications
@@ -323,8 +374,7 @@ public static class DataSeeder
             await context.SaveChangesAsync();
 
             Console.WriteLine("JobApplications Done");
-            Console.WriteLine("Seeder Finished");
-        }
+            Console.WriteLine("Seeder Finished");        }
         catch (Exception ex)
         {
             Console.WriteLine(ex.ToString());

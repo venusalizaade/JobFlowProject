@@ -1,29 +1,23 @@
 ﻿@model JovFlowProject.JobMvc.Models.ErrorViewModel
 
 @{
-    ViewData["Title"]="خطا";
+    ViewData["Title"] = "خطا";
 }
 
+<div class="auth-wrap">
+    <div class="auth-card text-center">
 
-<div class="alert alert-danger text-center">
+        <div class="auth-ico">😕</div>
 
+        <h3 class="fw-bold mb-2">خطایی رخ داده است</h3>
 
-    <h3>
-        خطایی رخ داده است
-    </h3>
+        <p class="text-secondary mb-1">متأسفانه مشکلی پیش آمد. لطفاً دوباره تلاش کنید.</p>
 
+        <code class="d-inline-block mb-4" style="font-size:.8rem;">Request ID: @Model.RequestId</code>
 
-    <p>
-        Request ID:
-        @Model.RequestId
-    </p>
+        <a asp-controller="Home" asp-action="Index" class="btn btn-glow w-100">
+            بازگشت به خانه
+        </a>
 
-
-    <a asp-controller="Home"
-       asp-action="Index"
-       class="btn btn-primary">
-        بازگشت به خانه
-    </a>
-
-
+    </div>
 </div>

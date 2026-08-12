@@ -9,6 +9,7 @@ using JobFlowProject.Business.Interfaces.EmployerInterfaces;
 using JobFlowProject.Business.Interfaces.JobPost;
 using JobFlowProject.Domain.Entities.Job;
 using JobFlowProject.Domain.Entities.User;
+using JobFlowProject.Domain.Entites.Logs;
 using JobFlowProject.Domain.Enums;
 using JobFlowProject.Domain.Interfaces.Repository;
 using Microsoft.AspNetCore.Identity;
@@ -22,6 +23,7 @@ private readonly IJobPostRepository _jobPostRepository;
 private readonly ICompanyRepository _companyRepository;
 private readonly UserManager<AppUser> _userManager;
 private readonly IEmailService _emailService;
+private readonly INotificationRepository _notificationRepository;
 
 
 public JobApplicationService(
@@ -29,13 +31,15 @@ public JobApplicationService(
     IJobPostRepository jobPostRepository,
     ICompanyRepository companyRepository,
     UserManager<AppUser> userManager,
-    IEmailService emailService)
+    IEmailService emailService,
+    INotificationRepository notificationRepository)
 {
     _jobApplicationRepository = jobApplicationRepository;
     _jobPostRepository = jobPostRepository;
     _companyRepository = companyRepository;
     _userManager = userManager;
     _emailService = emailService;
+    _notificationRepository = notificationRepository;
 }
 
 public async Task ApplyAsync(Guid requesterId, ApplyJobCommand command)
@@ -58,18 +62,22 @@ public async Task ApplyAsync(Guid requesterId, ApplyJobCommand command)
     if (exists)
         throw new Exception("You have already applied for this job.");
 
-    var application = new JobApplication(requesterId, command.JobPostId);
+    var application = new JobApplication(command.JobPostId, requesterId);
 
     await _jobApplicationRepository.AddAsync(application);
+
+    var company = await _companyRepository.GetByCompanyIdAsync(jobPost.CompanyId);
+    var employer = company is null
+        ? null
+        : await _userManager.FindByIdAsync(company.AppUserId.ToString());
+
     try
     {
-        var employer = await _userManager.FindByIdAsync(jobPost.Company.AppUserId.ToString());
-
         if (employer is not null && !string.IsNullOrWhiteSpace(employer.Email))
         {
-            var subject = "New job application received";
-            var body = "A new applicant has applied for your job post: " + jobPost.Title +
-                       ". Applicant: " + applicant.FirstName + " " + applicant.LastName;
+            var subject = "رزومه جدید برای آگهی شما";
+            var body = "<h3>رزومه جدید دریافت شد</h3>" +
+                       $"<p>کاربر <b>{applicant.FirstName} {applicant.LastName}</b> برای آگهی <b>«{jobPost.Title}»</b> رزومه ارسال کرد.</p>";
 
             await _emailService.SendAsync(employer.Email, subject, body);
         }
@@ -77,6 +85,25 @@ public async Task ApplyAsync(Guid requesterId, ApplyJobCommand command)
     catch (Exception ex)
     {
         Console.WriteLine($"Employer email failed: {ex.Message}");
+    }
+
+    if (employer is not null)
+    {
+        try
+        {
+            var notification = new NotificationLog(
+                "رزومه جدید دریافت شد",
+                $"کاربر {applicant.FirstName} {applicant.LastName} برای آگهی «{jobPost.Title}» رزومه ارسال کرد.",
+                NotificationTypeEnum.ResumeReceived,
+                employer.Id,
+                jobPost.CompanyId);
+
+            await _notificationRepository.AddAsync(notification);
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Notification failed: {ex.Message}");
+        }
     }
 }
 
@@ -121,6 +148,17 @@ public async Task ChangeStatusAsync(Guid requesterId, ChangeApplicationStatusCom
 
     if (application.JobPost.CompanyId != company.Id)
         throw new PermissionDeniedException();
+
+    var finalStatuses = new[]
+    {
+        JobApplicationStatusEnum.Interview,
+        JobApplicationStatusEnum.Accepted,
+        JobApplicationStatusEnum.Rejected
+    };
+
+    if (finalStatuses.Contains(application.Status) &&
+        command.Status is JobApplicationStatusEnum.Review or JobApplicationStatusEnum.Pending)  
+        throw new StatusChangeNotAllowedException();
 
     application.ChangeStatus(command.Status);
     application.SetModificationInfo(requesterId);
@@ -181,6 +219,7 @@ public async Task<List<JobApplicationResponseDto>> GetMyApplicationsAsync(Guid r
         .Select(x => new JobApplicationResponseDto(
             x.Id,
             x.JobPost.Title,
+            x.JobPost.Company != null && !x.JobPost.Company.IsDeleted ? x.JobPost.Company.Name : null,
             x.Status,
             x.CreatedAt))
         .ToList();

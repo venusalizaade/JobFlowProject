@@ -1,3 +1,4 @@
+using JobFlowProject.Business.Constants;
 using JobFlowProject.Business.Interfaces;
 using JobFlowProject.Business.Interfaces.EmployerInterfaces;
 using JobFlowProject.Business.Interfaces.JobPost;
@@ -17,6 +18,7 @@ using JobFlowProject.Domain.Entities.User;
 using JobFlowProject.Domain.Interfaces.Repository;
 using JobFlowProject.Domain.Interfaces.Repository.User;
 using JobFlowProject.Infrastructure.DbContext.AppDbContext;
+using JobFlowProject.Infrastructure.DataSeeder;
 using JobFlowProject.Infrastructure.Repositories;
 using JobFlowProject.Infrastructure.Repositories.User;
 using Microsoft.AspNetCore.Identity;
@@ -24,15 +26,36 @@ using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddControllersWithViews();
+builder.Services.AddControllersWithViews(options =>
+{
+    options.Filters.Add(new Microsoft.AspNetCore.Mvc.AutoValidateAntiforgeryTokenAttribute());
+});
 
 builder.Services.AddDbContext<JobFlowDbContext>(options =>
-    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"),
+        sql => sql.CommandTimeout(120)));
 
 builder.Services
-    .AddIdentity<AppUser, Role>()
+    .AddIdentity<AppUser, Role>(options =>
+    {
+        options.ClaimsIdentity.UserNameClaimType = System.Security.Claims.ClaimTypes.Name;
+        options.ClaimsIdentity.UserIdClaimType = System.Security.Claims.ClaimTypes.NameIdentifier;
+        options.ClaimsIdentity.RoleClaimType = System.Security.Claims.ClaimTypes.Role;
+    })
     .AddEntityFrameworkStores<JobFlowDbContext>()
-    .AddDefaultTokenProviders();
+    .AddDefaultTokenProviders()
+    .AddClaimsPrincipalFactory<JovFlowProject.JobMvc.Services.AppUserClaimsPrincipalFactory>();
+
+builder.Services.AddAuthorization(options =>
+{
+    options.AddPolicy("JobSeeker", policy => policy.RequireRole(RoleConstants.JobSeekerRoleName));
+    options.AddPolicy("Admin", policy => policy.RequireRole(RoleConstants.AdminRoleName));
+    options.AddPolicy("ApprovedEmployer", policy =>
+    {
+        policy.RequireRole(RoleConstants.EmployerRoleName);
+        policy.RequireClaim("IsApproved", "true");
+    });
+});
 
 builder.Services.ConfigureApplicationCookie(options =>
 {
@@ -67,9 +90,22 @@ builder.Services.AddScoped<IJobApplicationService, JobApplicationService>();
 builder.Services.AddScoped<IJobSeekerService, JobSeekerService>();
 builder.Services.AddScoped<IFeatureService, FeatureService>();
 builder.Services.AddScoped<ICompanyFeatureService, CompanyFeatureService>();
+builder.Services.AddScoped<IWalletService, WalletService>();
+builder.Services.AddScoped<IFeatureExpiryService, FeatureExpiryService>();
 builder.Services.AddScoped<IEmailService, EmailService>();
+builder.Services.AddHostedService<JovFlowProject.JobMvc.Services.FeatureExpiryHostedService>();
 
 var app = builder.Build();
+
+using (var scope = app.Services.CreateScope())
+{
+    var db = scope.ServiceProvider.GetRequiredService<JobFlowDbContext>();
+    db.Database.Migrate();
+
+    var userManager = scope.ServiceProvider.GetRequiredService<UserManager<AppUser>>();
+    var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<Role>>();
+    await DataSeeder.SeedAsync(db, userManager, roleManager);
+}
 
 if (!app.Environment.IsDevelopment())
 {

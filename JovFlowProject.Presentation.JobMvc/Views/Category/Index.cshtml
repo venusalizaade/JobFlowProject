@@ -1,51 +1,38 @@
-﻿@model IEnumerable<dynamic>
+﻿@model IEnumerable<JobFlowProject.Business.Dto.CompanyDto.CategoryResponseDto>
 
 @{
-    ViewData["Title"]="دسته بندی ها";
+    ViewData["Title"] = "دسته‌بندی‌ها";
+    string[] catIcons = { "💻", "🩺", "💼", "🏗️", "🎓", "🏦", "🚀", "🛒", "⚡", "🎨", "📈", "🍽️" };
+    var list = Model.ToList();
 }
 
-
-<div class="card shadow">
-
-    <div class="card-body">
-
-        <h3 class="mb-3">
-            دسته بندی مشاغل
-        </h3>
-
-
-        <table class="table table-striped">
-
-            <thead>
-            <tr>
-                <th>نام</th>
-                <th>توضیحات</th>
-            </tr>
-            </thead>
-
-
-            <tbody>
-
-            @foreach(var item in Model)
-            {
-                <tr>
-
-                    <td>
-                        @item.Name
-                    </td>
-
-                    <td>
-                        @item.Description
-                    </td>
-
-                </tr>
-            }
-
-            </tbody>
-
-        </table>
-
-
+<section class="page-hero">
+    <div class="container position-relative" style="z-index:2;">
+        <div class="crumb">خانه / دسته‌بندی‌ها</div>
+        <h1 class="mt-1">دسته‌بندی مشاغل</h1>
+        <p>حوزه کاری خود را انتخاب کنید</p>
     </div>
+</section>
 
-</div>
+@if (list.Any())
+{
+    <div class="row g-4">
+        @for (var i = 0; i < list.Count; i++)
+        {
+            <div class="col-6 col-md-4 col-lg-3 reveal">
+                <a class="cat-card d-block" asp-controller="JobPost" asp-action="Index">
+                    <div class="ico">@catIcons[i % catIcons.Length]</div>
+                    <h5>@list[i].Name</h5>
+                    <div class="cnt">@(list[i].Description ?? "مشاهده فرصت‌ها")</div>
+                </a>
+            </div>
+        }
+    </div>
+}
+else
+{
+    <div class="empty-state surface-card">
+        <div class="big">🗂️</div>
+        <h5 class="fw-bold">هنوز دسته‌بندی‌ای ثبت نشده است</h5>
+    </div>
+}

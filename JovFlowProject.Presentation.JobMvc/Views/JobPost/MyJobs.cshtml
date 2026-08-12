@@ -1,85 +1,99 @@
-﻿@model IEnumerable<JovFlowProject.JobMvc.Models.Job.JobPostListItemVm>
+﻿@model IEnumerable<JobFlowProject.Business.Dto.JobPost.JobPostResponseDto>
 
 @{
-    ViewData["Title"]="آگهی های من";
+    ViewData["Title"] = "آگهی‌های من";
 }
 
+<section class="page-hero">
+    <div class="container position-relative" style="z-index:2;">
+        <div class="crumb">کارفرما / آگهی‌های من</div>
+        <h1 class="mt-1">آگهی‌های من</h1>
+    </div>
+</section>
 
-<h3>
-    آگهی های من
-</h3>
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h4 class="fw-bold mb-0">@Model.Count() آگهی</h4>
+    <div class="d-flex gap-2">
+        <a asp-controller="Employer" asp-action="Wallet" class="btn btn-ghost-outline btn-sm">کیف پول</a>
+        <a asp-action="Create" class="btn btn-glow btn-sm">+ آگهی جدید</a>
+    </div>
+</div>
 
-
-<table class="table table-striped">
-
-
-    <thead>
-
-    <tr>
-
-        <th>
-            عنوان
-        </th>
-
-        <th>
-            شرکت
-        </th>
-
-        <th>
-            عملیات
-        </th>
-
-    </tr>
-
-    </thead>
-
-
-    <tbody>
-
-
-    @foreach(var item in Model)
-    {
-
-        <tr>
-
-            <td>
-                @item.Title
-            </td>
-
-            <td>
-                @item.CompanyName
-            </td>
-
-
-            <td>
-
-                <a asp-action="Details"
-                   asp-route-id="@item.Id"
-                   class="btn btn-sm btn-info">
-                    مشاهده
-                </a>
-
-
-                <form asp-action="Deactivate"
-                      asp-route-id="@item.Id"
-                      method="post"
-                      class="d-inline">
-
-                    <button class="btn btn-sm btn-danger">
-                        غیرفعال
-                    </button>
-
-                </form>
-
-
-            </td>
-
-        </tr>
-
-    }
-
-
-    </tbody>
-
-
-</table>
+@if (Model.Any())
+{
+    <div class="surface-card p-4 p-lg-5 table-responsive">
+        <table class="table align-middle mb-0">
+            <thead>
+            <tr>
+                <th>عنوان</th>
+                <th>حقوق</th>
+                <th>وضعیت</th>
+                <th>عملیات</th>
+            </tr>
+            </thead>
+            <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td class="fw-bold">@item.Title</td>
+                    <td>@(item.Salary.HasValue ? item.Salary.Value.ToString("N0") + " تومان" : "توافقی")</td>
+                    <td>
+                        @if (item.IsActive)
+                        {
+                            <span class="status-pill status-Accepted">فعال</span>
+                        }
+                        else
+                        {
+                            <span class="status-pill status-Cancelled">غیرفعال</span>
+                        }
+                    </td>
+                    <td>
+                        <div class="d-flex gap-1 flex-wrap">
+                            <a asp-controller="JobApplication" asp-action="EmployerApplications" asp-route-jobPostId="@item.Id" class="btn btn-glow btn-sm">درخواست‌ها</a>
+                            <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-ghost-outline btn-sm">مشاهده</a>
+                            @if (item.IsActive)
+                            {
+                                <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-ghost-outline btn-sm">ویرایش</a>
+                                <form asp-action="Deactivate" asp-route-id="@item.Id" method="post" class="d-inline">
+                                    <button class="btn btn-outline-danger btn-sm">غیرفعال‌سازی</button>
+                                </form>
+                            }
+                            else
+                            {
+                                <span class="text-muted small">این آگهی غیرفعال است.</span>
+                            }
+                        </div>
+                        @if (ViewBag.Features is not null)
+                        {
+                            <form asp-action="RequestFeature" method="post" class="d-flex gap-2 align-items-center mt-2 pt-2 border-top">
+                                <input type="hidden" name="jobPostId" value="@item.Id" />
+                                <select name="featureId" class="form-select form-select-sm" style="max-width:230px;">
+                                    @foreach (var f in ViewBag.Features as IEnumerable<Microsoft.AspNetCore.Mvc.Rendering.SelectListItem>)
+                                    {
+                                        <option value="@f.Value">@f.Text</option>
+                                    }
+                                </select>
+                                <button class="btn btn-outline-primary btn-sm flex-shrink-0">⭐ خرید فیچر</button>
+                                @if (ViewBag.LatestPayments is not null && ViewBag.LatestPayments.ContainsKey(item.Id))
+                                {
+                                    var paymentStatus = (JobFlowProject.Domain.Enums.PaymentStatusEnum)ViewBag.LatestPayments[item.Id];
+                                    <span class="status-pill @paymentStatus.BadgeClass()">@paymentStatus.Persian()</span>
+                                }
+                            </form>
+                        }
+                    </td>
+                </tr>
+            }
+            </tbody>
+        </table>
+    </div>
+}
+else
+{
+    <div class="empty-state surface-card">
+        <div class="big">📋</div>
+        <h5 class="fw-bold">هنوز آگهی‌ای ثبت نکرده‌اید</h5>
+        <p>اولین فرصت شغلی خود را منتشر کنید.</p>
+        <a asp-action="Create" class="btn btn-glow mt-2">ثبت آگهی</a>
+    </div>
+}

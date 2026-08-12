@@ -34,14 +34,30 @@ public class FeatureController : Controller
             return View(model);
 
         await _featureService.CreateFeatureAsync(model.ToDto());
+        TempData["Success"] = "فیچر جدید با موفقیت ایجاد شد.";
 
         return RedirectToAction(nameof(Index));
     }
 
     [HttpGet]
-    public IActionResult Edit(Guid id)
+    public async Task<IActionResult> Edit(Guid id)
     {
-        return View(new EditFeatureVm { Id = id });
+        var feature = (await _featureService.GetFeaturesAsync()).FirstOrDefault(x => x.Id == id);
+
+        if (feature is null)
+        {
+            TempData["Error"] = "فیچر موردنظر یافت نشد.";
+            return RedirectToAction(nameof(Index));
+        }
+
+        return View(new EditFeatureVm
+        {
+            Id = feature.Id,
+            Name = feature.Name,
+            Price = feature.Price,
+            DurationDays = feature.DurationDays,
+            FeatureType = feature.FeatureType
+        });
     }
 
     [HttpPost]
@@ -51,6 +67,7 @@ public class FeatureController : Controller
             return View(model);
 
         await _featureService.UpdateFeatureAsync(model.Id, model.ToDto());
+        TempData["Success"] = "تغییرات فیچر ذخیره شد.";
 
         return RedirectToAction(nameof(Index));
     }
@@ -61,6 +78,7 @@ public class FeatureController : Controller
         var requesterId = Guid.Parse(User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)!.Value);
 
         await _featureService.DeleteFeatureAsync(id, requesterId);
+        TempData["Success"] = "فیچر حذف شد.";
 
         return RedirectToAction(nameof(Index));
     }

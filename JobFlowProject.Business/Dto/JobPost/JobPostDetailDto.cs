@@ -14,5 +14,8 @@ public record JobPostDetailDto(
     string CompanyName,
     string CategoryName,
     string CityName,
-    string ProvinceName
+    string ProvinceName,
+
+    string CompanyAddress,
+    string CompanyLogoUrl
 );

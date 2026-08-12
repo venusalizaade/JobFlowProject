@@ -1,20 +1,53 @@
 @{
-    ViewData["Title"]="درباره ما";
+    ViewData["Title"] = "درباره ما";
 }
 
+<section class="page-hero">
+    <div class="container position-relative" style="z-index:2;">
+        <div class="crumb">خانه / درباره ما</div>
+        <h1 class="mt-1">درباره جابیاب</h1>
+        <p>پلتفـرمی برای ساختن آینده شغلی بهتر</p>
+    </div>
+</section>
 
-<div class="card shadow">
+<div class="row g-4">
 
-    <div class="card-body">
+    <div class="col-lg-6 reveal">
+        <div class="surface-card p-4 p-lg-5 h-100">
+            <span class="eyebrow">مأموریت ما</span>
+            <h3 class="fw-bold mb-3">ارتباط درست استعداد و فرصت</h3>
+            <p class="text-secondary mb-0">
+                جابیاب بستری مدرن برای ارتباط کارجویان و کارفرمایان است. ما باور داریم هر فرد مستحق شغلی است که او را رشد دهد؛ بنابراین با ابزارهای ساده و هوشمند، مسیر پیدا کردن کار و استخدام را برای همه هموار کرده‌ایم.
+            </p>
+        </div>
+    </div>
 
-        <h2>
-            درباره JobFlow
-        </h2>
+    <div class="col-lg-6 reveal">
+        <div class="surface-card p-4 p-lg-5 h-100">
+            <span class="eyebrow">ارزش‌های ما</span>
+            <h3 class="fw-bold mb-3">شفافیت، سرعت، احترام</h3>
+            <ul class="list-unstyled text-secondary mb-0" style="line-height:2.4;">
+                <li><span class="divider-dot me-2"></span>ثبت‌نام و استفاده آسان برای همه</li>
+                <li><span class="divider-dot me-2"></span>جستجوی سریع بر اساس مهارت و شهر</li>
+                <li><span class="divider-dot me-2"></span>مدیریت شفاف وضعیت درخواست‌ها</li>
+                <li><span class="divider-dot me-2"></span>امنیت و حفظ حریم خصوصی کاربران</li>
+            </ul>
+        </div>
+    </div>
 
-        <p>
-            JobFlow بستری برای ارتباط کارجویان و کارفرمایان است.
-        </p>
-
+    <div class="col-12 reveal">
+        <div class="jf-cta">
+            <div class="position-relative" style="z-index:2;">
+                <h3>همین حالا سفر شغلی‌ات را شروع کن</h3>
+                <p style="color:rgba(255,255,255,.8);margin-bottom:1.6rem;">
+                    ثبت‌نام رایگان است و کمتر از یک دقیقه طول می‌کشد.
+                </p>
+                <div class="d-flex justify-content-center gap-3 flex-wrap">
+                    <a class="btn btn-glow" asp-controller="Account" asp-action="RegisterJobSeeker">ثبت‌نام کارجو</a>
+                    <a class="btn btn-ghost" asp-controller="Account" asp-action="RegisterEmployer">ثبت‌نام کارفرما</a>
+                </div>
+            </div>
+        </div>
     </div>
 
 </div>

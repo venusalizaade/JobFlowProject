@@ -15,34 +15,36 @@ public class CreateJobPostVm
     public string AboutJob { get; set; } = string.Empty;
 
     [Required]
-    public Guid ProvinceId { get; set; }
+    public Guid? ProvinceId { get; set; }
 
     [Required]
-    public Guid CityId { get; set; }
+    public Guid? CityId { get; set; }
 
     [Required]
-    public EmploymentTypeEnum EmploymentType { get; set; }
+    public EmploymentTypeEnum? EmploymentType { get; set; }
 
     [Range(0, double.MaxValue)]
     public decimal? Salary { get; set; }
 
     [Required]
-    public Guid CategoryId { get; set; }
+    public Guid? CategoryId { get; set; }
 
     [Required]
-    public Guid SkillId { get; set; }
+    public Guid? SkillId { get; set; }
+
+    public Guid? FeatureId { get; set; }
 
     public CreateJobPostCommand ToCommand()
     {
         return new CreateJobPostCommand(
             Title,
             AboutJob,
-            ProvinceId,
-            CityId,
+            ProvinceId ?? Guid.Empty,
+            CityId ?? Guid.Empty,
             Salary,
-            EmploymentType,
-            CategoryId, 
-            SkillId
+            EmploymentType ?? EmploymentTypeEnum.FullTime,
+            CategoryId ?? Guid.Empty,
+            SkillId ?? Guid.Empty
         );
     }
 }

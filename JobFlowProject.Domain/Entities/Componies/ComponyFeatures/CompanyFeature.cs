@@ -15,6 +15,7 @@ public class CompanyFeature : BaseEntity
         FeatureId = featureId;
         StartDate = startDate;
         EndDate = endDate;
+        IsActive = true;
 
         Validate();
     }
@@ -44,9 +45,17 @@ public class CompanyFeature : BaseEntity
     public DateTime EndDate { get; set; }
 
     /// <summary>
-    /// آیا هنوز فعال است؟
+    /// آیا فیچر هم‌اکنون فعال است؟
     /// </summary>
     public bool IsActive { get; private set; }
+
+    /// <summary>
+    /// غیرفعال‌سازی فیچر پس از پایان تاریخ اعتبار
+    /// </summary>
+    public void Deactivate()
+    {
+        IsActive = false;
+    }
 
     public override void Validate()
     {

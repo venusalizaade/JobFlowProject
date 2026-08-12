@@ -14,9 +14,10 @@
     </ItemGroup>
 
     <ItemGroup>
-      <_ContentIncludedByDefault Remove="wwwroot\js\css\bootstrap.min.css" />
-      <_ContentIncludedByDefault Remove="wwwroot\js\css\main.js" />
-      <_ContentIncludedByDefault Remove="wwwroot\js\css\style.css" />
+      <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="10.0.9">
+        <PrivateAssets>all</PrivateAssets>
+        <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+      </PackageReference>
     </ItemGroup>
 
 </Project>

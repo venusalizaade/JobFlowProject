@@ -14,4 +14,10 @@ public record JobPostResponseDto(
 )
 {
     public bool IsFeatured { get; set; }
+    public string? CompanyName { get; set; }
+    public string? CategoryName { get; set; }
+    public string? CityName { get; set; }
+    public string? ProvinceName { get; set; }
+    public string? SkillName { get; set; }
+    public DateTime? CreatedAt { get; set; }
 }

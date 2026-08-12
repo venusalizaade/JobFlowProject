@@ -8,7 +8,9 @@ using JobFlowProject.Business.Exceptions.BaseExeption;
 using JobFlowProject.Business.Interfaces;
 using JobFlowProject.Business.Interfaces.User;
 using JobFlowProject.Business.Services.MailKit;
+using JobFlowProject.Domain.Entites.Logs;
 using JobFlowProject.Domain.Entites.User;
+using JobFlowProject.Domain.Entities.Componies.ComponyFeatures;
 using JobFlowProject.Domain.Entities.User;
 using JobFlowProject.Domain.Enums;
 using JobFlowProject.Domain.Interfaces.Repository;
@@ -157,8 +159,10 @@ public class AdminService : IAdminService
 
     public async Task<List<JobSeekerListDto>> GetJobSeekersAsync()
     {
-        return await _userManager.Users
-            .Where(x => x.CompanyId == null && !x.IsDeleted)
+        var seekers = await _userManager.GetUsersInRoleAsync(RoleConstants.JobSeekerRoleName);
+
+        return seekers
+            .Where(x => !x.IsDeleted)
             .Select(x => new JobSeekerListDto(
                 x.Id,
                 $"{x.FirstName} {x.LastName}",
@@ -166,7 +170,7 @@ public class AdminService : IAdminService
                 x.PhoneNumber!,
                 x.Gender,
                 x.About))
-            .ToListAsync();
+            .ToList();
     }
 
     public async Task<JobSeekerDetailsDto> GetJobSeekerDetailsAsync(Guid jobSeekerId)
@@ -277,7 +281,6 @@ public class AdminService : IAdminService
 
         user.LockoutEnabled = true;
         user.LockoutEnd = DateTimeOffset.MaxValue;
-        await _userManager.UpdateAsync(user);
 
         var result = await _userManager.UpdateAsync(user);
 
@@ -329,6 +332,70 @@ public class AdminService : IAdminService
         ));
 
 
+    }
+
+    public async Task<List<PaymentListDto>> GetPaymentsAsync()
+    {
+        return await _context.Payments
+            .AsNoTracking()
+            .Where(p => !p.IsDeleted)
+            .Include(p => p.JobPost)
+            .ThenInclude(j => j.Company)
+            .Include(p => p.Feature)
+            .OrderByDescending(p => p.CreatedAt)
+            .Select(p => new PaymentListDto(
+                p.Id,
+                p.JobPost.Company.Name,
+                p.JobPost.Title,
+                p.Feature.Name,
+                p.Amount,
+                p.Status,
+                p.CreatedAt))
+            .ToListAsync();
+    }
+
+    public async Task ConfirmPaymentAsync(Guid paymentId, Guid requesterId)
+    {
+        var payment = await _context.Payments
+            .Include(p => p.JobPost)
+            .ThenInclude(j => j.Company)
+            .Include(p => p.Feature)
+            .FirstOrDefaultAsync(p => p.Id == paymentId && !p.IsDeleted);
+
+        if (payment is null)
+            throw new ItemNotFoundException("Payment not found.");
+
+        if (payment.Status != PaymentStatusEnum.Success)
+            throw new Exception("فقط پرداخت‌های در انتظار تأیید قابل تأیید هستند.");
+
+        var companyId = payment.JobPost.CompanyId;
+        var featureId = payment.FeatureId;
+
+        var alreadyAssigned = await _context.CompanyFeatures
+            .AnyAsync(cf => cf.CompanyId == companyId && cf.FeatureId == featureId && !cf.IsDeleted);
+
+        if (!alreadyAssigned)
+        {
+            var companyFeature = new CompanyFeature(
+                companyId,
+                featureId,
+                DateTime.UtcNow,
+                DateTime.UtcNow.AddDays(payment.Feature.DurationDays));
+
+            _context.CompanyFeatures.Add(companyFeature);
+        }
+
+        payment.JobPost.SetFeatured(payment.Feature.DurationDays, requesterId);
+        payment.Confirm();
+
+        _context.NotificationLogs.Add(new NotificationLog(
+            "تأیید فیچر",
+            $"فیچر «{payment.Feature.Name}» برای آگهی «{payment.JobPost.Title}» تأیید و فعال شد.",
+            NotificationTypeEnum.PaymentConfirmed,
+            payment.JobPost.Company.AppUserId,
+            companyId));
+
+        await _context.SaveChangesAsync();
     }
 
     private async Task FireAndForgetEmailAsync(string to, string subject, string body)

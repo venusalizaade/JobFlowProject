@@ -23,6 +23,7 @@ public class NotificationLog : BaseEntity
         Type = type;
         AppUserId = appUserId;
         CompanyId = companyId;
+        IsRead = false;
         SentAt = DateTime.UtcNow;
     }
     /// <summary>
@@ -46,9 +47,14 @@ public class NotificationLog : BaseEntity
     public DateTime SentAt { get; set; } = DateTime.UtcNow;
 
     /// <summary>
-    /// آیدی کاربر (در صورت وجود)
+    /// ???? ????? (?? ???? ????)
     /// </summary>
     public Guid? AppUserId { get; set; }
+
+    /// <summary>
+    /// ?????? ???? ?? ??
+    /// </summary>
+    public bool IsRead { get; set; }
 
     /// <summary>
     /// کاربر

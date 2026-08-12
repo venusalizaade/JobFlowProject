@@ -58,6 +58,31 @@ public class Payment : BaseEntity
     /// </summary>
     public Feature Feature { get; private set; }
     
+    /// <summary>
+    /// پرداخت موفق (شارژ از کیف پول)
+    /// </summary>
+    public void MarkAsPaid()
+    {
+        Status = PaymentStatusEnum.Success;
+        VerifiedAt = DateTime.UtcNow;
+    }
+
+    /// <summary>
+    /// تأیید نهایی پرداخت توسط ادمین
+    /// </summary>
+    public void Confirm()
+    {
+        Status = PaymentStatusEnum.Confirmed;
+        VerifiedAt = DateTime.UtcNow;
+    }
+
+    /// <summary>
+    /// رد پرداخت توسط ادمین
+    /// </summary>
+    public void MarkAsFailed()
+    {
+        Status = PaymentStatusEnum.Failed;
+    }
 
     public override void Validate()
     {

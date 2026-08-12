@@ -39,4 +39,8 @@ public interface IAdminService
     Task<EmailSettingDto> GetEmailSettingAsync();
 
     Task UpdateEmailSettingAsync(UpdateEmailSettingDto dto);
+
+    Task<List<PaymentListDto>> GetPaymentsAsync();
+
+    Task ConfirmPaymentAsync(Guid paymentId, Guid requesterId);
 }

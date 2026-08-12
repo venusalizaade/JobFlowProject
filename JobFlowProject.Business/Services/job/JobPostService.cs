@@ -72,7 +72,15 @@ public class JobPostService : IJobPostService
             jobPost.Salary,
             jobPost.EmploymentType,
             jobPost.IsActive,
-            jobPost.ExpiresAt);
+            jobPost.ExpiresAt)
+        {
+            CompanyName = jobPost.Company?.Name,
+            CategoryName = jobPost.Category?.Name,
+            CityName = jobPost.City?.Name,
+            ProvinceName = jobPost.City?.Province?.Name,
+            SkillName = jobPost.Skill?.Name,
+            CreatedAt = jobPost.CreatedAt
+        };
     }
 
     public async Task<List<JobPostResponseDto>> GetCompanyJobPostsAsync(Guid requesterId)
@@ -92,7 +100,15 @@ public class JobPostService : IJobPostService
             job.EmploymentType,
             job.IsActive,
             job.ExpiresAt
-        )).ToList();
+        )
+        {
+            CompanyName = job.Company?.Name,
+            CategoryName = job.Category?.Name,
+            CityName = job.City?.Name,
+            ProvinceName = job.City?.Province?.Name,
+            SkillName = job.Skill?.Name,
+            CreatedAt = job.CreatedAt
+        }).ToList();
     }
 
     public async Task<JobPostDetailDto> GetDetailsAsync(Guid id)
@@ -113,7 +129,9 @@ public class JobPostService : IJobPostService
             job.Company.Name,
             job.Category.Name,
             job.City.Name,
-            job.City.Province.Name
+            job.City.Province.Name,
+            job.Company.Address,
+            string.Empty
         );
     }
 
@@ -184,7 +202,16 @@ public class JobPostService : IJobPostService
             job.EmploymentType,
             job.IsActive,
             job.ExpiresAt
-        )).ToList();
+        )
+        {
+            IsFeatured = job.IsFeatured && job.FeaturedUntil.HasValue && job.FeaturedUntil > DateTime.UtcNow,
+            CompanyName = job.Company?.Name,
+            CategoryName = job.Category?.Name,
+            CityName = job.City?.Name,
+            ProvinceName = job.City?.Province?.Name,
+            SkillName = job.Skill?.Name,
+            CreatedAt = job.CreatedAt
+        }).ToList();
     }
     
     public async Task<List<JobPostResponseDto>> SearchAsync(JobPostSearchRequestDto dto)
@@ -207,7 +234,16 @@ public class JobPostService : IJobPostService
             job.EmploymentType,
             job.IsActive,
             job.ExpiresAt
-        )).ToList();
+        )
+        {
+            IsFeatured = job.IsFeatured && job.FeaturedUntil.HasValue && job.FeaturedUntil > DateTime.UtcNow,
+            CompanyName = job.Company?.Name,
+            CategoryName = job.Category?.Name,
+            CityName = job.City?.Name,
+            ProvinceName = job.City?.Province?.Name,
+            SkillName = job.Skill?.Name,
+            CreatedAt = job.CreatedAt
+        }).ToList();
     }
     
    
@@ -227,6 +263,15 @@ public class JobPostService : IJobPostService
             job.EmploymentType,
             job.IsActive,
             job.ExpiresAt
-        )).ToList();
+        )
+        {
+            IsFeatured = job.IsFeatured && job.FeaturedUntil.HasValue && job.FeaturedUntil > DateTime.UtcNow,
+            CompanyName = job.Company?.Name,
+            CategoryName = job.Category?.Name,
+            CityName = job.City?.Name,
+            ProvinceName = job.City?.Province?.Name,
+            SkillName = job.Skill?.Name,
+            CreatedAt = job.CreatedAt
+        }).ToList();
     }
 }

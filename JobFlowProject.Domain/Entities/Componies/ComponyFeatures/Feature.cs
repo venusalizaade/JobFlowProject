@@ -62,6 +62,9 @@ public class Feature : BaseEntity
 
         if (DurationDays > 62)
             throw new Exception("DurationDays cannot exceed 62 days");
+
+        if (!Enum.IsDefined(typeof(FeatureTypeEnum), FeatureType))
+            throw new Exception("FeatureType is invalid");
     
     }
 }

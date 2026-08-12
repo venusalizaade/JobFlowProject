@@ -1,24 +1,210 @@
-﻿@{
-    ViewData["Title"]="خانه";
+﻿@model JovFlowProject.JobMvc.Models.HomeIndexVm
+
+@{
+    ViewData["Title"] = "جابیاب | سامانه کاریابی";
+    var cats = Model.Categories.Take(8).ToList();
+    var featured = Model.Jobs.Take(6).ToList();
+
+    string CategoryIcon(string name)
+    {
+        if (string.IsNullOrEmpty(name)) return "💼";
+        if (name.Contains("برنامه") || name.Contains("کامپیوتر") || name.Contains("فناوری") || name.Contains("سافت") || name.Contains("وب")) return "💻";
+        if (name.Contains("حسابدار") || name.Contains("حسابداری") || name.Contains("مالی") || name.Contains("حسابرس")) return "📊";
+        if (name.Contains("پزشک") || name.Contains("پزشکی") || name.Contains("پرستار") || name.Contains("درمان") || name.Contains("داروساز")) return "🩺";
+        if (name.Contains("مهندس") || name.Contains("عمران") || name.Contains("ساخت") || name.Contains("معماری") || name.Contains("صنعت")) return "🏗️";
+        if (name.Contains("آموزش") || name.Contains("مدرس") || name.Contains("استاد") || name.Contains("دانشگاه") || name.Contains("تحقیق")) return "🎓";
+        if (name.Contains("بانک") || name.Contains("بیمه") || name.Contains("اعتباری") || name.Contains("سرمایه")) return "🏦";
+        if (name.Contains("فروش") || name.Contains("بازاریابی") || name.Contains("بازرگانی") || name.Contains("صادرات")) return "📈";
+        if (name.Contains("گرافیک") || name.Contains("طراح") || name.Contains("هنر") || name.Contains("مدیا") || name.Contains("رسانه")) return "🎨";
+        if (name.Contains("رستوران") || name.Contains("غذا") || name.Contains("آشپز") || name.Contains("هتلداری") || name.Contains("خدمات")) return "🍽️";
+        if (name.Contains("لجستیک") || name.Contains("حمل") || name.Contains("راننده") || name.Contains("انبار")) return "🚚";
+        return "💼";
+    }
 }
 
+<section class="jf-hero">
+    <div class="container hero-inner">
 
-<div class="text-center py-5">
+        <h1>
+            شغلی که <span class="gradient-text">شایسته‌ات</span> است،
+            همین‌جاست!
+        </h1>
 
-    <h1 class="display-4">
-        JobFlow
-    </h1>
+        <p class="hero-sub">
+            جابیاب پلی بین استعداد و فرصت است؛ جستجوی هوشمند آگهی‌ها، ثبت‌نام رایگان و ارتباط مستقیم با بهترین شرکت‌ها — همه در یک پلتفرم مدرن.
+        </p>
 
-    <p class="lead">
-        سامانه کاریابی و استخدام
-    </p>
+        <div class="d-flex justify-content-center gap-3 flex-wrap mb-4">
+            <a class="btn btn-glow" asp-controller="Account" asp-action="RegisterJobSeeker">ثبت‌نام کارجو</a>
+            <a class="btn btn-ghost" asp-controller="Account" asp-action="RegisterEmployer">ثبت‌نام کارفرما</a>
+        </div>
 
+        <form class="jf-search" method="get" asp-controller="JobPost" asp-action="Search">
+            <input type="text" name="Title" class="form-control" placeholder="عنوان شغل، مهارت یا شرکت..." aria-label="جستجو" />
+            <select name="CategoryId" class="form-select d-none d-md-block" style="max-width:180px;">
+                <option value="">همه دسته‌بندی‌ها</option>
+                @foreach (var c in Model.Categories)
+                {
+                    <option value="@c.Id">@c.Name</option>
+                }
+            </select>
+            <button class="btn btn-glow flex-shrink-0" type="submit">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" style="vertical-align:-2px;">
+                    <circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/>
+                </svg>
+                جستجو
+            </button>
+        </form>
 
-    <a asp-controller="JobPost"
-       asp-action="Index"
-       class="btn btn-primary btn-lg">
-        مشاهده فرصت‌های شغلی
-    </a>
+    </div>
+</section>
 
+<section class="jf-stats section pt-5" style="padding-bottom:2rem;">
+    <div class="container">
+        <div class="row surface-card py-4 px-2 gy-3" style="margin-top:3rem;">
+            <div class="col-6 col-md-3 stat">
+                <div class="num" data-count="@Model.Jobs.Count">0</div>
+                <div class="lbl">فرصت شغلی فعال</div>
+            </div>
+            <div class="col-6 col-md-3 stat">
+                <div class="num" data-count="@Model.Categories.Count">0</div>
+                <div class="lbl">دسته‌بندی شغلی</div>
+            </div>
+            <div class="col-6 col-md-3 stat">
+                <div class="num" data-count="12">0</div>
+                <div class="lbl">هزار کارجو</div>
+            </div>
+            <div class="col-6 col-md-3 stat">
+                <div class="num" data-count="98">0</div>
+                <div class="lbl">درصد رضایت کاربران</div>
+            </div>
+        </div>
+    </div>
+</section>
 
-</div>
+<section class="section">
+    <div class="container">
+
+        <div class="section-head text-center reveal">
+            <span class="eyebrow">دسته‌بندی مشاغل</span>
+            <h2>در چه زمینه‌ای می‌خواهی کار کنی؟</h2>
+            <p class="text-secondary">محبوب‌ترین حوزه‌های شغلی روی جابیاب</p>
+        </div>
+
+        @if (cats.Any())
+        {
+            <div class="row g-4">
+                @foreach (var c in cats)
+                {
+                    <div class="col-6 col-md-4 col-lg-3 reveal">
+                        <a class="cat-card d-block" asp-controller="JobPost" asp-action="Search" asp-route-CategoryId="@c.Id">
+                            <div class="ico">@CategoryIcon(c.Name)</div>
+                            <h5>@c.Name</h5>
+                            <div class="cnt">مشاهده فرصت‌ها</div>
+                        </a>
+                    </div>
+                }
+            </div>
+        }
+        else
+        {
+            <div class="empty-state surface-card reveal">
+                <div class="big">🗂️</div>
+                <p>هنوز دسته‌بندی‌ای ثبت نشده است.</p>
+            </div>
+        }
+
+    </div>
+</section>
+
+<section class="section" style="padding-top:1rem;">
+    <div class="container">
+
+        <div class="section-head d-flex flex-wrap align-items-end justify-content-between gap-3 reveal">
+            <div>
+                <span class="eyebrow">جدیدترین فرصت‌ها</span>
+                <h2 class="mb-0">آخرین آگهی‌های شغلی</h2>
+            </div>
+            <a class="link-arrow" asp-controller="JobPost" asp-action="Index">
+                مشاهده همه آگهی‌ها
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+            </a>
+        </div>
+
+        @if (featured.Any())
+        {
+            <div class="row g-4">
+                @foreach (var job in featured)
+                {
+                    <div class="col-md-6 col-lg-4 reveal">
+                        <div class="job-card">
+                            <div class="topline">
+                                <span class="company-chip">
+                                    <span class="av">@(job.CompanyName?.Substring(0, 1) ?? "؟")</span>
+                                    @job.CompanyName
+                                </span>
+                                @if (job.IsFeatured)
+                                {
+                                    <span class="badge-featured">✦ ویژه</span>
+                                }
+                            </div>
+
+                            <h4>@job.Title</h4>
+
+                            <div class="meta">
+                                <span class="tag grad">@job.EmploymentType.Persian()</span>
+                                @if (!string.IsNullOrEmpty(job.CityName))
+                                {
+                                    <span class="tag">📍 @job.CityName</span>
+                                }
+                                @if (!string.IsNullOrEmpty(job.CategoryName))
+                                {
+                                    <span class="tag">@job.CategoryName</span>
+                                }
+                            </div>
+
+                            <div class="foot">
+                                @if (job.Salary.HasValue)
+                                {
+                                    <span class="salary">💰 @job.Salary.Value.ToString("N0") تومان</span>
+                                }
+                                else
+                                {
+                                    <span class="salary">💰 توافقی</span>
+                                }
+                                <a class="link-arrow" asp-controller="JobPost" asp-action="Details" asp-route-id="@job.Id">
+                                    جزئیات
+                                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+        }
+        else
+        {
+            <div class="empty-state surface-card reveal">
+                <div class="big">💼</div>
+                <p>هنوز آگهی‌ای منتشر نشده است. اولین آگهی را شما ثبت کنید!</p>
+                <a class="btn btn-glow mt-2" asp-controller="JobPost" asp-action="Create">ثبت آگهی</a>
+            </div>
+        }
+
+    </div>
+</section>
+
+<section class="container reveal">
+    <div class="jf-cta">
+        <div class="position-relative" style="z-index:2;">
+            <h3>کارفرمایی؟ بهترین استعدادها منتظر تو هستند</h3>
+            <p style="color:rgba(255,255,255,.8);max-width:560px;margin:0 auto 1.6rem;">
+                آگهی استخدام ثبت کن، درخواست‌ها را مدیریت کن و تیم رویایی‌ات را بساز.
+            </p>
+            <div class="d-flex justify-content-center gap-3 flex-wrap">
+                <a class="btn btn-glow" asp-controller="Account" asp-action="RegisterEmployer">ثبت‌نام کارفرما</a>
+                <a class="btn btn-ghost" asp-controller="JobPost" asp-action="Create">ثبت آگهی شغلی</a>
+            </div>
+        </div>
+    </div>
+</section>

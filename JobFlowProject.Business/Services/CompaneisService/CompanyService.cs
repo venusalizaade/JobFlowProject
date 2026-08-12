@@ -85,7 +85,7 @@ public class CompanyService : ICompanyService
         if (file == null || file.Length == 0)
             throw new ItemNotFoundException("File is empty.");
         
-        if (file.ContentType != "image/jpeg"|| file.ContentType != "pdf")
+        if (file.ContentType != "image/jpeg" && file.ContentType != "image/png" && file.ContentType != "image/webp" && file.ContentType != "image/svg+xml")
             throw new PermissionDeniedException("File is invalid.");
         
       
@@ -93,7 +93,8 @@ public class CompanyService : ICompanyService
        
         var newFileName = Guid.NewGuid() + extention;
         
-        var uploadsFolder = Path.Combine(_webHostEnvironment.ContentRootPath, "images");
+        var webRoot = _webHostEnvironment.WebRootPath ?? _webHostEnvironment.ContentRootPath;
+        var uploadsFolder = Path.Combine(webRoot, "images", "logos");
         
         if(!Directory.Exists(uploadsFolder))
             Directory.CreateDirectory(uploadsFolder);

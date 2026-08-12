@@ -28,7 +28,7 @@ public class CompanyFeatureRepository
     public async Task<List<CompanyFeature>> GetCompanyFeaturesAsync(Guid companyId)
     {
         return await _context.CompanyFeatures
-            .Where(x => x.CompanyId == companyId && !x.IsDeleted)
+            .Where(x => x.CompanyId == companyId && !x.IsDeleted && x.IsActive && x.EndDate > DateTime.UtcNow)
             .Include(x => x.Feature)
             .ToListAsync();
     }

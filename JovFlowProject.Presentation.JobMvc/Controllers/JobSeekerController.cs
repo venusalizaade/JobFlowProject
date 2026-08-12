@@ -1,5 +1,6 @@
 ﻿using System.Security.Claims;
 using JobFlowProject.Business.Interfaces.User;
+using JobFlowProject.Infrastructure.Repositories.User;
 using JovFlowProject.JobMvc.Models.Accounts;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -10,10 +11,12 @@ namespace JovFlowProject.JobMvc.Controllers;
 public class JobSeekerController : Controller
 {
     private readonly IJobSeekerService _jobSeekerService;
+    private readonly IAttachmentRepository _attachmentRepository;
 
-    public JobSeekerController(IJobSeekerService jobSeekerService)
+    public JobSeekerController(IJobSeekerService jobSeekerService, IAttachmentRepository attachmentRepository)
     {
         _jobSeekerService = jobSeekerService;
+        _attachmentRepository = attachmentRepository;
     }
 
     public async Task<IActionResult> Profile()
@@ -51,6 +54,17 @@ public class JobSeekerController : Controller
         await _jobSeekerService.UpdateProfileAsync(requesterId, model.ToDto());
 
         return RedirectToAction(nameof(Profile));
+    }
+
+    [HttpGet]
+    public async Task<IActionResult> DownloadResume()
+    {
+        var requesterId = GetUserId();
+        var resume = await _attachmentRepository.GetByUserIdAsync(requesterId);
+        if (resume is null || !System.IO.File.Exists(resume.FilePath))
+            return NotFound();
+
+        return PhysicalFile(resume.FilePath, resume.FileType ?? "application/octet-stream", resume.FileName);
     }
 
     [HttpPost]

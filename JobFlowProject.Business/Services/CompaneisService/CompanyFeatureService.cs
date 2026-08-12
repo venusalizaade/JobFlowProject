@@ -1,4 +1,5 @@
 ﻿using JobFlowProject.Business.Dto.Feature;
+using JobFlowProject.Business.Exceptions.BaseExeption;
 using JobFlowProject.Business.Interfaces.User;
 using JobFlowProject.Domain.Entities.Componies.ComponyFeatures;
 using JobFlowProject.Domain.Interfaces.Repository;
@@ -28,25 +29,22 @@ public class CompanyFeatureService : ICompanyFeatureService
 
     public async Task AssignFeatureToCompanyAsync(AssignFeatureToCompanyDto dto)
     {
-        var companyExists = await _context.Companies
-            .AnyAsync(x => x.Id == dto.CompanyId);
+        var company = await _context.Companies
+            .FirstOrDefaultAsync(x => x.Id == dto.CompanyId && !x.IsDeleted);
 
-        if (!companyExists)
-            throw new Exception("Company not found.");
+        if (company is null)
+            throw new ItemNotFoundException("Company not found.");
 
         var feature = await _featureRepository.GetByIdAsync(dto.FeatureId);
+
+        if (feature is null)
+            throw new ItemNotFoundException("Feature not found.");
 
         var existing = await _companyFeatureRepository
             .GetCompanyFeaturesAsync(dto.CompanyId);
 
         if (existing.Any(x => x.FeatureId == dto.FeatureId))
-            throw new Exception("Feature already assigned to company.");
-
-        if (existing is not null)
-            throw new Exception("Feature already assigned to company.");
-
-        if (existing is not null)
-            throw new Exception("Feature already assigned to company.");
+            throw new InvalidOperationException("این فیچر قبلاً برای این شرکت تخصیص داده شده است.");
 
         var companyFeature = new CompanyFeature(
             dto.CompanyId,

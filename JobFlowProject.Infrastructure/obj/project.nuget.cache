@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "q3MagMXpll0=",
+  "dgSpecHash": "AV4JzGJxP7s=",
   "success": true,
-  "projectFilePath": "C:\\Users\\VenusA\\RiderProjects\\JobFlowProject2\\JobFlowProject.Infrastructure\\JobFlowProject.Infrastructure.csproj",
+  "projectFilePath": "C:\\Users\\VenusA\\RiderProjects\\JobFlowProject\\JobFlowProject.Infrastructure\\JobFlowProject.Infrastructure.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\VenusA\\.nuget\\packages\\azure.core\\1.47.1\\azure.core.1.47.1.nupkg.sha512",
     "C:\\Users\\VenusA\\.nuget\\packages\\azure.identity\\1.14.2\\azure.identity.1.14.2.nupkg.sha512",

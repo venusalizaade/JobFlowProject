@@ -1,107 +1,71 @@
-﻿@model IEnumerable<dynamic>
+﻿@model IEnumerable<JobFlowProject.Business.Dto.CompanyDto.JobApplicationDto>
 
 @{
-    ViewData["Title"]="درخواست های دریافتی";
+    ViewData["Title"] = "درخواست‌های دریافتی";
 }
 
+<section class="page-hero">
+    <div class="container position-relative" style="z-index:2;">
+        <div class="crumb">کارفرما / درخواست‌های دریافتی</div>
+        <h1 class="mt-1">درخواست‌های دریافتی</h1>
+        <p>رزومه‌ها را بررسی کنید و وضعیت هر درخواست را مشخص کنید</p>
+    </div>
+</section>
 
-<h3>
-    متقاضیان این شغل
-</h3>
-
-
-<table class="table table-striped">
-
-
-    <thead>
-
-    <tr>
-
-        <th>
-            نام
-        </th>
-
-        <th>
-            وضعیت
-        </th>
-
-        <th>
-            عملیات
-        </th>
-
-    </tr>
-
-    </thead>
-
-
-    <tbody>
-
-
-    @foreach(var item in Model)
-    {
-
-        <tr>
-
-
-            <td>
-                @item.JobSeekerName
-            </td>
-
-
-            <td>
-                @item.Status
-            </td>
-
-
-            <td>
-
-
-                <form asp-action="ChangeStatus"
-                      method="post">
-
-
-                    <input type="hidden"
-                           name="JobApplicationId"
-                           value="@item.Id"/>
-
-
-                    <input type="hidden"
-                           name="JobPostId"
-                           value="@ViewBag.JobPostId"/>
-
-
-                    <select name="Status"
-                            class="form-select">
-
-                        <option value="Accepted">
-                            پذیرش
-                        </option>
-
-                        <option value="Rejected">
-                            رد
-                        </option>
-
-
-                    </select>
-
-
-                    <button class="btn btn-primary btn-sm mt-2">
-                        ثبت
-                    </button>
-
-
-                </form>
-
-
-            </td>
-
-
-        </tr>
-
-    }
-
-
-    </tbody>
-
-
-</table>
+@if (Model.Any())
+{
+    <div class="surface-card p-4 p-lg-5 table-responsive">
+        <table class="table align-middle mb-0">
+            <thead>
+            <tr>
+                <th>متقاضی</th>
+                <th>رزومه</th>
+                <th>وضعیت</th>
+                <th>تغییر وضعیت</th>
+            </tr>
+            </thead>
+            <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td class="fw-bold">@item.ApplicantName</td>
+                    <td>
+                        <a class="btn btn-ghost-outline btn-sm" asp-action="DownloadApplicantResume" asp-route-applicantId="@item.ApplicantId">
+                            ⬇️ دانلود رزومه
+                        </a>
+                    </td>
+                    <td>
+                        <span class="status-pill status-@item.Status">@item.Status.Persian()</span>
+                    </td>
+                    <td>
+                        <form asp-action="ChangeStatus" method="post" class="d-flex gap-2">
+                            <input type="hidden" name="JobApplicationId" value="@item.Id" />
+                            <input type="hidden" name="JobPostId" value="@ViewBag.JobPostId" />
+                            @{
+                                var currentStatus = item.Status.ToString();
+                                var isFinalStatus = currentStatus is "Interview" or "Accepted" or "Rejected";
+                            }
+                            <select name="Status" class="form-select" style="max-width:170px;">
+                                <option value="Review" selected="@(currentStatus == "Review")" disabled="@(isFinalStatus)">در حال بررسی</option>
+                                <option value="Interview" selected="@(currentStatus == "Interview")">دعوت به مصاحبه</option>
+                                <option value="Accepted" selected="@(currentStatus == "Accepted")">پذیرش</option>
+                                <option value="Rejected" selected="@(currentStatus == "Rejected")">رد</option>
+                            </select>
+                            <button class="btn btn-glow btn-sm flex-shrink-0">ثبت</button>
+                        </form>
+                    </td>
+                </tr>
+            }
+            </tbody>
+        </table>
+    </div>
+}
+else
+{
+    <div class="empty-state surface-card">
+        <div class="big">📬</div>
+        <h5 class="fw-bold">هنوز درخواستی دریافت نشده است</h5>
+        <p>به محض دریافت درخواست، اینجا نمایش داده می‌شود.</p>
+        <a asp-controller="JobPost" asp-action="Index" class="btn btn-glow mt-2">مشاهده آگهی‌ها</a>
+    </div>
+}

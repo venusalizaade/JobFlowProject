@@ -41,4 +41,19 @@ public class NotificationService : INotificationService
 
         await _repository.AddAsync(notification);
     }
+
+    public async Task<List<NotificationLog>> GetUserNotificationsAsync(Guid userId)
+    {
+        return await _repository.GetForUserAsync(userId);
+    }
+
+    public async Task<int> GetUnreadCountAsync(Guid userId)
+    {
+        return await _repository.GetUnreadCountAsync(userId);
+    }
+
+    public async Task MarkAllAsReadAsync(Guid userId)
+    {
+        await _repository.MarkAllAsReadAsync(userId);
+    }
 }

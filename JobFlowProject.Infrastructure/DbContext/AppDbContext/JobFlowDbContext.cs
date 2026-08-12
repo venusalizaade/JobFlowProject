@@ -35,6 +35,8 @@ public class JobFlowDbContext : IdentityDbContext<AppUser, Role, Guid>
     public DbSet<Province> provinces { get; set; }
     public DbSet<RefreshToken> RefreshTokens { get; set; }
     public DbSet<City> Cities { get; set; }
+    public DbSet<Wallet> Wallets { get; set; }
+    public DbSet<WalletTransaction> WalletTransactions { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {

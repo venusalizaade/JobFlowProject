@@ -144,6 +144,21 @@ public class JobPost : BaseEntity
 
         if (ExpiresAt <= CreatedAt)
             throw new Exception("ExpiresAt must be after CreatedAt");
+
+        if (ProvinceId == Guid.Empty || CityId == Guid.Empty)
+            throw new Exception("Province and City are required");
+
+        if (CompanyId == Guid.Empty)
+            throw new Exception("Company is required");
+
+        if (CategoryId == Guid.Empty)
+            throw new Exception("Category is required");
+
+        if (SkillId == Guid.Empty)
+            throw new Exception("Skill is required");
+
+        if (!Enum.IsDefined(typeof(EmploymentTypeEnum), EmploymentType))
+            throw new Exception("EmploymentType is invalid");
     }
 
     public void Deactivate()
