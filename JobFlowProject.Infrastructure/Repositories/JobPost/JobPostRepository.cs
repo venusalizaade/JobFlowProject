@@ -22,6 +22,14 @@ public async Task<List<JobPost>> GetCompanyJobPostsAsync(Guid companyId)
     return await _context.JobPosts
         .AsNoTracking()
         .Where(x => x.CompanyId == companyId && !x.IsDeleted)
+        .Include(x => x.Company)
+        .Include(x => x.Category)
+        .Include(x => x.City)
+            .ThenInclude(c => c.Province)
+        .Include(x => x.Skill)
+        .Include(x => x.JobFeatures)
+            .ThenInclude(jf => jf.Feature)
+        .OrderByDescending(x => x.CreatedAt)
         .ToListAsync();
 }
 

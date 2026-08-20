@@ -20,4 +20,5 @@ public record JobPostResponseDto(
     public string? ProvinceName { get; set; }
     public string? SkillName { get; set; }
     public DateTime? CreatedAt { get; set; }
+    public IReadOnlyList<string> FeatureNames { get; set; } = Array.Empty<string>();
 }

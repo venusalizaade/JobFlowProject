@@ -18,7 +18,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "03-Business", "03-Business"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebApplication", "WebApplication\WebApplication.csproj", "{9A3A5B5F-0367-4593-AC1A-DBB1C6F6B77A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JovFlowProject.Presentation.JobMvc", "JovFlowProject.Presentation.JobMvc\JovFlowProject.Presentation.JobMvc.csproj", "{3365E744-2FCE-41D1-AAA0-702E85135BD2}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JobFlowProject.Presentation.JobMvc", "JobFlowProject.Presentation.JobMvc\JobFlowProject.Presentation.JobMvc.csproj", "{3365E744-2FCE-41D1-AAA0-702E85135BD2}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

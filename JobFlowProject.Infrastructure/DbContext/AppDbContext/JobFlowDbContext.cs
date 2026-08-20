@@ -29,6 +29,7 @@ public class JobFlowDbContext : IdentityDbContext<AppUser, Role, Guid>
     public DbSet<Payment> Payments { get; set; }
     public DbSet<Feature> Features { get; set; }
     public DbSet<CompanyFeature> CompanyFeatures { get; set; }
+    public DbSet<JobFeature> JobFeatures { get; set; }
     public DbSet<Skill> Skills { get; set; }
     public DbSet<NotificationLog> NotificationLogs { get; set; }
     public DbSet<ActivityLog> ActivityLogs { get; set; }

@@ -5,9 +5,9 @@ namespace JobFlowProject.Business.Dto.Feature;
 public record FeatureListDto(
     Guid Id,
     string Name,
+    string? Description,
     decimal Price,
-    int DurationDays
-)
-{
-    public FeatureTypeEnum FeatureType { get; set; }
-}
+    int DurationDays,
+    bool IsActive,
+    FeatureTypeEnum FeatureType
+);

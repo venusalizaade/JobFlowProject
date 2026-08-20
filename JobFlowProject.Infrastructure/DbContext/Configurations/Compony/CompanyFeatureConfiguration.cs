@@ -16,7 +16,7 @@ public class CompanyFeatureConfiguration : BaseModelBuilderConfiguration<Company
             .OnDelete(DeleteBehavior.Cascade);
 
         builder.HasOne(x => x.Feature)
-            .WithMany()
+            .WithMany(x => x.CompanyFeatures)
             .HasForeignKey(x => x.FeatureId)
             .OnDelete(DeleteBehavior.Restrict);
 

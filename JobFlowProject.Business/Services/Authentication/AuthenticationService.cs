@@ -14,6 +14,7 @@ using JobFlowProject.Business.Interfaces.Log;
 using JobFlowProject.Domain.Entites.User;
 using JobFlowProject.Domain.Entities;
 using JobFlowProject.Domain.Entities.User;
+using JobFlowProject.Domain.Enums;
 using JobFlowProject.Domain.Interfaces.Repository;
 using JobFlowProject.Domain.Interfaces.Repository.User;
 using JobFlowProject.Infrastructure.DbContext.AppDbContext;
@@ -217,6 +218,11 @@ private async Task<TokenLoginResult> GenerateTokenAsync(AppUser user)
                 roleResult.Errors.FirstOrDefault()?.Description ??
                 "Failed to assign role.");
         }
+
+        await _notificationService.NotifyAdminAsync(
+            "کارجوی جدید ثبت‌نام کرد",
+            $"{command.FirstName} {command.LastName} با نام کاربری {command.NationalId} در سامانه ثبت‌نام کرد.",
+            NotificationTypeEnum.System);
 
         return new JobSeekerRegisterResult(user.Id);
     }

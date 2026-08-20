@@ -8,5 +8,6 @@ public interface ICompanyFeatureRepository : IGenericRepository<CompanyFeature>
     Task<CompanyFeature?> GetAssignedFeatureAsync(Guid companyId, Guid featureId);
 
     Task<List<CompanyFeature>> GetCompanyFeaturesAsync(Guid companyId);
+
+    Task<List<CompanyFeature>> GetAllCompanyFeaturesAsync(Guid companyId);
 }
-    

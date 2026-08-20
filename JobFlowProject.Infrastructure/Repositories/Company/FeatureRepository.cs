@@ -24,6 +24,15 @@ public class FeatureRepository
             .ToListAsync();
     }
 
+    public async Task<List<Feature>> GetActiveAsync()
+    {
+        return await _context.Features
+            .AsNoTracking()
+            .Where(x => x.IsActive && !x.IsDeleted)
+            .OrderBy(x => x.Name)
+            .ToListAsync();
+    }
+
     public async Task<Feature?> GetByNameAsync(string name)
     {
         return await _context.Features

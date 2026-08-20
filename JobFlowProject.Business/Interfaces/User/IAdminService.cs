@@ -43,4 +43,6 @@ public interface IAdminService
     Task<List<PaymentListDto>> GetPaymentsAsync();
 
     Task ConfirmPaymentAsync(Guid paymentId, Guid requesterId);
+
+    Task RejectPaymentAsync(Guid paymentId, Guid requesterId);
 }

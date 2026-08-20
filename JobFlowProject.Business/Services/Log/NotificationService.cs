@@ -42,9 +42,28 @@ public class NotificationService : INotificationService
         await _repository.AddAsync(notification);
     }
 
-    public async Task<List<NotificationLog>> GetUserNotificationsAsync(Guid userId)
+    public async Task NotifyAsync(Guid userId, string title, string message, NotificationTypeEnum type, Guid? companyId = null, Guid? referenceId = null)
     {
-        return await _repository.GetForUserAsync(userId);
+        var notification = new NotificationLog(title, message, type, userId, companyId, referenceId);
+        await _repository.AddAsync(notification);
+    }
+
+    public async Task NotifyAdminAsync(string title, string message, NotificationTypeEnum type, Guid? companyId = null, Guid? referenceId = null)
+    {
+        var admins = await _userManager.GetUsersInRoleAsync(RoleConstants.AdminRoleName);
+
+        var admin = admins.FirstOrDefault();
+
+        if (admin is null)
+            throw new UserNotFoundException();
+
+        var notification = new NotificationLog(title, message, type, admin.Id, companyId, referenceId);
+        await _repository.AddAsync(notification);
+    }
+
+    public async Task<List<NotificationLog>> GetUserNotificationsAsync(Guid userId, NotificationTypeEnum? type = null)
+    {
+        return await _repository.GetForUserAsync(userId, type);
     }
 
     public async Task<int> GetUnreadCountAsync(Guid userId)
@@ -55,5 +74,15 @@ public class NotificationService : INotificationService
     public async Task MarkAllAsReadAsync(Guid userId)
     {
         await _repository.MarkAllAsReadAsync(userId);
+    }
+
+    public async Task MarkAsReadAsync(Guid id, Guid userId)
+    {
+        await _repository.MarkAsReadAsync(id, userId);
+    }
+
+    public async Task DeleteAsync(Guid id, Guid userId)
+    {
+        await _repository.DeleteAsync(id, userId);
     }
 }

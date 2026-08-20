@@ -1,0 +1,196 @@
+@using JobFlowProject.Business.Constants
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="جابیاب — سامانه کاریابی آنلاین؛ جستجوی فرصت‌های شغلی، ثبت‌نام کارجو و کارفرما، مدیریت آگهی و درخواست" />
+    <title>@(ViewData["Title"] ?? "جابیاب") - جابیاب</title>
+
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.rtl.min.css" />
+    <link rel="stylesheet" href="~/css/jobflow.css" />
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%92%BC%3C/text%3E%3C/svg%3E" />
+</head>
+
+<body>
+
+    <nav class="jf-nav glass navbar navbar-expand-lg">
+        <div class="container">
+            <a class="navbar-brand d-flex align-items-center" asp-controller="Home" asp-action="Index">
+                <span class="brand-icon">💼</span>
+                <span class="gradient-text">جابیاب</span>
+            </a>
+
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#jfNavbar"
+                    aria-controls="jfNavbar" aria-expanded="false" aria-label="تغییر منو">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse" id="jfNavbar">
+
+                <ul class="navbar-nav me-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" asp-controller="JobPost" asp-action="Index">فرصت‌های شغلی</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" asp-controller="Home" asp-action="Index">درباره ما</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" asp-controller="Home" asp-action="Index">تماس با ما</a>
+                    </li>
+                </ul>
+
+                <ul class="navbar-nav align-items-lg-center gap-lg-2">
+
+                    @if (User.Identity?.IsAuthenticated ?? false)
+                    {
+                        <li class="nav-item">
+                            @await Component.InvokeAsync("NotificationBell")
+                        </li>
+
+                        @if (User.IsInRole(RoleConstants.AdminRoleName))
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link" asp-controller="Admin" asp-action="Dashboard">پنل مدیریت</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" asp-controller="Admin" asp-action="Employers">کارفرمایان</a>
+                            </li>
+                        }
+                        else if (User.IsInRole(RoleConstants.EmployerRoleName))
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link" asp-controller="Employer" asp-action="Dashboard">پنل کارفرما</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" asp-controller="JobPost" asp-action="MyJobs">آگهی‌های من</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" asp-controller="Employer" asp-action="Wallet">کیف پول</a>
+                            </li>
+                        }
+                        else
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link" asp-controller="JobSeeker" asp-action="Profile">پروفایل</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" asp-controller="JobSeeker" asp-action="SavedJobs">ذخیره‌شده‌ها</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" asp-controller="JobApplication" asp-action="MyApplications">درخواست‌های من</a>
+                            </li>
+                        }
+
+                        <li class="nav-item">
+                            <a class="btn btn-ghost-outline btn-sm" asp-controller="Account" asp-action="Logout">خروج</a>
+                        </li>
+                    }
+                    else
+                    {
+                        <li class="nav-item">
+                            <a class="btn btn-ghost-outline btn-sm" asp-controller="Account" asp-action="Login">ورود</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="btn btn-login-icon btn-sm" asp-controller="Account" asp-action="RegisterJobSeeker">ثبت‌نام</a>
+                        </li>
+                    }
+
+                </ul>
+
+            </div>
+        </div>
+    </nav>
+
+    <main class="jf-main">
+
+        @if (TempData["Error"] != null)
+        {
+            <div class="container mt-3">
+                <div class="alert alert-danger alert-auto mb-0" role="alert">@TempData["Error"]</div>
+            </div>
+        }
+
+        @if (TempData["Success"] != null)
+        {
+            <div class="container mt-3">
+                <div class="alert alert-success alert-auto mb-0" role="alert">@TempData["Success"]</div>
+            </div>
+        }
+
+        @RenderBody()
+
+    </main>
+
+    <footer class="jf-footer">
+        <div class="container">
+
+            <div class="row g-4">
+
+                <div class="col-md-4">
+                    <div class="d-flex align-items-center mb-2">
+                        <span class="brand-icon" style="width:36px;height:36px;font-size:1rem;">💼</span>
+                        <span class="navbar-brand gradient-text mb-0" style="font-size:1.4rem;">جابیاب</span>
+                    </div>
+                    <p class="mb-3" style="max-width:320px;">
+                        سامانه کاریابی جابیاب، پلی مطمئن بین کارجویان و کارفرمایان؛ ثبت رایگان آگهی، مدیریت درخواست‌ها و یافتن بهترین فرصت‌های شغلی.
+                    </p>
+                    <div class="social">
+                        <a href="#" title="اینستاگرام">📸</a>
+                        <a href="#" title="تلگرام">✈️</a>
+                        <a href="#" title="لینکدین">🔗</a>
+                    </div>
+                </div>
+
+                <div class="col-md-2">
+                    <h6>دسترسی سریع</h6>
+                    <ul class="list-unstyled f-links mb-0">
+                        <li><a asp-controller="JobPost" asp-action="Index">فرصت‌های شغلی</a></li>
+                        <li><a asp-controller="Account" asp-action="RegisterJobSeeker">ثبت‌نام کارجو</a></li>
+                        <li><a asp-controller="Account" asp-action="RegisterEmployer">ثبت‌نام کارفرما</a></li>
+                        <li><a asp-controller="Account" asp-action="Login">ورود به حساب</a></li>
+                    </ul>
+                </div>
+
+                <div class="col-md-3">
+                    <h6>بخش‌های سایت</h6>
+                    <ul class="list-unstyled f-links mb-0">
+                        <li><a asp-controller="Admin" asp-action="Dashboard">پنل مدیریت</a></li>
+                        <li><a asp-controller="Employer" asp-action="Dashboard">پنل کارفرما</a></li>
+                        <li><a asp-controller="JobSeeker" asp-action="Profile">پروفایل کارجو</a></li>
+                        <li><a asp-controller="Notification" asp-action="Index">اعلان‌ها</a></li>
+                    </ul>
+                </div>
+
+                <div class="col-md-3">
+                    <h6>تماس با ما</h6>
+                    <ul class="list-unstyled f-links mb-0">
+                        <li>📞 <span dir="ltr">021-00000000</span></li>
+                        <li>✉️ <span dir="ltr">info@jobflow.ir</span></li>
+                        <li>📍 تهران، خیابان آزادی</li>
+                    </ul>
+                </div>
+
+            </div>
+
+            <div class="copyright text-center">
+                © @DateTime.Now.ToShamsiYear() جابیاب — تمامی حقوق محفوظ است.
+            </div>
+
+        </div>
+    </footer>
+
+    <button class="back-to-top" type="button" aria-label="بازگشت به بالا">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19V5M5 12l7-7 7 7"/></svg>
+    </button>
+
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+    <script src="~/lib/jquery-validation-unobtrusive/dist/jquery.validate.unobtrusive.min.js"></script>
+    <script src="~/js/jobflow.js"></script>
+
+    @await RenderSectionAsync("Scripts", required: false)
+
+</body>
+</html>

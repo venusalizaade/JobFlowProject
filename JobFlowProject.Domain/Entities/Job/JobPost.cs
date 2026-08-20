@@ -85,12 +85,21 @@ public class JobPost : BaseEntity
 
     public ICollection<JobApplication> JobApplications { get;  private set; } = new List<JobApplication>();
     
+    public ICollection<JobFeature> JobFeatures { get; private set; } = new List<JobFeature>();
     
     public ICollection<Payment> Payments { get; set; } = new List<Payment>();
     
     public bool IsFeatured { get; private set; }
 
     public DateTime? FeaturedUntil { get; private set; }
+
+    public bool IsPinned { get; private set; }
+
+    public DateTime? PinnedUntil { get; private set; }
+
+    public bool IsExtraFeatured { get; private set; }
+
+    public DateTime? ExtraFeaturedUntil { get; private set; }
 
     public void SetFeatured(int durationDays, Guid requesterId)
     {
@@ -103,6 +112,44 @@ public class JobPost : BaseEntity
     {
         IsFeatured = false;
         FeaturedUntil = null;
+        SetModificationInfo(requesterId);
+    }
+
+    public void SetPinned(int durationDays, Guid requesterId)
+    {
+        IsPinned = true;
+        PinnedUntil = DateTime.UtcNow.AddDays(durationDays);
+        SetModificationInfo(requesterId);
+    }
+
+    public void RemovePinned(Guid requesterId)
+    {
+        IsPinned = false;
+        PinnedUntil = null;
+        SetModificationInfo(requesterId);
+    }
+
+    public void SetExtraFeatured(int durationDays, Guid requesterId)
+    {
+        IsExtraFeatured = true;
+        ExtraFeaturedUntil = DateTime.UtcNow.AddDays(durationDays);
+        SetModificationInfo(requesterId);
+    }
+
+    public void RemoveExtraFeatured(Guid requesterId)
+    {
+        IsExtraFeatured = false;
+        ExtraFeaturedUntil = null;
+        SetModificationInfo(requesterId);
+    }
+
+    public void ExtendExpiry(DateTime newExpiry, Guid requesterId)
+    {
+        if (newExpiry <= ExpiresAt)
+            throw new Exception("New expiry must be after the current expiry");
+
+        ExpiresAt = newExpiry;
+        IsActive = true;
         SetModificationInfo(requesterId);
     }
     

@@ -16,13 +16,15 @@ public class NotificationLog : BaseEntity
         string message,
         NotificationTypeEnum type,
         Guid? appUserId = null,
-        Guid? companyId = null)
+        Guid? companyId = null,
+        Guid? referenceId = null)
     {
         Title = title;
         Message = message;
         Type = type;
         AppUserId = appUserId;
         CompanyId = companyId;
+        ReferenceId = referenceId;
         IsRead = false;
         SentAt = DateTime.UtcNow;
     }
@@ -65,6 +67,11 @@ public class NotificationLog : BaseEntity
     ///آیدی شرکت (در صورت وجود)
     /// </summary>
     public Guid? CompanyId { get; set; }
+
+    /// <summary>
+    /// آیدی موجودیت مرتبط برای هدایت دقیق (آگهی، درخواست، پرداخت و ...)
+    /// </summary>
+    public Guid? ReferenceId { get; set; }
 
     /// <summary>
     /// شرکت

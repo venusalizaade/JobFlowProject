@@ -1,4 +1,5 @@
 ﻿using JobFlowProject.Domain.Entites.Resume;
+using JobFlowProject.Domain.Enums;
 using JobFlowProject.Infrastructure.DbContext.AppDbContext;
 using Microsoft.EntityFrameworkCore;
 
@@ -18,6 +19,6 @@ public class AttachmentRepository
     public async Task<AttachmentFile?> GetByUserIdAsync(Guid userId)
     {
         return await _context.AttachmentsFiles
-            .FirstOrDefaultAsync(x => x.AppUserId == userId);
+            .FirstOrDefaultAsync(x => x.AppUserId == userId && x.AttachmentType == AttachmentType.Resume);
     }
 }

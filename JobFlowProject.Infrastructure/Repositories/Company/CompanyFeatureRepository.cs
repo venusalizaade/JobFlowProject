@@ -32,4 +32,13 @@ public class CompanyFeatureRepository
             .Include(x => x.Feature)
             .ToListAsync();
     }
+
+    public async Task<List<CompanyFeature>> GetAllCompanyFeaturesAsync(Guid companyId)
+    {
+        return await _context.CompanyFeatures
+            .Where(x => x.CompanyId == companyId && !x.IsDeleted)
+            .Include(x => x.Feature)
+            .OrderByDescending(x => x.CreatedAt)
+            .ToListAsync();
+    }
 }

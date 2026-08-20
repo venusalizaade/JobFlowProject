@@ -57,6 +57,23 @@ public class CompanyFeature : BaseEntity
         IsActive = false;
     }
 
+    /// <summary>
+    /// تمدید تاریخ اعتبار فیچر
+    /// </summary>
+    public void Extend(DateTime newEndDate)
+    {
+        if (newEndDate <= EndDate)
+            throw new Exception("New end date must be after the current end date");
+
+        EndDate = newEndDate;
+        IsActive = true;
+    }
+
+    /// <summary>
+    /// تعداد روزهای باقی‌مانده از اعتبار (صفر یا منفی در صورت انقضا)
+    /// </summary>
+    public int DaysRemaining => (int)Math.Ceiling((EndDate - DateTime.UtcNow.Date).TotalDays);
+
     public override void Validate()
     {
         if (EndDate <= StartDate)

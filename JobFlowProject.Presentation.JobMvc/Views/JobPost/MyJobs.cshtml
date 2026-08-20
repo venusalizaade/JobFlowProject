@@ -1,0 +1,104 @@
+﻿@model IEnumerable<JobFlowProject.Business.Dto.JobPost.JobPostResponseDto>
+
+@{
+    ViewData["Title"] = "آگهی‌های من";
+}
+
+<section class="page-hero">
+    <div class="container position-relative" style="z-index:2;">
+        <div class="crumb">کارفرما / آگهی‌های من</div>
+        <h1 class="mt-1">آگهی‌های من</h1>
+    </div>
+</section>
+
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h4 class="fw-bold mb-0">@Model.Count() آگهی</h4>
+    <div class="d-flex gap-2">
+        <a asp-controller="Employer" asp-action="Wallet" class="btn btn-ghost-outline btn-sm">کیف پول</a>
+        <a asp-action="Create" class="btn btn-glow btn-sm">+ آگهی جدید</a>
+    </div>
+</div>
+
+@if (Model.Any())
+{
+    <div class="container">
+        <div class="table-card table-responsive">
+        <table class="table align-middle mb-0">
+            <thead>
+            <tr>
+                <th>عنوان</th>
+                <th>حقوق</th>
+                <th>فیچر</th>
+                <th>وضعیت</th>
+                <th>عملیات</th>
+            </tr>
+            </thead>
+            <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td class="fw-bold">@item.Title</td>
+                    <td>@(item.Salary.HasValue ? item.Salary.Value.ToString("N0") + " تومان" : "توافقی")</td>
+                    <td>
+                        @if (item.FeatureNames.Any())
+                        {
+                            <div class="d-flex flex-wrap gap-1" style="max-width:220px;">
+                                @foreach (var featureName in item.FeatureNames)
+                                {
+                                    <span class="status-pill status-Accepted">⭐ @featureName</span>
+                                }
+                            </div>
+                        }
+                        else
+                        {
+                            <span class="text-secondary">—</span>
+                        }
+                    </td>
+                    <td>
+                        @if (!item.IsActive)
+                        {
+                            <span class="status-pill status-Cancelled">غیرفعال</span>
+                        }
+                        else if (item.ExpiresAt <= DateTime.UtcNow)
+                        {
+                            <span class="status-pill status-Cancelled">منقضی شده</span>
+                        }
+                        else
+                        {
+                            <span class="status-pill status-Accepted">فعال</span>
+                        }
+                    </td>
+                    <td>
+                        <div class="d-flex gap-1 flex-wrap">
+                            <a asp-controller="JobApplication" asp-action="EmployerApplications" asp-route-jobPostId="@item.Id" class="btn btn-glow btn-sm">درخواست‌ها</a>
+                            <a asp-controller="JobFeature" asp-action="Shop" asp-route-jobPostId="@item.Id" class="btn btn-glow btn-sm">⭐ فیچر</a>
+                            <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-ghost-outline btn-sm">مشاهده</a>
+                            @if (item.IsActive)
+                            {
+                                <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-ghost-outline btn-sm">ویرایش</a>
+                                <form asp-action="Deactivate" asp-route-id="@item.Id" method="post" class="d-inline">
+                                    <button class="btn btn-outline-danger btn-sm">غیرفعال‌سازی</button>
+                                </form>
+                            }
+                            else
+                            {
+                                <span class="text-muted small">این آگهی غیرفعال است.</span>
+                            }
+                        </div>
+                    </td>
+                </tr>
+            }
+            </tbody>
+        </table>
+        </div>
+    </div>
+}
+else
+{
+    <div class="empty-state surface-card">
+        <div class="big">📋</div>
+        <h5 class="fw-bold">هنوز آگهی‌ای ثبت نکرده‌اید</h5>
+        <p>اولین فرصت شغلی خود را منتشر کنید.</p>
+        <a asp-action="Create" class="btn btn-glow mt-2">ثبت آگهی</a>
+    </div>
+}

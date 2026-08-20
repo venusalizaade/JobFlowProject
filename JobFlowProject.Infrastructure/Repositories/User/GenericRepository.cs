@@ -67,7 +67,7 @@ public class GenericRepository<TEntity> : IGenericRepository<TEntity> where TEnt
 
     public async Task SoftDeleteAsync(Guid id, Guid requesterId)
     {
-        var entity = await GetByIdAsync(id);
+        var entity = await GetByIdAsync(id, true);
         if (entity is null) return;
         entity.SetAsDeleted(requesterId);
         await DbContext.SaveChangesAsync();

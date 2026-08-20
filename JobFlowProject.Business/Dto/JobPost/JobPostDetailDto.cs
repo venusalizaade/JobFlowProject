@@ -12,6 +12,7 @@ public record JobPostDetailDto(
     DateTime ExpiresAt,
 
     string CompanyName,
+    Guid CompanyId,
     string CategoryName,
     string CityName,
     string ProvinceName,

@@ -36,6 +36,8 @@ public class JobSeekerService : IJobSeekerService
         if (user is null)
             throw new UserNotFoundException();
 
+        var attachment = await _attachmentRepository.GetByUserIdAsync(requesterId);
+
         return new JobSeekerDetailsDto(
             user.Id,
             user.FirstName,
@@ -45,12 +47,12 @@ public class JobSeekerService : IJobSeekerService
             user.Gender,
             user.NationalId,
             user.About,
-            user.Attachments.Select(a => new JobSeekerAttachmentDto(
-                a.Id,
-                a.FileName,
-                a.FilePath
-            )).ToList()!,
-            
+            attachment is null
+                ? new List<JobSeekerAttachmentDto?>()
+                : new List<JobSeekerAttachmentDto?>
+                {
+                    new JobSeekerAttachmentDto(attachment.Id, attachment.FileName, attachment.FilePath)
+                },
             user.JobApplications.Select(a => new JobSeekerApplicationDto(
                 a.Id,
                 a.JobPost.Title,

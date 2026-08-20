@@ -5,6 +5,9 @@ using JobFlowProject.Business.Exceptions.Authentication_Exceptions;
 using JobFlowProject.Business.Exceptions.AuthenticationExceptions;
 using JobFlowProject.Business.Exceptions.BaseExeption;
 using JobFlowProject.Business.Interfaces.JobPost;
+using JobFlowProject.Business.Interfaces.Log;
+using JobFlowProject.Business.Interfaces;
+using JobFlowProject.Business.Services.EmailSender;
 using JobFlowProject.Domain.Entities.Componies;
 using JobFlowProject.Domain.Entities.Job;
 using JobFlowProject.Domain.Entities.User;
@@ -22,15 +25,21 @@ public class JobPostService : IJobPostService
     private readonly IJobPostRepository _jobPostRepository;
     private readonly ICompanyRepository _companyRepository;
     private readonly UserManager<AppUser> _userManager;
+    private readonly INotificationService _notificationService;
+    private readonly IEmailService _emailService;
 
     public JobPostService(
         IJobPostRepository jobPostRepository,
         ICompanyRepository companyRepository,
-        UserManager<AppUser> userManager)
+        UserManager<AppUser> userManager,
+        INotificationService notificationService,
+        IEmailService emailService)
     {
         _jobPostRepository = jobPostRepository;
         _companyRepository = companyRepository;
         _userManager = userManager;
+        _notificationService = notificationService;
+        _emailService = emailService;
     }
 
     public async Task<JobPostResponseDto> CreateAsync(
@@ -64,6 +73,28 @@ public class JobPostService : IJobPostService
 
         jobPost.Validate();
         await _jobPostRepository.AddAsync(jobPost);
+
+        await _notificationService.NotifyAdminAsync(
+            "آگهی جدید ثبت شد",
+            $"آگهی «{jobPost.Title}» توسط {company.Name} ثبت شد.",
+            NotificationTypeEnum.JobPostVerified,
+            company.Id,
+            jobPost.Id);
+
+        if (!string.IsNullOrWhiteSpace(employer.Email))
+        {
+            try
+            {
+                await _emailService.SendAsync(
+                    employer.Email,
+                    "آگهی شغلی ایجاد شد",
+                    EmailTemplates.JobCreated(jobPost.Title));
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Employer email failed: {ex.Message}");
+            }
+        }
 
         return new JobPostResponseDto(
             jobPost.Id,
@@ -101,7 +132,12 @@ public class JobPostService : IJobPostService
             job.IsActive,
             job.ExpiresAt
         )
+        //ToDo move to repository
         {
+            FeatureNames = job.JobFeatures
+                .Where(jf => !jf.IsDeleted && jf.Status == Domain.Enums.JobFeatureStatusEnum.Active)
+                .Select(jf => jf.Feature.Name)
+                .ToList(),
             CompanyName = job.Company?.Name,
             CategoryName = job.Category?.Name,
             CityName = job.City?.Name,
@@ -127,6 +163,7 @@ public class JobPostService : IJobPostService
             job.IsActive,
             job.ExpiresAt,
             job.Company.Name,
+            job.Company.Id,
             job.Category.Name,
             job.City.Name,
             job.City.Province.Name,
@@ -188,6 +225,13 @@ public class JobPostService : IJobPostService
         jobPost.Deactivate();
 
         await _jobPostRepository.UpdateAsync(jobPost);
+
+        await _notificationService.NotifyAdminAsync(
+            "JobPost Deactived",
+            $"JobPost «{jobPost.Title}» Deactived.",
+            NotificationTypeEnum.JobPostVerified,
+            jobPost.CompanyId,
+            jobPost.Id);
     }
     
     public async Task<List<JobPostResponseDto>> GetActiveAsync()

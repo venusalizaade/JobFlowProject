@@ -7,6 +7,7 @@ using JobFlowProject.Business.Exceptions.BaseExeption;
 using JobFlowProject.Business.Interfaces;
 using JobFlowProject.Business.Interfaces.EmployerInterfaces;
 using JobFlowProject.Business.Interfaces.JobPost;
+using JobFlowProject.Business.Services.EmailSender;
 using JobFlowProject.Domain.Entities.Job;
 using JobFlowProject.Domain.Entities.User;
 using JobFlowProject.Domain.Entites.Logs;
@@ -54,7 +55,7 @@ public async Task ApplyAsync(Guid requesterId, ApplyJobCommand command)
     if (jobPost is null)
         throw new ItemNotFoundException("Job post not found.");
 
-    if (!jobPost.IsActive)
+    if (!jobPost.IsActive || jobPost.ExpiresAt <= DateTime.UtcNow)
         throw new PermissionDeniedException();
 
     var exists = await _jobApplicationRepository.HasAppliedAsync(command.JobPostId, requesterId);
@@ -76,8 +77,10 @@ public async Task ApplyAsync(Guid requesterId, ApplyJobCommand command)
         if (employer is not null && !string.IsNullOrWhiteSpace(employer.Email))
         {
             var subject = "رزومه جدید برای آگهی شما";
-            var body = "<h3>رزومه جدید دریافت شد</h3>" +
-                       $"<p>کاربر <b>{applicant.FirstName} {applicant.LastName}</b> برای آگهی <b>«{jobPost.Title}»</b> رزومه ارسال کرد.</p>";
+            var body = EmailTemplates.NewResume(
+                jobPost.Title,
+                $"{applicant.FirstName} {applicant.LastName}",
+                company?.Name ?? "شرکت");
 
             await _emailService.SendAsync(employer.Email, subject, body);
         }
@@ -85,6 +88,23 @@ public async Task ApplyAsync(Guid requesterId, ApplyJobCommand command)
     catch (Exception ex)
     {
         Console.WriteLine($"Employer email failed: {ex.Message}");
+    }
+
+    try
+    {
+        if (!string.IsNullOrWhiteSpace(applicant.Email))
+        {
+            var subject = "ثبت درخواست با موفقیت";
+            var body = EmailTemplates.ApplicationSubmitted(
+                jobPost.Title,
+                company?.Name ?? "شرکت");
+
+            await _emailService.SendAsync(applicant.Email, subject, body);
+        }
+    }
+    catch (Exception ex)
+    {
+        Console.WriteLine($"Jobseeker email failed: {ex.Message}");
     }
 
     if (employer is not null)
@@ -96,7 +116,8 @@ public async Task ApplyAsync(Guid requesterId, ApplyJobCommand command)
                 $"کاربر {applicant.FirstName} {applicant.LastName} برای آگهی «{jobPost.Title}» رزومه ارسال کرد.",
                 NotificationTypeEnum.ResumeReceived,
                 employer.Id,
-                jobPost.CompanyId);
+                jobPost.CompanyId,
+                jobPost.Id);
 
             await _notificationRepository.AddAsync(notification);
         }
@@ -169,34 +190,28 @@ public async Task ChangeStatusAsync(Guid requesterId, ChangeApplicationStatusCom
     {
         string subject = command.Status switch
         {
-            JobApplicationStatusEnum.Accepted => "Your job application has been accepted",
-            JobApplicationStatusEnum.Rejected => "Your job application has been rejected",
-            JobApplicationStatusEnum.Interview => "Interview invitation",
-            JobApplicationStatusEnum.Review => "Your application is under review",
-            JobApplicationStatusEnum.Cancelled => "Your application has been cancelled",
-            _ => "Application status updated"
+            JobApplicationStatusEnum.Accepted => "درخواست شما پذیرفته شد",
+            JobApplicationStatusEnum.Rejected => "درخواست شما رد شد",
+            JobApplicationStatusEnum.Interview => "دعوت به مصاحبه",
+            JobApplicationStatusEnum.Review => "درخواست شما در حال بررسی است",
+            JobApplicationStatusEnum.Cancelled => "درخواست شما لغو شد",
+            _ => "به‌روزرسانی وضعیت درخواست"
         };
 
-        string body = command.Status switch
+        string statusFa = command.Status switch
         {
-            JobApplicationStatusEnum.Accepted =>
-                $"<h3>Congratulations!</h3><p>Your application for <b>{application.JobPost.Title}</b> has been accepted by <b>{application.JobPost.Company.Name}</b>.</p>",
-
-            JobApplicationStatusEnum.Rejected =>
-                $"<h3>Application update</h3><p>Your application for <b>{application.JobPost.Title}</b> has been rejected by <b>{application.JobPost.Company.Name}</b>.</p>",
-
-            JobApplicationStatusEnum.Interview =>
-                $"<h3>Interview invitation</h3><p>You have been invited to an interview for <b>{application.JobPost.Title}</b> at <b>{application.JobPost.Company.Name}</b>.</p>",
-
-            JobApplicationStatusEnum.Review =>
-                $"<h3>Application under review</h3><p>Your application for <b>{application.JobPost.Title}</b> is currently being reviewed by <b>{application.JobPost.Company.Name}</b>.</p>",
-
-            JobApplicationStatusEnum.Cancelled =>
-                $"<h3>Application cancelled</h3><p>Your application for <b>{application.JobPost.Title}</b> has been cancelled.</p>",
-
-            _ =>
-                $"<p>The status of your application for <b>{application.JobPost.Title}</b> has been updated.</p>"
+            JobApplicationStatusEnum.Accepted => "پذیرفته شد",
+            JobApplicationStatusEnum.Rejected => "رد شد",
+            JobApplicationStatusEnum.Interview => "مصاحبه",
+            JobApplicationStatusEnum.Review => "در حال بررسی",
+            JobApplicationStatusEnum.Cancelled => "لغو شد",
+            _ => "به‌روزرسانی شد"
         };
+
+        string body = EmailTemplates.ApplicationStatus(
+            application.JobPost.Title,
+            application.JobPost.Company.Name,
+            statusFa);
 
         await _emailService.SendAsync(
             application.JobSeeker.Email!,
@@ -206,6 +221,42 @@ public async Task ChangeStatusAsync(Guid requesterId, ChangeApplicationStatusCom
     catch (Exception ex)
     {
         Console.WriteLine($"Email sending failed: {ex.Message}");
+    }
+
+    try
+    {
+        var statusNotification = command.Status switch
+        {
+            JobApplicationStatusEnum.Accepted => new NotificationLog(
+                "درخواست شما پذیرفته شد",
+                $"درخواست شما برای «{application.JobPost.Title}» توسط {application.JobPost.Company.Name} پذیرفته شد.",
+                NotificationTypeEnum.ApplicationConfirmed,
+                application.JobSeekerId,
+                application.JobPost.CompanyId,
+                application.Id),
+            JobApplicationStatusEnum.Rejected => new NotificationLog(
+                "درخواست شما رد شد",
+                $"درخواست شما برای «{application.JobPost.Title}» رد شد.",
+                NotificationTypeEnum.ApplicationReviewed,
+                application.JobSeekerId,
+                application.JobPost.CompanyId,
+                application.Id),
+            JobApplicationStatusEnum.Interview => new NotificationLog(
+                "دعوت به مصاحبه",
+                $"برای آگهی «{application.JobPost.Title}» به مصاحبه دعوت شدید.",
+                NotificationTypeEnum.ApplicationReviewed,
+                application.JobSeekerId,
+                application.JobPost.CompanyId,
+                application.Id),
+            _ => null
+        };
+
+        if (statusNotification is not null)
+            await _notificationRepository.AddAsync(statusNotification);
+    }
+    catch (Exception ex)
+    {
+        Console.WriteLine($"Notification failed: {ex.Message}");
     }
 }
 

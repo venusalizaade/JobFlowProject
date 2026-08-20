@@ -6,5 +6,7 @@ public interface IFeatureRepository : IGenericRepository<Feature>
 {
     Task<List<Feature>> GetAllAsync();
 
+    Task<List<Feature>> GetActiveAsync();
+
     Task<Feature?> GetByNameAsync(string name);
 }

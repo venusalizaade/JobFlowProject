@@ -124,6 +124,9 @@ namespace JobFlowProject.Infrastructure.Migrations
                     b.Property<Guid?>("ModifiedById")
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<Guid?>("ReferenceId")
+                        .HasColumnType("uniqueidentifier");
+
                     b.Property<DateTime>("SentAt")
                         .HasColumnType("datetime2");
 
@@ -560,11 +563,20 @@ namespace JobFlowProject.Infrastructure.Migrations
                     b.Property<Guid?>("DeletedById")
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<string>("Description")
+                        .HasMaxLength(1000)
+                        .HasColumnType("nvarchar(1000)");
+
                     b.Property<int>("DurationDays")
                         .HasColumnType("int");
 
                     b.Property<int>("FeatureType")
                         .HasColumnType("int");
+
+                    b.Property<bool>("IsActive")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bit")
+                        .HasDefaultValue(true);
 
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
@@ -597,6 +609,72 @@ namespace JobFlowProject.Infrastructure.Migrations
                         .IsUnique();
 
                     b.ToTable("Features");
+                });
+
+            modelBuilder.Entity("JobFlowProject.Domain.Entities.Componies.ComponyFeatures.JobFeature", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<Guid?>("CreatedById")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime?>("DeletedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<Guid?>("DeletedById")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("EndDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<Guid>("FeatureId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<Guid>("JobPostId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime?>("ModifiedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<Guid?>("ModifiedById")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<decimal>("Price")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<DateTime>("StartDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("Status")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasDefaultValue(1);
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CreatedAt");
+
+                    b.HasIndex("CreatedById");
+
+                    b.HasIndex("DeletedById");
+
+                    b.HasIndex("FeatureId");
+
+                    b.HasIndex("JobPostId");
+
+                    b.HasIndex("ModifiedById");
+
+                    b.HasIndex("Status");
+
+                    b.ToTable("JobFeatures");
                 });
 
             modelBuilder.Entity("JobFlowProject.Domain.Entities.Componies.ComponyFeatures.Payment", b =>
@@ -693,6 +771,11 @@ namespace JobFlowProject.Infrastructure.Migrations
                     b.Property<bool>("IsPublic")
                         .HasColumnType("bit");
 
+                    b.Property<bool>("IsReported")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bit")
+                        .HasDefaultValue(false);
+
                     b.Property<Guid>("JobSeekerId")
                         .HasColumnType("uniqueidentifier");
 
@@ -704,6 +787,15 @@ namespace JobFlowProject.Infrastructure.Migrations
 
                     b.Property<int>("Rating")
                         .HasColumnType("int");
+
+                    b.Property<string>("ReportReason")
+                        .HasMaxLength(500)
+                        .HasColumnType("nvarchar(500)");
+
+                    b.Property<int>("Status")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasDefaultValue(1);
 
                     b.HasKey("Id");
 
@@ -718,6 +810,8 @@ namespace JobFlowProject.Infrastructure.Migrations
                     b.HasIndex("JobSeekerId");
 
                     b.HasIndex("ModifiedById");
+
+                    b.HasIndex("Status");
 
                     b.ToTable("Reviews");
                 });
@@ -870,6 +964,9 @@ namespace JobFlowProject.Infrastructure.Migrations
                     b.Property<DateTime>("ExpiresAt")
                         .HasColumnType("datetime2");
 
+                    b.Property<DateTime?>("ExtraFeaturedUntil")
+                        .HasColumnType("datetime2");
+
                     b.Property<DateTime?>("FeaturedUntil")
                         .HasColumnType("datetime2");
 
@@ -879,7 +976,13 @@ namespace JobFlowProject.Infrastructure.Migrations
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
 
+                    b.Property<bool>("IsExtraFeatured")
+                        .HasColumnType("bit");
+
                     b.Property<bool>("IsFeatured")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("IsPinned")
                         .HasColumnType("bit");
 
                     b.Property<DateTime?>("ModifiedAt")
@@ -887,6 +990,9 @@ namespace JobFlowProject.Infrastructure.Migrations
 
                     b.Property<Guid?>("ModifiedById")
                         .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime?>("PinnedUntil")
+                        .HasColumnType("datetime2");
 
                     b.Property<Guid>("ProvinceId")
                         .HasColumnType("uniqueidentifier");
@@ -1740,7 +1846,7 @@ namespace JobFlowProject.Infrastructure.Migrations
                         .OnDelete(DeleteBehavior.NoAction);
 
                     b.HasOne("JobFlowProject.Domain.Entities.Componies.ComponyFeatures.Feature", "Feature")
-                        .WithMany()
+                        .WithMany("CompanyFeatures")
                         .HasForeignKey("FeatureId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
@@ -1781,6 +1887,46 @@ namespace JobFlowProject.Infrastructure.Migrations
                     b.Navigation("Creator");
 
                     b.Navigation("Deleter");
+
+                    b.Navigation("Modifier");
+                });
+
+            modelBuilder.Entity("JobFlowProject.Domain.Entities.Componies.ComponyFeatures.JobFeature", b =>
+                {
+                    b.HasOne("JobFlowProject.Domain.Entities.User.AppUser", "Creator")
+                        .WithMany()
+                        .HasForeignKey("CreatedById")
+                        .OnDelete(DeleteBehavior.NoAction);
+
+                    b.HasOne("JobFlowProject.Domain.Entities.User.AppUser", "Deleter")
+                        .WithMany()
+                        .HasForeignKey("DeletedById")
+                        .OnDelete(DeleteBehavior.NoAction);
+
+                    b.HasOne("JobFlowProject.Domain.Entities.Componies.ComponyFeatures.Feature", "Feature")
+                        .WithMany("JobFeatures")
+                        .HasForeignKey("FeatureId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("JobFlowProject.Domain.Entities.Job.JobPost", "JobPost")
+                        .WithMany("JobFeatures")
+                        .HasForeignKey("JobPostId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("JobFlowProject.Domain.Entities.User.AppUser", "Modifier")
+                        .WithMany()
+                        .HasForeignKey("ModifiedById")
+                        .OnDelete(DeleteBehavior.NoAction);
+
+                    b.Navigation("Creator");
+
+                    b.Navigation("Deleter");
+
+                    b.Navigation("Feature");
+
+                    b.Navigation("JobPost");
 
                     b.Navigation("Modifier");
                 });
@@ -1846,7 +1992,7 @@ namespace JobFlowProject.Infrastructure.Migrations
                     b.HasOne("JobFlowProject.Domain.Entities.User.AppUser", "JobSeeker")
                         .WithMany()
                         .HasForeignKey("JobSeekerId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.HasOne("JobFlowProject.Domain.Entities.User.AppUser", "Modifier")
@@ -2277,6 +2423,13 @@ namespace JobFlowProject.Infrastructure.Migrations
                     b.Navigation("Reviews");
                 });
 
+            modelBuilder.Entity("JobFlowProject.Domain.Entities.Componies.ComponyFeatures.Feature", b =>
+                {
+                    b.Navigation("CompanyFeatures");
+
+                    b.Navigation("JobFeatures");
+                });
+
             modelBuilder.Entity("JobFlowProject.Domain.Entities.Job.Category", b =>
                 {
                     b.Navigation("JobPosts");
@@ -2287,6 +2440,8 @@ namespace JobFlowProject.Infrastructure.Migrations
             modelBuilder.Entity("JobFlowProject.Domain.Entities.Job.JobPost", b =>
                 {
                     b.Navigation("JobApplications");
+
+                    b.Navigation("JobFeatures");
 
                     b.Navigation("Payments");
                 });

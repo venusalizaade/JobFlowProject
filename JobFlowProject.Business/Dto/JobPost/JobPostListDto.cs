@@ -7,5 +7,6 @@ public record JobPostListDto(
     string CategoryName,
     string CityName,
     decimal? Salary,
-    bool IsActive
+    bool IsActive,
+    IReadOnlyList<string> FeatureNames
 );

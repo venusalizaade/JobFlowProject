@@ -6,7 +6,9 @@ using JobFlowProject.Business.Dto.User;
 using JobFlowProject.Business.Exceptions.Authentication_Exceptions;
 using JobFlowProject.Business.Exceptions.BaseExeption;
 using JobFlowProject.Business.Interfaces;
+using JobFlowProject.Business.Interfaces.Log;
 using JobFlowProject.Business.Interfaces.User;
+using JobFlowProject.Business.Services.EmailSender;
 using JobFlowProject.Business.Services.MailKit;
 using JobFlowProject.Domain.Entites.Logs;
 using JobFlowProject.Domain.Entites.User;
@@ -29,6 +31,7 @@ public class AdminService : IAdminService
     private readonly JobFlowDbContext _context;
     private readonly IJobPostRepository _jobPostRepository;
     private readonly IEmailService _emailService;
+    private readonly INotificationService _notificationService;
 
     private readonly IOptions<EmailSetting> _emailOptions;
     private readonly IServiceScopeFactory _scopeFactory;
@@ -38,6 +41,7 @@ public class AdminService : IAdminService
         JobFlowDbContext context,
         IJobPostRepository jobPostRepository,
         IEmailService emailService,
+        INotificationService notificationService,
         IOptions<EmailSetting> emailOptions,
         IServiceScopeFactory scopeFactory)
     {
@@ -45,6 +49,7 @@ public class AdminService : IAdminService
         _context = context;
         _jobPostRepository = jobPostRepository;
         _emailService = emailService;
+        _notificationService = notificationService;
         _emailOptions = emailOptions;
         _scopeFactory = scopeFactory;
     }
@@ -52,7 +57,9 @@ public class AdminService : IAdminService
 
     public async Task VerifyEmployerAsync(Guid employerId)
     {
-        var employer = await _userManager.FindByIdAsync(employerId.ToString());
+        var employer = await _userManager.Users
+            .Include(x => x.Company)
+            .FirstOrDefaultAsync(x => x.Id == employerId);
 
         if (employer is null)
             throw new UserNotFoundException();
@@ -64,15 +71,23 @@ public class AdminService : IAdminService
         if (!result.Succeeded)
             throw new Exception(result.Errors.First().Description);
 
+        await _notificationService.NotifyAsync(
+            employer.Id,
+            "تأیید حساب کارفرما",
+            "حساب کارفرمایی شما تأیید شد. اکنون می‌توانید آگهی ثبت کنید.",
+            NotificationTypeEnum.EmployerVerified);
+
         _ = FireAndForgetEmailAsync(
                 employer.Email!,
-                "Employer account approved",
-                "Your employer account has been approved successfully.");
+                "تأیید حساب کارفرما",
+                EmailTemplates.EmployerApproved(employer.Company?.Name ?? "شرکت شما"));
     }
 
     public async Task RejectEmployerAsync(Guid employerId)
     {
-        var employer = await _userManager.FindByIdAsync(employerId.ToString());
+        var employer = await _userManager.Users
+            .Include(x => x.Company)
+            .FirstOrDefaultAsync(x => x.Id == employerId);
 
         if (employer is null)
             throw new UserNotFoundException();
@@ -84,10 +99,16 @@ public class AdminService : IAdminService
         if (!result.Succeeded)
             throw new Exception(result.Errors.First().Description);
 
+        await _notificationService.NotifyAsync(
+            employer.Id,
+            "عدم تأیید حساب کارفرما",
+            "حساب کارفرمایی شما تأیید نشد. در صورت نیاز با پشتیبانی تماس بگیرید.",
+            NotificationTypeEnum.EmployerRejected);
+
         _ = FireAndForgetEmailAsync(
             employer.Email!,
-            "Employer account rejected",
-            "Your employer account has been rejected.");
+            "عدم تأیید حساب کارفرما",
+            EmailTemplates.EmployerRejected(employer.Company?.Name ?? "شرکت شما"));
     }
 
     public async Task<DashboardDto> GetDashboardAsync()
@@ -211,7 +232,16 @@ public class AdminService : IAdminService
 
     public async Task<List<JobPostListDto>> GetJobPostsAsync()
     {
-        var jobs = await _jobPostRepository.GetAllAsync();
+        var jobs = await _context.JobPosts
+            .AsNoTracking()
+            .Where(x => !x.IsDeleted)
+            .Include(x => x.Company)
+            .Include(x => x.Category)
+            .Include(x => x.City)
+            .Include(x => x.JobFeatures)
+                .ThenInclude(jf => jf.Feature)
+            .OrderByDescending(x => x.CreatedAt)
+            .ToListAsync();
 
         return jobs.Select(x => new JobPostListDto(
             x.Id,
@@ -220,7 +250,11 @@ public class AdminService : IAdminService
             x.Category.Name,
             x.City.Name,
             x.Salary,
-            x.IsActive
+            x.IsActive,
+            x.JobFeatures
+                .Where(jf => !jf.IsDeleted && jf.Status == Domain.Enums.JobFeatureStatusEnum.Active)
+                .Select(jf => jf.Feature.Name)
+                .ToList()
         )).ToList();
     }
 
@@ -251,7 +285,56 @@ public class AdminService : IAdminService
 
     public async Task ToggleJobPostStatusAsync(Guid jobPostId, Guid requesterId)
     {
+        var job = await _context.JobPosts
+            .Include(x => x.Company)
+            .ThenInclude(c => c.AppUser)
+            .FirstOrDefaultAsync(x => x.Id == jobPostId && !x.IsDeleted);
+
+        if (job is null)
+            throw new ItemNotFoundException();
+
+        var before = job.IsActive;
+
         await _jobPostRepository.ToggleActiveAsync(jobPostId, requesterId);
+
+        if (before == job.IsActive)
+            return;
+
+        var owner = job.Company?.AppUser;
+
+        if (owner is null || string.IsNullOrWhiteSpace(owner.Email))
+            return;
+
+        if (job.IsActive)
+        {
+            await _notificationService.NotifyAsync(
+                owner.Id,
+                "تأیید آگهی",
+                $"آگهی «{job.Title}» توسط مدیر سامانه تأیید شد و هم‌اکنون فعال است.",
+                NotificationTypeEnum.JobPostVerified,
+                companyId: job.CompanyId,
+                referenceId: jobPostId);
+
+            _ = FireAndForgetEmailAsync(
+                owner.Email,
+                "تأیید آگهی شغلی",
+                EmailTemplates.JobVerified(job.Title));
+        }
+        else
+        {
+            await _notificationService.NotifyAsync(
+                owner.Id,
+                "غیرفعال شدن آگهی",
+                $"آگهی «{job.Title}» توسط مدیر سامانه غیرفعال شد.",
+                NotificationTypeEnum.JobPostExpired,
+                companyId: job.CompanyId,
+                referenceId: jobPostId);
+
+            _ = FireAndForgetEmailAsync(
+                owner.Email,
+                "غیرفعال شدن آگهی",
+                EmailTemplates.JobRejected(job.Title));
+        }
     }
 
     public async Task SetJobPostFeaturedAsync(Guid jobPostId, int durationDays, Guid requesterId)
@@ -355,8 +438,7 @@ public class AdminService : IAdminService
     }
 
     public async Task ConfirmPaymentAsync(Guid paymentId, Guid requesterId)
-    {
-        var payment = await _context.Payments
+    {        var payment = await _context.Payments
             .Include(p => p.JobPost)
             .ThenInclude(j => j.Company)
             .Include(p => p.Feature)
@@ -393,14 +475,66 @@ public class AdminService : IAdminService
             $"فیچر «{payment.Feature.Name}» برای آگهی «{payment.JobPost.Title}» تأیید و فعال شد.",
             NotificationTypeEnum.PaymentConfirmed,
             payment.JobPost.Company.AppUserId,
-            companyId));
+            companyId,
+            payment.JobPostId));
 
         await _context.SaveChangesAsync();
+
+        var owner = await _userManager.Users
+            .AsNoTracking()
+            .FirstOrDefaultAsync(x => x.Id == payment.JobPost.Company.AppUserId);
+
+        if (owner is not null && !string.IsNullOrWhiteSpace(owner.Email))
+        {
+            _ = FireAndForgetEmailAsync(
+                owner.Email,
+                "تأیید پرداخت فیچر",
+                EmailTemplates.PaymentConfirmed(payment.Feature.Name, payment.JobPost.Title));
+        }
+    }
+
+    public async Task RejectPaymentAsync(Guid paymentId, Guid requesterId)
+    {
+        var payment = await _context.Payments
+            .Include(p => p.JobPost)
+            .ThenInclude(j => j.Company)
+            .Include(p => p.Feature)
+            .FirstOrDefaultAsync(p => p.Id == paymentId && !p.IsDeleted);
+
+        if (payment is null)
+            throw new ItemNotFoundException("Payment not found.");
+
+        if (payment.Status != PaymentStatusEnum.Success)
+            throw new Exception("فقط پرداخت‌های در انتظار تأیید قابل رد شدن هستند.");
+
+        payment.MarkAsFailed();
+        payment.SetModificationInfo(requesterId);
+
+        _context.NotificationLogs.Add(new NotificationLog(
+            "رد پرداخت فیچر",
+            $"پرداخت فیچر «{payment.Feature.Name}» برای آگهی «{payment.JobPost.Title}» تأیید نشد.",
+            NotificationTypeEnum.FeaturePurchaseRequest,
+            payment.JobPost.Company.AppUserId,
+            payment.JobPost.CompanyId,
+            payment.JobPostId));
+
+        await _context.SaveChangesAsync();
+
+        var owner = await _userManager.Users
+            .AsNoTracking()
+            .FirstOrDefaultAsync(x => x.Id == payment.JobPost.Company.AppUserId);
+
+        if (owner is not null && !string.IsNullOrWhiteSpace(owner.Email))
+        {
+            _ = FireAndForgetEmailAsync(
+                owner.Email,
+                "عدم تأیید پرداخت فیچر",
+                EmailTemplates.PaymentRejected(payment.Feature.Name, payment.JobPost.Title));
+        }
     }
 
     private async Task FireAndForgetEmailAsync(string to, string subject, string body)
-    {
-        try
+    {        try
         {
             
             using var scope = _scopeFactory.CreateScope();
